@@ -14,8 +14,21 @@
 
 
 ## Business Understanding
+### Problem Statements
 
+### Goals
 
+### Solution Statements
+Dibawah ini merupakan diagram alir *(workflow)* yang digunakan dalam pengerjaan proyek ini
+```mermaid
+flowchart LR
+    A[Dataset Download] --> B[Data Understanding]
+    B --> C[Data Preprocessing]
+    C --> D[Data Preparation]
+    D --> E[Modeling]
+    E --> F[Evaluation]
+    B --> G[Data Visualization]
+```
 
 ## Data Understanding
 
