@@ -81,9 +81,9 @@ $A_i$ dan $B_i$ adalah elemen-elemen penyusun vektor A dan B masing-masing.
 			Collaborative filtering unggul dalam memberikan rekomendasi yang beragam dan personal berdasarkan kesamaan minat pengguna lain, sehingga bisa menyarankan item baru yang relevan. Namun, metode ini memiliki kekurangan seperti _cold start_ pada pengguna atau item baru tanpa data interaksi, serta masalah _data sparsity_ yang menyulitkan sistem menemukan pola yang tepat. [[7]](https://www.ibm.com/think/topics/collaborative-filtering)
 
 ## Data Understanding
+<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Books%20Datasets%20Kaggle%20Dataset.png" alt="Books Datasets Kaggle Dataset" title="Books Datasets Kaggle Dataset">
 
-
-## Informasi Dataset
+Data yang digunakan dalam proyek ini berasal dari _dataset_ yang diunduh dari Kaggle. Berikut ini adalah rincian informasi mengenai _dataset_ tersebut.
 
 | Keterangan             | Detail                                                                                     |
 |------------------------|--------------------------------------------------------------------------------------------|
@@ -94,6 +94,30 @@ $A_i$ dan $B_i$ adalah elemen-elemen penyusun vektor A dan B masing-masing.
 | Jenis & Ukuran Berkas | ZIP (26 MB)                                                                              |
 | Kategori               | Business, Literature, E-Commerce Services, Recommender Systems, Marketing                  |
 
+Dalam dataset tersebut berisi tiga (3) berkas CSV ([Comma-separated Values](https://docs.python.org/3/library/csv.html), yaitu `books.csv`, `ratings.csv`, `users.csv` yang terdapat di dalam folder `books_data`.
+
+- **books.csv**, memiliki atribut atau fitur sebagai berikut,
+<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20Books.png" alt="Deskripsi Variabel Books" title="Deskripsi Variabel Books">
+	- `ISBN` : *International Standard Book Number*
+  - `Book-Title` : Judul buku
+  - `Book-Author` : Penulis buku
+  - `Year-Of-Publication` : Tahun terbit buku
+  - `Publisher` : Penerbit buku
+  - `Image-URL-S` : Tautan sampul buku ukuran kecil
+  - `Image-URL-M` : Tautan sampul buku ukuran sedang
+  - `Image-URL-L` : Tautan sampul buku ukuran besar
+  
+- **ratings.csv**, memiliki atribut atau fitur sebagai berikut,
+<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20Ratings.png" alt="Deskripsi Variabel Ratings" title="Deskripsi Variabel Ratings">
+	- `User-ID` : Identitas unik pengguna berupa bilangan bulat atau integer
+  - `ISBN` : *International Standard Book Number*
+  - `Book-Rating` : *Rating* buku yang diberikan pengguna
+  
+- **users.csv**, memiliki atribut atau fitur sebagai berikut,
+<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20Users.png" alt="Deskripsi Variabel Users" title="Deskripsi Variabel Users">
+- `User-ID` : Identitas unik pengguna berupa bilangan bulat atau integer
+  - `Location` : Lokasi tempat tinggal pengguna
+  - `Age` : Umur pengguna
 
 Deskripsi statistik untuk _dataset_  `ratings` pada fitur `Book-Rating` dapat dilihat pada tabel di bawah ini.
 |                  | **Book-Rating**|
@@ -107,6 +131,14 @@ Deskripsi statistik untuk _dataset_  `ratings` pada fitur `Book-Rating` dapat di
 | **75%**          | 7         		|
 | **max**          | 10        		|
 | **dtype**         object    		|
+
+Dari tabel di atas dapat dilihat bahwa terdapat,
+- Total jumlah data (`count`) sebanyak 1.149.780;
+- Rata-rata *rating* (`mean`) 3;
+- Simpangan baku/standar deviasi *rating* (`std`) 4;
+- *Rating* Minimal (`min`), kuartil bawah/Q1 *rating* (`25%`), kuartil tengah/Q2/median *rating* (`50%`) 0;
+- Kuartil atas/Q3 *rating* (`75%`) 7;
+- *Rating* maksimum (`max`) 10
 
 
 ## Data Preparation
