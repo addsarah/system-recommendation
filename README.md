@@ -23,12 +23,6 @@ Melihat kenyataan ini, perlu adanya inovasi teknologi yang dapat membantu mening
 
 ## Business Understanding
 ### Problem Statements
-Berikut versi lengkap dari **Problem Statements**, **Goals**, dan **Solution Statements** berdasarkan latar belakang dan referensi yang telah kamu sertakan:
-
-----------
-
-### Problem Statements
-
 Berdasarkan latar belakang yang telah dijelaskan di atas, maka diperoleh rumusan masalah yang akan diselesaikan pada proyek ini, yaitu:
 
 1.  Bagaimana cara melakukan tahap persiapan data buku, pengguna, dan _rating_ atau penilaian agar dapat digunakan sebagai informasi untuk membuat model _machine learning_ sistem rekomendasi?
