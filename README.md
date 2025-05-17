@@ -94,11 +94,11 @@ Data yang digunakan dalam proyek ini berasal dari _dataset_ yang diunduh dari Ka
 | Jenis & Ukuran Berkas | ZIP (26 MB)                                                                              |
 | Kategori               | Business, Literature, E-Commerce Services, Recommender Systems, Marketing                  |
 
-Dalam dataset tersebut berisi tiga (3) berkas CSV ([Comma-separated Values](https://docs.python.org/3/library/csv.html), yaitu `books.csv`, `ratings.csv`, `users.csv` yang terdapat di dalam folder `books_data`.
+Dalam dataset tersebut berisi tiga (3) berkas CSV ([Comma-separated Values](https://docs.python.org/3/library/csv.html)), yaitu `books.csv`, `ratings.csv`, `users.csv` yang terdapat di dalam folder `books_data`.
 
 - **books.csv**, memiliki atribut atau fitur sebagai berikut,
 <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20Books.png" alt="Deskripsi Variabel Books" title="Deskripsi Variabel Books">
-	- `ISBN` : *International Standard Book Number*
+  - `ISBN` : *International Standard Book Number*
   - `Book-Title` : Judul buku
   - `Book-Author` : Penulis buku
   - `Year-Of-Publication` : Tahun terbit buku
