@@ -37,11 +37,6 @@ Berdasarkan rumusan masalah yang telah dipaparkan di atas, maka didapatkan tujua
 1.  Melakukan tahap persiapan data sehingga data siap digunakan pada model _machine learning_ untuk sistem rekomendasi.
     
 2.  Membuat model _machine learning_ untuk sistem rekomendasi buku terbaik kepada pengguna.
-    
-
-### Solution Statements
-
-### Goals
 
 ### Solution Statements
 Dibawah ini merupakan diagram alir *(workflow)* yang digunakan dalam pengerjaan proyek ini
@@ -54,7 +49,6 @@ flowchart LR
     E --> F[Evaluation]
     B --> G[Data Visualization]
 ```
-
 
 Berdasarkan tujuan dari proyek yang telah dipaparkan di atas, maka berikut adalah beberapa solusi yang dapat dilakukan agar dapat mencapai tujuan dari proyek ini, yaitu:
 1.  **Tahap pra-pemrosesan data (data preprocessing)** merupakan proses awal yang bertujuan untuk mengubah data mentah menjadi data yang lebih rapi dan siap digunakan pada tahap berikutnya. Proses ini mencakup:
