@@ -399,11 +399,16 @@ Dengan demikian, sistem berhasil memberikan rekomendasi buku yang tidak hanya se
 1. **Content-based Recommendation**
 		Pada tahap evaluasi model sistem rekomendasi berbasis _content-based recommendation_, dilakukan pengukuran akurasi menggunakan metrik tertentu yang dihitung dengan rumus sebagai berikut:
 
-Masih menggunakan dataset yang sama seperti pada tahap [Modeling](#modeling) untuk pendekatan _content-based recommendation_, evaluasi dilakukan berdasarkan hasil _Top-N Recommendation_. Dalam hal ini, sistem memberikan rekomendasi buku dengan penulis (`book_author`) **Lisa Scottoline**. Selanjutnya, dilakukan pencarian terhadap jumlah seluruh buku (`book_title`) yang ditulis oleh penulis tersebut dalam data, dengan memanfaatkan variabel baru yang merepresentasikan daftar buku yang telah dibaca oleh pengguna. Dari pencarian ini diketahui bahwa **Lisa Scottoline** menulis sebanyak **4** judul buku.
 
-Akurasi kemudian dihitung menggunakan *metric precision* dengan membagi jumlah buku yang berhasil direkomendasikan oleh sistem dengan jumlah total buku yang ditulis oleh penulis yang sama, lalu dikalikan 100. Dari proses tersebut, diperoleh nilai **akurasi** sebesar **57,14%**.
+
+	Masih menggunakan dataset yang sama seperti pada tahap [Modeling](#modeling) untuk pendekatan _content-based recommendation_, evaluasi dilakukan berdasarkan hasil _Top-N Recommendation_. Dalam hal ini, sistem memberikan rekomendasi buku dengan penulis (`book_author`) **Lisa Scottoline**. Selanjutnya, dilakukan pencarian terhadap jumlah seluruh buku (`book_title`) yang ditulis oleh penulis tersebut dalam data, dengan memanfaatkan variabel baru yang merepresentasikan daftar buku yang telah dibaca oleh pengguna. Dari pencarian ini diketahui bahwa **Lisa Scottoline** menulis sebanyak **4** judul buku.
+
+	Akurasi kemudian dihitung menggunakan *metric precision* dengan membagi jumlah buku yang berhasil direkomendasikan oleh sistem dengan jumlah total buku yang ditulis oleh penulis yang sama, lalu dikalikan 100. Dari proses tersebut, diperoleh nilai **akurasi** sebesar **57,14%**.
 
 3. **Collaborative Filtering Recommendation**  
+
+
+4. **Collaborative Filtering Recommendation**  
 
 
 
