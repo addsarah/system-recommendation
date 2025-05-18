@@ -11,7 +11,7 @@
 - [Evaluation](#evaluation)
 - [Kesimpulan](#kesimpulan)
 - [Referensi](#referensi)
-
+  
 ## Project Overview
 <img src="https://foto.wartaekonomi.co.id/files/arsip_foto_2021_06_18/nasional_2021_06_18_113235_big.jpg" alt="Minat Baca Indonesia Infografis" title="Minat Baca Indonesia Infografis">
 
@@ -228,3 +228,18 @@ Sementara itu, penggabungan data `user_id` dilakukan juga menggunakan fungsi `.c
 
 
 [←Table of Contents](#table-of-contents)
+
+## Kesimpulan
+
+
+
+[←Table of Contents](#table-of-contents)
+
+
+## Referensi
+
+
+
+[←Table of Contents](#table-of-contents)
+
+
