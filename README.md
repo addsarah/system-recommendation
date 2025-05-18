@@ -1,3 +1,4 @@
+
 # Laporan Proyek Akhir Machine Learning Expert Dicoding: System Recommendation - Books - Sarah Adibah
 
 ## Table of Contents
@@ -267,19 +268,137 @@ Berdasarkan hasil visualisasi grafik histogram umur *user* di atas, dapat diliha
 Terdapat pula sebagian kecil pengguna dengan usia di bawah 10 tahun dan di atas 80 tahun, namun jumlahnya jauh lebih sedikit dibandingkan kelompok usia produktif. Hal ini menunjukkan bahwa sistem rekomendasi buku kemungkinan besar akan lebih relevan jika disesuaikan dengan preferensi kelompok usia 20—40 tahun.
 
 - Pengecekan Data Duplikat
-
+	Melakukan pengecekan terhadap duplikasi data pada masing-masing _dataframe_. Berdasarkan hasil verifikasi, tidak ditemukan adanya data yang terduplikasi pada ketiga _dataframe_ yang dianalisis.
  
 - Data Buku dan *Rating*
-	
+	Melakukan penggabungan (_merge_) antara data buku dan data _rating_ untuk membentuk satu _dataframe_.
 
 [←Table of Contents](#table-of-contents)
 
 ## Modeling
+Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learning_ yang berfungsi sebagai sistem rekomendasi untuk menyarankan buku terbaik kepada pengguna berdasarkan sejumlah algoritma sistem rekomendasi tertentu.
 
+Mengacu pada tahap [*data understanding*](#data-understanding) yang telah dilakukan sebelumnya, diketahui bahwa masing-masing _dataframe_ buku, _rating_, dan *user* memiliki volume data yang sangat besar, mencapai ratusan ribu hingga jutaan data. Kondisi ini berpotensi menimbulkan peningkatan kebutuhan waktu proses pemodelan _machine learning_, seperti memakan waktu yang lama dan _resource_ RAM maupun GPU yang cukup besar. Oleh karena itu, data yang digunakan dalam tahap pemodelan akan dibatasi pada 10.000 data buku dan 5.000 data _rating_.
+
+```python
+books = books[:10000]
+
+ratings = ratings[:5000]
+```
+1. **Content-based Recommendation**
+	- TF-IDF Vectorizer
+	TF-IDF Vectorizer digunakan untuk mengubah data teks menjadi representasi numerik yang bermakna dalam bentuk matriks. Ukuran matriks yang dihasilkan memiliki 10.000 data buku dan 5.575 data penulis (*author*).
+
+| book_title                                                                 | lindberg | masahiro | yang | momaday | angot | luigi | curtiss | delinsky | bantock | rash | myla | alba | gaelen | cassandra | marney | whitley | cecchio | hoberman | mundy | hans |
+|----------------------------------------------------------------------------|----------|----------|------|---------|-------|--------|---------|-----------|----------|------|------|------|--------|------------|--------|----------|----------|-----------|-------|------|
+| La fuente del unicornio                                                   | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
+| The Conquest                                                              | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
+| Sense and Sensibility (Dover Thrift Editions)                             | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
+| Material Witness                                                          | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
+| L'Idiot                                                                   | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
+| The Arctic Incident (Artemis Fowl, Book 2)                                | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
+| Movimiento Perpetuo                                                       | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
+| Starting and Running a Profitable Investment Club                        | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
+| My Cat Forgets Who Pays the Rent                                          | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
+| Sherlock Holmes: The Complete Novels and Stories (Sherlock Holmes)       | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
+
+
+   - _Cosine Similarity_
+	**Cosine Similarity** digunakan untuk menghitung tingkat kemiripan antar judul buku. Hasil perhitungan ini menghasilkan matriks berukuran 10.000 data buku dan 10.000 data buku.
+	
+| book_title                                                                                                                                           | Who's Running Your Career?: Creating Stable Work in Unstable Times | Oscar Otter (I Can Read Book 1) | A Orillas Del Río Piedra Me Sente Y Llore | The Hounds of Sunset (The Brothers of Gwynedd, 3) | Le Nom de la rose | The Prince | A Belated Bride | No Witnesses |
+|------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|----------------------------------|--------------------------------------------|---------------------------------------------------|-------------------|-------------|------------------|----------------|
+| The Moffat Museum                                                                                                                                    | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
+| L'oeil de la sibylle                                                                                                                                 | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
+| The War of the Flowers                                                                                                                               | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
+| LAST TEMPTATION OF CHRIST (Movie Tie in)                                                                                                             | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
+| Canadian Society: A Macro Analysis                                                                                                                   | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
+| The Unlawfully Wedded Princess (The Carradignes: American Royalty) (Harlequin American Romance Series, No. 917)                                     | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
+| The Bridge of San Luis Rey (Perennial Classics)                                                                                                      | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
+| Disgrace                                                                                                                                             | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
+
+	
+- Top-N *Recommendation*  
+		Hasil pengujian sistem rekomendasi berbasis pendekatan _content-based recommendation_ ditampilkan pada tabel di bawah. 
+
+| isbn       | book_title   | book_author  | year_pub | publisher   | image_url_s                                                | image_url_m                                                | image_url_l                                                |
+|------------|--------------|--------------|----------|-------------|-------------------------------------------------------------|-------------------------------------------------------------|-------------------------------------------------------------|
+| 0451186648 | Silent Snow  | Steve Thayer | 2000     | Signet Book | http://images.amazon.com/images/P/0451186648.0...          | http://images.amazon.com/images/P/0451186648.0...          | http://images.amazon.com/images/P/0451186648.0...          |
+
+Tabel tersebut menunjukkan data berdasarkan judul buku yang dipilih oleh pengguna sebagai masukan.
+
+|  | book_title                                                | book_author     |
+|----|------------------------------------------------------------|-----------------|
+| 0  | Terminal Event : A Novel                                   | James S Thayer  |
+| 1  | Between Husbands & Friends                                 | Nancy Thayer    |
+| 2  | Shopgirl                                                   | Steve Martin    |
+| 3  | The Pleasure of My Company: A Novel                        | Steve Martin    |
+| 4  | Shopgirl: A Novella                                        | Steve Martin    |
+| 5  | Climbing Mt. Shasta: Route 1, Avalanche Gulch              | Steve Lewis     |
+| 6  | Fangs of Fury (Puffin Adventure Gamebooks)                 | Steve Jackson   |
+| 7  | Family Kind Of Wedding (That Special Woman/Fo...           | Steve Jackson   |
+| 8  | Star Wars: Shadows of the Empire                           | Steve Perry     |
+| 9  | Civil War Secret Agent (Time Machine, No 5)                | Steve Perry     |
+
+Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mampu menghasilkan sejumlah rekomendasi judul buku yang relevan berdasarkan judul buku input **“Silent Snow”**. Judul-judul yang direkomendasikan merupakan hasil perhitungan kesamaan konten oleh sistem.
+
+2. **Collaborative Filtering Recommendation**
+	- _Data preparation_
+		Proses _data preparation_ dilakukan dengan menyandikan (*encoding*) fitur `user_id` dan `isbn` pada *dataframe* `ratings` menjadi  bentuk indeks integer. Setelah itu, hasil *encoding* tersebut dipetakan kembali ke dalam *dataframe ratings* masing-masing.
+
+		Dari hasil tersebut, diperoleh 1.204 pengguna, 4.565 buku, dengan nilai *rating* terendah sebesar 1 dan nilai tertinggi sebesar 10.
+
+	- Split *Training Data* dan *Validation Data*
+		Pada tahap ini, *dataframe ratings* diacak terlebih dahulu sebelum dibagi menjadi dua bagian dengan perbandingan 80:20, di mana 80% digunakan sebagai data pelatihan (*training data*) dan 20% sisanya sebagai data pengujian (*validation data*).
+
+|       | user_id | isbn        | book_rating | user | book |
+|-------|---------|-------------|-------------|------|------|
+| 1554  | 277427  | 0375408886  | 9           | 200  | 681  |
+| 1465  | 277427  | 0060542128  | 7           | 200  | 666  |
+| 9656  | 81      | 0375410538  | 5           | 649  | 2307 |
+| 4153  | 278257  | 0060194596  | 9           | 462  | 1728 |
+| 4324  | 278411  | 0446608831  | 8           | 500  | 1825 |
+| ...   | ...     | ...         | ...         | ...  | ...  |
+| 820   | 277051  | 0385720920  | 10          | 98   | 380  |
+| 629   | 276939  | 2253063339  | 9           | 70   | 269  |
+| 12371 | 1167    | 038533656X  | 5           | 941  | 3478 |
+| 2120  | 277478  | 0451459393  | 8           | 215  | 385  |
+| 12752 | 1424    | 0156001314  | 8           | 1012 | 3676 |
+|5000 rows × 5 columns|
+
+
+- Hasil Model Development
+		Berikut adalah hasil evaluasi dari sistem rekomendasi buku yang telah dilatih menggunakan pendekatan *collaborative filtering recommendation*.
+  
+<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/hasil%20collaborative%20filtering%20recommendation.png" alt="hasil collaborative filtering recommendation" title="hasil collaborative filtering recommendation">
+		
+Berdasarkan hasil prediksi di atas, sistem memilih pengguna dengan `user_id` **1211** secara acak. Dari data yang diperoleh, sistem mengidentifikasi buku-buku dengan rating tertinggi dari pengguna tersebut, yaitu:
+- **Radio libre Albemuth** oleh **Philip Kindred Dick**
+-  **Balade au bout du monde, tome 4 : La pierre de folie** oleh **Laurent Vicomte**
+- **Nouvelles : tome 2, 1953–1981** oleh **Philip Kindred Dick**
+
+Setelah itu, sistem mencocokkan buku-buku favorit dari `user_id` **1211** dengan seluruh koleksi buku yang belum pernah dibaca oleh pengguna. Proses ini menghasilkan daftar rekomendasi berdasarkan skor prediksi tertinggi terhadap preferensi pengguna.
+
+Dari hasil tersebut, sistem memberikan 10 rekomendasi buku dengan skor prediksi tertinggi. Jika dilihat lebih dekat antara *Book with high ratings from user* dan *Top 10 Books Recommendation*, dapat ditemukan kemiripan dari sisi genre dan gaya penulisan. Misalnya, buku karya **Philip K. Dick** yang bergenre fiksi ilmiah dan spekulatif sejalan dengan rekomendasi seperti **Life of Pi** oleh **Yann Martel** dan **Harry Potter and the Sorcerer's Stone** oleh **J. K. Rowling**, yang juga membawa pembaca ke dunia alternatif dan penuh imajinasi.
+
+Selain itu, rekomendasi yang diberikan oleh sistem juga mencakup genre lain yang beragam, seperti:
+- **Drama sosial dan sejarah**: *To Kill a Mockingbird* oleh **Harper Lee**, *The Watsons Go to Birmingham – 1963* oleh **Christopher Paul Curtis**
+- **Fiksi sejarah dan spiritual**: *Seabiscuit: An American Legend* oleh **Laura Hillenbrand**, *The Kitchen God's Wife* oleh **Amy Tan**
+- **Fiksi kontemporer**: *The Secret Life of Bees* oleh **Sue Monk Kidd**
+- **Fantasi remaja dan petualangan**: *The Visitor (Animorphs, No 2)* oleh **K. A. Applegate**
+- **Drama hukum**: *The King of Torts* oleh **John Grisham**
+- **Eksperimen linguistik dan emosional**: *The Music of Dolphins* oleh **Karen Hesse**
+
+Hal ini menunjukkan bahwa sistem rekomendasi tidak hanya memprioritaskan kesamaan genre, tetapi juga mencoba memperluas cakrawala literasi pengguna dengan berbagai tema dan gaya penulisan.
+
+Dengan demikian, sistem berhasil memberikan rekomendasi buku yang tidak hanya sesuai dengan minat sebelumnya, tetapi juga menambah variasi genre dan pengalaman membaca yang lebih luas dan mendalam.
 
 [←Table of Contents](#table-of-contents)
 
 ## Evaluation
+1. **Content-based Recommendation**
+		
+3. **Collaborative Filtering Recommendation**  
 
 
 
@@ -293,7 +412,19 @@ Terdapat pula sebagian kecil pengguna dengan usia di bawah 10 tahun dan di atas 
 
 
 ## Referensi
+[1] Indrasari, Y., & Handayani, R. R. L. (2024, April 23). UNESCO Sebut Minat Baca Orang Indonesia Masih Rendah. RRI. Retrieved May 17, 2025, from https://www.rri.co.id/daerah/649261/unesco-sebut-minat-baca-orang-indonesia-masih-rendah
 
+[2] Mardiani, R. (2025, April 25). 23 April Diperingati sebagai Hari Buku Sedunia, Apa Kabar dengan Minat Baca Orang Indonesia? Infogarut.id. Retrieved May 17, 2025, from https://infogarut.id/23-april-diperingati-sebagai-hari-buku-sedunia-apa-kabar-dengan-minat-baca-orang-indonesia
+
+[3] Murel, J., & Kavlakoglu, E. (2024, March 21). What is content-based filtering? IBM. Retrieved May 17, 2025, from https://www.ibm.com/think/topics/content-based-filtering
+
+[4] Gaurav, P. (2023, February 14). Step By Step Content-Based Recommendation System | by Prateek Gaurav. Medium. Retrieved May 17, 2025, from https://medium.com/@prateekgaurav/step-by-step-content-based-recommendation-system-823bbfd0541c
+
+[5] Ramadhan, L. (2021, January 20). TF-IDF Simplified. Towards Data Science. Retrieved May 17, 2025, from https://towardsdatascience.com/tf-idf-simplified-aba19d5f5530/
+
+[6] Chiclana, F., Tang, J., Jiang, Y., & Sridharan, S. (2022, February 11). Cosine Similarity. ScienceDirect. Retrieved May 17, 2025, from https://www.sciencedirect.com/topics/computer-science/cosine-similarity
+
+[7] Murel, J., & Kavlakoglu, E. (2024, March 21). What is collaborative filtering? IBM. Retrieved May 17, 2025, from https://www.ibm.com/think/topics/collaborative-filtering
 
 
 [←Table of Contents](#table-of-contents)
