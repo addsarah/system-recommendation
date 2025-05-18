@@ -78,12 +78,10 @@ Berdasarkan tujuan dari proyek yang telah dipaparkan di atas, maka berikut adala
 		Skor TF-IDF $w_{i,j}$ menunjukkan bobot _term_ $i$ dalam dokumen $j$, yang diperoleh dari hasil perkalian antara frekuensi _term_ $tf_{i,j}$ dalam dokumen $j$ dan skor IDF $idf_i$ dari _term_ tersebut.
 		- Cosine Similarity
 		Teknik **cosine similarity** digunakan untuk menghitung tingkat kemiripan antara dua sampel berdasarkan sudut di antara vektor representasinya. [[6]](https://www.sciencedirect.com/topics/computer-science/cosine-similarity)
-		$$
-S_c(A,B) = \cos(\theta) = \frac{A \times B}{\|A\| \|B\|} = \frac{\displaystyle\sum^{n}_{i=1} A_i B_i}{\sqrt{\displaystyle\sum^{n}_{i=1} A^{2}_{i}} \sqrt{\displaystyle\sum^{n}_{i=1} B^{2}_{i}}}
-$$
+		<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Rumus%20Cosine%20Similarity.png" title="Rumus Cosine Similarity" alt="Rumus Cosine Similarity">
 $A_i$ dan $B_i$ adalah elemen-elemen penyusun vektor A dan B masing-masing.
 
-	-   _Collaborative Filtering Recommendation_
+-   _Collaborative Filtering Recommendation_
 			Sistem rekomendasi yang bekerja dengan cara merekomendasikan item berdasarkan kesamaan preferensi atau interaksi antar pengguna. Berbeda dengan content-based filtering yang fokus merekomendasikan item berdasarkan fitur dari item itu sendiri, collaborative filtering memanfaatkan pola kesamaan antar pengguna untuk memberikan rekomendasi yang lebih personal dan relevan bagi kelompok pengguna tertentu.[[7]](https://www.ibm.com/think/topics/collaborative-filtering)
 			Collaborative filtering unggul dalam memberikan rekomendasi yang beragam dan personal berdasarkan kesamaan minat pengguna lain, sehingga bisa menyarankan item baru yang relevan. Namun, metode ini memiliki kekurangan seperti _cold start_ pada pengguna atau item baru tanpa data interaksi, serta masalah _data sparsity_ yang menyulitkan sistem menemukan pola yang tepat. [[7]](https://www.ibm.com/think/topics/collaborative-filtering)
 
@@ -125,7 +123,7 @@ Dalam dataset tersebut berisi tiga (3) berkas CSV ([Comma-separated Values](http
 - `Book-Rating` : *Rating* buku yang diberikan pengguna
   
 3. **users.csv**, memiliki atribut atau fitur sebagai berikut,
-<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20Users.png" alt="Deskripsi Variabel Users" title="Deskripsi Variabel Users">
+<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20User.png" alt="Deskripsi Variabel Users" title="Deskripsi Variabel Users">
 
 - `User-ID` : Identitas unik pengguna berupa bilangan bulat atau integer
 - `Location` : Lokasi tempat tinggal pengguna
@@ -214,7 +212,56 @@ Sementara itu, penggabungan data `user_id` dilakukan juga menggunakan fungsi `.c
 [←Table of Contents](#table-of-contents)
 
 ## Data Preparation
+Tahap _data preparation_ dilakukan proses transformasi data agar memiliki format yang sesuai untuk keperluan pemodelan. Beberapa langkah dilakukan dalam proses ini, antara lain:
+- Pengecekan *Missing Value*
+	Pemeriksaan terhadap data kosong, hilang, _null_, atau _missing value_ dilakukan dan ditemukan pada _dataframe_ `books`, sehingga data yang hilang tersebut dihapus.
+ 
+	 Sementara itu, pada _dataframe_ `ratings` tidak ditemukan _missing value_, namun perlu dilakukan penghapusan terhadap _rating_ bernilai 0. Hal ini dikarenakan _rating_ 0 merupakan kategori terbanyak berdasarkan hasil [_data understanding_](#data-understanding) sebelumnya, yaitu sebanyak 716.109 data. Jumlah tersebut berpotensi menimbulkan bias dalam analisis data, sehingga _rating_ 0 tidak disertakan dalam proses visualisasi grafik histogram berikutnya.
 
+	<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Grafik%20Histogram%20Frekuensi%20Sebaran%20Data%20Rating%20110.png" alt="Grafik Histogram Frekuensi Sebaran Data Rating 1-10" title="Grafik Histogram Frekuensi Sebaran Data Rating 1-10">
+
+	Setelah _rating_ 0 dihapus, hasil visualisasi grafik histogram menunjukkan pola distribusi frekuensi data yang lebih terstruktur dan mudah dibaca, khususnya pada rentang _rating_ 1 hingga 4.
+
+	Kemudian pada *dataframe* `Users`, terdapat sebanyak 110.762 *missing value* pada fitur umur yang terdapat nilai kosong atau tidak valid seperti `'NaN'`, `'nan'`, `' '`, dan tanda kutip tunggal (`'`). 
+	
+| user_id | location                          | age  |
+|---------|-----------------------------------|------|
+| 1       | nyc, new york, usa                | NaN  |
+| 2       | stockton, california, usa         | 18.0 |
+| 3       | moscow, yukon territory, russia   | NaN  |
+| 4       | porto, v.n.gaia, portugal         | 17.0 |
+| 5       | farnborough, hants, united kingdom| NaN  |
+| ...     | ...                               | ...  |
+| 278854  | portland, oregon, usa             | NaN  |
+| 278855  | tacoma, washington, united kingdom| 50.0 |
+| 278856  | brampton, ontario, canada         | NaN  |
+| 278857  | knoxville, tennessee, usa         | NaN  |
+| 278858  | dublin, n/a, ireland              | NaN  |
+|278858 rows × 3 columns|
+
+Oleh karena itu, dilakukan proses pembersihan data dengan mengganti nilai-nilai tersebut menjadi `np.nan`. Selanjutnya, kolom `age` dikonversi ke tipe numerik agar bisa dianalisis, dan baris yang masih mengandung nilai NaN dihapus menggunakan fungsi `dropna()`.
+	
+| user_id | location                         | age  |
+|---------|---------------------------------|------|
+| 1       | nyc, new york, usa              | 24.0 |
+| 2       | stockton, california, usa       | 18.0 |
+| 4       | porto, v.n.gaia, portugal       | 17.0 |
+| 6       | santa monica, california, usa   | 61.0 |
+| 10      | albacete, wisconsin, spain      | 26.0 |
+| ...     | ...                             | ...  |
+| 278849  | georgetown, ontario, canada     | 23.0 |
+| 278851  | dallas, texas, usa              | 33.0 |
+| 278852  | brisbane, queensland, australia | 32.0 |
+| 278853  | stranraer, n/a, united kingdom  | 17.0 |
+| 278855  | tacoma, washington, united kingdom | 50.0 |
+| 168097 rows × 3 columns|
+
+Pemeriksaan ulang terhadap *dataframe*  `users` menunjukkan bahwa tidak ada nilai kosong atau *null* yang ditemukan di seluruh kolomnya.
+
+- Pengecekan Data Duplikat
+	
+- Data Buku dan *Rating*
+	
 
 [←Table of Contents](#table-of-contents)
 
@@ -241,5 +288,4 @@ Sementara itu, penggabungan data `user_id` dilakukan juga menggunakan fungsi `.c
 
 
 [←Table of Contents](#table-of-contents)
-
 
