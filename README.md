@@ -191,14 +191,13 @@ Penggantian nama kolom, atribut, atau fitur pada masing-masing _dataframe_ dilak
 <br>	
 3. User
     
-| user_id | location                         | age  |
-|---------|----------------------------------|------|
-| 2       | stockton, california, usa        | 18.0 |
-| 4       | porto, v.n.gaia, portugal        | 17.0 |
-| 6       | santa monica, california, usa    | 61.0 |
-| 10      | albacete, wisconsin, spain       | 26.0 |
-| 11      | melbourne, victoria, australia   | 14.0 |
-
+|     | user_id | location                              | age  |
+|-----|---------|----------------------------------------|------|
+| 0   | 1       | nyc, new york, usa                     | NaN  |
+| 1   | 2       | stockton, california, usa              | 18.0 |
+| 2   | 3       | moscow, yukon territory, russia        | NaN  |
+| 3   | 4       | porto, v.n.gaia, portugal              | 17.0 |
+| 4   | 5       | farnborough, hants, united kingdom     | NaN  |
 
 <br>
 
@@ -285,36 +284,38 @@ books = books[:10000]
 ratings = ratings[:5000]
 ```
 1. **Content-based Recommendation**
-	- TF-IDF Vectorizer
-	TF-IDF Vectorizer digunakan untuk mengubah data teks menjadi representasi numerik yang bermakna dalam bentuk matriks. Ukuran matriks yang dihasilkan memiliki 10.000 data buku dan 5.575 data penulis (*author*).
+	- **TF-IDF Vectorizer**
+	**TF-IDF Vectorizer** digunakan untuk mengubah data teks menjadi representasi numerik yang bermakna dalam bentuk matriks. Ukuran matriks yang dihasilkan memiliki 10.000 data buku dan 5.575 data penulis (*author*).
 
-| book_title                                                                 | lindberg | masahiro | yang | momaday | angot | luigi | curtiss | delinsky | bantock | rash | myla | alba | gaelen | cassandra | marney | whitley | cecchio | hoberman | mundy | hans |
-|----------------------------------------------------------------------------|----------|----------|------|---------|-------|--------|---------|-----------|----------|------|------|------|--------|------------|--------|----------|----------|-----------|-------|------|
-| La fuente del unicornio                                                   | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
-| The Conquest                                                              | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
-| Sense and Sensibility (Dover Thrift Editions)                             | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
-| Material Witness                                                          | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
-| L'Idiot                                                                   | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
-| The Arctic Incident (Artemis Fowl, Book 2)                                | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
-| Movimiento Perpetuo                                                       | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
-| Starting and Running a Profitable Investment Club                        | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
-| My Cat Forgets Who Pays the Rent                                          | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
-| Sherlock Holmes: The Complete Novels and Stories (Sherlock Holmes)       | 0.0      | 0.0      | 0.0  | 0.0     | 0.0   | 0.0    | 0.0     | 0.0       | 0.0      | 0.0  | 0.0  | 0.0  | 0.0    | 0.0        | 0.0    | 0.0      | 0.0      | 0.0       | 0.0   | 0.0  |
+| book_title | saavedra | louvish | gitlin | flank | reinhard | medina | volkart | hausman | hood | kincaid | morrell | whittaker | peretti | malerba | tropper | md | nicola | riccardo | fan | whittemore |
+|------------|----------|---------|--------|-------|-----------|--------|----------|----------|------|----------|----------|-------------|----------|----------|----------|-----|--------|-----------|------|-------------|
+| The Night of Four Hundred Rabbits | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| Who Needs Decaf? (Harlequin Flipside, No. 6) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| BEAUTIFUL AND DAMNED | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| The Seville Communion | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| Richtig leben mit Geri Weibel. Neue Folge. | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| Bodyguard /Husband : Ultimate Agents (Harlequin Intrigue Series) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| Working Class Zero | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| Deadlock | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| An Irresistible Impulse | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| HIS LITTLE WOMEN : HIS LITTLE WOMEN | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 
 
-   - _Cosine Similarity_
+
+   - **_Cosine Similarity_**
 	**Cosine Similarity** digunakan untuk menghitung tingkat kemiripan antar judul buku. Hasil perhitungan ini menghasilkan matriks berukuran 10.000 data buku dan 10.000 data buku.
 	
-| book_title                                                                                                                                           | Who's Running Your Career?: Creating Stable Work in Unstable Times | Oscar Otter (I Can Read Book 1) | A Orillas Del Río Piedra Me Sente Y Llore | The Hounds of Sunset (The Brothers of Gwynedd, 3) | Le Nom de la rose | The Prince | A Belated Bride | No Witnesses |
-|------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|----------------------------------|--------------------------------------------|---------------------------------------------------|-------------------|-------------|------------------|----------------|
-| The Moffat Museum                                                                                                                                    | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
-| L'oeil de la sibylle                                                                                                                                 | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
-| The War of the Flowers                                                                                                                               | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
-| LAST TEMPTATION OF CHRIST (Movie Tie in)                                                                                                             | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
-| Canadian Society: A Macro Analysis                                                                                                                   | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
-| The Unlawfully Wedded Princess (The Carradignes: American Royalty) (Harlequin American Romance Series, No. 917)                                     | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
-| The Bridge of San Luis Rey (Perennial Classics)                                                                                                      | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
-| Disgrace                                                                                                                                             | 0.0                                                                 | 0.0                              | 0.0                                        | 0.0                                               | 0.0               | 0.0         | 0.0              | 0.0            |
+| book_title | Whisper to Me of Love | En LA Boca Del Dragon | Standing Out (72) | Angel of Darkness (Key Books) | Rebekah (Women of Genesis) | There's No Toilet Paper on the Road Less Traveled: The Best of Travel Humor and Misadventure (Travelers' Tales Guides) | Wolf Moon | The Country Under My Skin: A Memoir of Love and War |
+|------------|------------------------|------------------------|-------------------|-------------------------------|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------|-----------|-----------------------------------------------------|
+| The Pursuit (Avon Historical Romance) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| Hawaii's Best Spooky Tales: True Local Spine-Tinglers (Hawaiis Best Spooky Tales) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| The STAR GROUP PAPERBACK | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| Too Close to the Falls: A Memoir | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| Die Entdeckung der Langsamkeit. | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| Crescent City | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| The 1998 What Color Is Your Parachute : A Practical Manual for Job-Hunters and Career Changers (Paper) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| Rush Limbaugh Is a Big Fat Idiot: And Other Observations | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+
 
 	
 - Top-N *Recommendation*  
@@ -373,23 +374,27 @@ Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mamp
   
 <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/hasil%20collaborative%20filtering%20recommendation.png" alt="hasil collaborative filtering recommendation" title="hasil collaborative filtering recommendation">
 		
-Berdasarkan hasil prediksi sistem, pengguna dengan `user_id`  **277945** dipilih secara acak. Dari data yang diperoleh, sistem mengidentifikasi buku-buku dengan rating tertinggi yang diberikan oleh pengguna tersebut, yaitu:
-- **Rising Tides** oleh **Nora Roberts**
-- **Birthright** oleh **Nora Roberts**
 
-Langkah selanjutnya, sistem mencocokkan buku-buku favorit dari `user_id`  **277945** dengan koleksi buku yang belum pernah dibaca oleh pengguna tersebut. Proses ini menghasilkan daftar rekomendasi berdasarkan skor prediksi tertinggi terhadap preferensi pengguna.
+Berdasarkan hasil prediksi sistem, pengguna dengan `user_id`  **1248** dipilih secara acak. Dari data yang diperoleh, sistem mengidentifikasi buku-buku dengan rating tertinggi yang diberikan oleh pengguna tersebut, yaitu:
+- **House Harkonnen (Dune: House Trilogy, Book 2)** oleh **Brian Herbert**
+- **House Atreides (Dune: House Trilogy, Book 1)** oleh **Brian Herbert**
+- **Me and My Little Brain** oleh **John Fitzgerald**
+- **And the Sea Will Tell** oleh **Vincent Bugliosi**
+- **The Sparrow** oleh **Mary Doria Russell**
 
-Jika diperhatikan, terdapat kemiripan antara buku favorit pengguna dan hasil rekomendasi, terutama dari segi tema dan gaya penulisan. Karya **Nora Roberts** yang mengangkat cerita relasi antar karakter sejalan dengan rekomendasi seperti *The Secret Life of Bees* dan *The Bean Trees*, yang juga mengandung tema hubungan emosional yang kuat.
+  
+Langkah selanjutnya, sistem mencocokkan buku-buku favorit dari `user_id`  **1248** dengan koleksi buku yang belum pernah dibaca oleh pengguna tersebut. Proses ini menghasilkan daftar rekomendasi berdasarkan skor prediksi tertinggi terhadap preferensi pengguna.
+
+Jika diperhatikan, terdapat kemiripan antara buku favorit pengguna dan hasil rekomendasi, terutama dari segi tema (eksploratif, misteri, dan kedalaman karakter). Misalnya, **The Sparrow** yang memadukan unsur fiksi ilmiah dan spiritualitas memiliki kesamaan dengan *Life of Pi* dalam menyajikan narasi reflektif yang penuh makna. Demikian pula, buku favorit pengguna terhadap dunia **Dune** selaras dengan rekomendasi seperti *The Phantom Tollbooth*, yang juga menggali dunia imajinatif dan simbolis.
 
 Sistem juga memberikan beragam genre, di antaranya:
-- **Drama sosial dan sejarah**: *To Kill a Mockingbird*, *The Watsons Go to Birmingham – 1963*
+- **Klasik dan drama sosial**: *To Kill a Mockingbird*, *The Grapes of Wrath*
+- **Fiksi sejarah dan biografi**: *Seabiscuit: An American Legend*, *The Red Tent*
 - **Fiksi kontemporer dan keluarga**: *The Secret Life of Bees*, *The Bean Trees*
-- **Fiksi ilmiah dan fantasi**: *Mostly Harmless*, *Harry Potter and the Sorcerer's Stone*
-- **Fantasi remaja dan petualangan**: *The Message*, *The Visitor*
-- **Drama hukum**: *The King of Torts*
-- **Novel spiritual dan inspiratif**: *Life of Pi*
+- **Spiritual dan petualangan pribadi**: *Life of Pi*, *A Walk in the Woods*
+- **Fantasi dan petualangan remaja**: *The Phantom Tollbooth*, *The Message*
 
-Sistem rekomendasi berhasil memberikan saran buku yang tidak hanya sesuai dengan preferensi awal pengguna, tetapi juga memperluas cakupan pengalaman membaca dengan genre dan penulis yang beragam. Hal ini menunjukkan bahwa model memiliki kemampuan untuk mengenali pola preferensi pengguna dan menyarankan bacaan.
+Sistem rekomendasi ini menunjukkan kemampuannya dalam memahami pola preferensi pengguna dan menyarankan buku-buku yang tidak hanya serupa dalam tema, tetapi juga memperluas preferensi pengguna terhadap genre dan penulis baru. Hal ini menjadikan pengalaman membaca lebih beragam.
 
 [←Table of Contents](#table-of-contents)
 
@@ -398,19 +403,42 @@ Sistem rekomendasi berhasil memberikan saran buku yang tidak hanya sesuai dengan
 1. **Content-based Recommendation**
 		Pada tahap evaluasi model sistem rekomendasi berbasis _content-based recommendation_, dilakukan pengukuran akurasi menggunakan metrik tertentu yang dihitung dengan rumus sebagai berikut:
 
-	Masih menggunakan dataset yang sama seperti pada tahap [Modeling](#modeling) untuk pendekatan _content-based recommendation_, evaluasi dilakukan berdasarkan hasil _Top-N Recommendation_. Dalam hal ini, sistem memberikan rekomendasi buku dengan penulis (`book_author`) **Lisa Scottoline**. Selanjutnya, dilakukan pencarian terhadap jumlah seluruh buku (`book_title`) yang ditulis oleh penulis tersebut dalam data, dengan memanfaatkan variabel baru yang merepresentasikan daftar buku yang telah dibaca oleh pengguna. Dari pencarian ini diketahui bahwa **Lisa Scottoline** menulis sebanyak **4** judul buku.
+	$\text{Precision@K} = \frac{\text{Number of Relevant Items in Top } K}{K}$
 
-	Akurasi kemudian dihitung menggunakan *metric precision* dengan membagi jumlah buku yang berhasil direkomendasikan oleh sistem dengan jumlah total buku yang ditulis oleh penulis yang sama, lalu dikalikan 100. Dari proses tersebut, diperoleh nilai **akurasi** sebesar **57,14%**. [[8]](https://towardsdatascience.com/evaluation-metrics-for-recommendation-systems-an-overview-71290690ecba/)
+	Masih menggunakan dataset yang sama seperti pada tahap [Modeling](#modeling) untuk pendekatan _content-based recommendation_, evaluasi dilakukan berdasarkan hasil _Top-N Recommendation_. Dalam hal ini, sistem memberikan rekomendasi buku berdasarkan kemiripan dengan **"The Pillars of the Earth"**. Selanjutnya, dilakukan pencarian terhadap jumlah seluruh buku (`book_title`) yang ditulis oleh penulis yang sama dalam data, yaitu **Ken Follett**, dengan memanfaatkan variabel baru yang merepresentasikan daftar buku hasil rekomendasi.
 
+	Dari pencarian tersebut diketahui bahwa **Ken Follett** menulis sebanyak **19** judul buku dalam dataset.
+
+	Akurasi kemudian dihitung menggunakan _metric precision_ dengan membagi jumlah buku yang berhasil direkomendasikan oleh sistem (yang juga ditulis oleh **Ken Follett**) dengan jumlah total buku yang masuk dalam _Top-N Recommendation_, lalu dikalikan 100. [[8]](https://towardsdatascience.com/evaluation-metrics-for-recommendation-systems-an-overview-71290690ecba/) Dari proses tersebut, diperoleh:
+	-   Jumlah rekomendasi yang cocok: **9**
+	-   Jumlah rekomendasi total (_Top-N_): **9**
+    -   Precision@10: **100,00%**
+    
+	Selain itu, **9 dari 9** buku rekomendasi juga termasuk dalam total **19** buku yang ditulis oleh penulis yang sama. Hasil ini menunjukkan bahwa sistem memiliki kemampuan yang sangat baik dalam mengidentifikasi dan merekomendasikan karya lain dari penulis favorit pengguna, yang menjadi indikator kuat dalam pendekatan _content-based filtering_.
+	
 2. **Collaborative Filtering Recommendation**  
+	Berdasarkan odel *machine learning* yang telah dikembangkan menggunakan *embedding layer* dengan *Adam optimizer* dan fungsi loss *binary crossentropy* dievaluasi menggunakan metrik *Root Mean Squared Error* (RMSE). [[9]](https://towardsdatascience.com/comparing-robustness-of-mae-mse-and-rmse-6d69da870828/)
+	Perhitungan RMSE dapat dilakukan dengan rumus berikut:
 
+	  $$RMSE=\sqrt{\sum^{n}_{i=1} \frac{y_i - y\\_pred_i}{n}}$$
+
+
+	Dimana:
+	- $n$ adalah jumlah data dalam *dataset*,
+	- $y_i$ adalah nilai sebenarnya,
+	- $y_{pred_i}$ adalah nilai prediksi untuk data ke-$i$ dalam *dataset*.
+
+Hasil nilai RMSE yang rendah mengindikasikan bahwa variasi hasil prediksi model sangat mendekati variasi nilai observasi. Dengan kata lain, semakin kecil nilai RMSE, maka prediksi model semakin akurat dan mendekati nilai asli.
+
+Berikut ini adalah visualisasi grafik yang menampilkan hasil *training* dan *validation error* berdasarkan metrik RMSE, serta *training* dan *validation loss*.
+
+<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Model%20Training%20Plot.png" alt="Model Training Plot" title="Model Training Plot">
 
 
 [←Table of Contents](#table-of-contents)
 
 ## Kesimpulan
-
-
+Kesimpulan dari pengembangan model yang digunakan untuk membuat rekomendasi buku ini menunjukkan bahwa kedua pendekatan, yaitu *Content-based Recommendation* dan *Collaborative Filtering Recommendation*, berhasil diterapkan sesuai dengan preferensi pengguna. Pada metode *collaborative filtering*, data *rating* pengguna sangat diperlukan untuk menghasilkan rekomendasi, sedangkan pada *content-based filtering*, sistem hanya mengandalkan atribut dari buku tanpa membutuhkan data *rating*. Masing-masing pendekatan tersebut memiliki keunggulan dan keterbatasan tersendiri dalam penggunaannya.
 
 [←Table of Contents](#table-of-contents)
 
@@ -431,6 +459,8 @@ Sistem rekomendasi berhasil memberikan saran buku yang tidak hanya sesuai dengan
 [7] Murel, J., & Kavlakoglu, E. (2024, March 21). What is collaborative filtering? IBM. Retrieved May 17, 2025, from https://www.ibm.com/think/topics/collaborative-filtering
 
 [8] Aher, P. (2023, August 9). Evaluation Metrics for Recommendation Systems – An Overview. Towards Data Science. Retrieved May 17, 2025, from https://towardsdatascience.com/evaluation-metrics-for-recommendation-systems-an-overview-71290690ecba/
+
+[9] Trevisan, V. (2022, January 11). Comparing robustness of MAE, MSE and RMSE. Towards Data Science. Retrieved May 17, 2025, from https://towardsdatascience.com/comparing-robustness-of-mae-mse-and-rmse-6d69da870828/
 
 [←Table of Contents](#table-of-contents)
 
