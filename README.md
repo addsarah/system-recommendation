@@ -63,14 +63,23 @@ Berdasarkan tujuan dari proyek yang telah dipaparkan di atas, maka berikut adala
 	-   Deteksi data duplikat guna menghindari bias dalam hasil pemodelan.
 
 3. **Tahap pembuatan model _machine learning_ untuk sistem rekomendasi buku** akan berfokus pada pembangunan sistem rekomendasi yang bersifat personal. Model akan dikembangkan menggunakan dua pendekatan utama, yaitu:
-	-   _Content-based Recommendation_ merupakan metode yang menyarankan item yang memiliki kemiripan karakteristik dengan item yang sebelumnya disukai oleh pengguna. Pendekatan ini memanfaatkan profil preferensi pengguna berdasarkan data dari item yang telah diberi penilaian oleh pengguna lain sebelumnya dan merekomendasikan barang baru yang serupa kepada pengguna.[[3]](https://www.ibm.com/think/topics/content-based-filtering) Dalam implementasinya, _content-based filtering_ menggunakan algoritma _TF-IDF Vectorizer_ untuk merepresentasikan fitur item dalam bentuk vektor, serta _Cosine Similarity_ untuk mengukur tingkat kesamaan antar item.[[4]](https://medium.com/@prateekgaurav/step-by-step-content-based-recommendation-system-823bbfd0541c)
-		- TF-IDF Vectorizer (Term Frequency-Inverse Document Frequency Vectorizer) merupakan metode yang digunakan untuk menghitung dan mengubah teks mentah menjadi bentuk numerik bermakna dalam format matriks, sehingga dapat diproses dan dipahami oleh model _machine learning_.[[5]]((https://towardsdatascience.com/tf-idf-simplified-aba19d5f5530/))
-Keunggulan dari teknik ini adalah tidak memerlukan data dari pengguna lain karena rekomendasi yang dihasilkan bersifat personal dan disesuaikan secara khusus untuk masing-masing pengguna. Namun, kelemahannya terletak pada keterbatasan rekomendasi yang hanya berasal dari preferensi pengguna tersebut, sehingga tidak memanfaatkan informasi dari penilaian pengguna lain untuk memperluas hasil rekomendasi. TF-IDF dapat dihitung menggunakan rumus sebagai berikut:
-		$$idf_i=log \left( \frac{n}{df_i} \right)$$
-	Nilai $idf_i$ adalah skor Inverse Document Frequency untuk _term_ $i$, dengan $df_i$ menunjukkan jumlah dokumen yang mengandung _term_ tersebut, dan $n$ mewakili total seluruh dokumen. Semakin banyak dokumen yang mengandung _term_ tertentu (semakin tinggi $df$), maka nilai $idf$-nya akan semakin rendah. Jika suatu _term_ muncul di semua dokumen ($df = n$), maka nilai $idf$ menjadi 0 karena $log(1) = 0$.
-		Sedangkan Nilai TF-IDF diperoleh dari hasil perkalian antara matriks frekuensi term (TF) dengan nilai Inverse Document Frequency (IDF) masing-masing term.
-		$$w_{i,j}=tf_{i,j} \times idf_i$$
-		Skor TF-IDF $w_{i,j}$ menunjukkan bobot _term_ $i$ dalam dokumen $j$ yang diperoleh dari hasil perkalian antara frekuensi _term_ $tf_{i,j}$ dalam dokumen $j$ dan skor IDF $idf_i$ dari _term_ tersebut.
+	-   _Content-based Recommendation_ merupakan metode yang menyarankan item yang memiliki kemiripan karakteristik dengan item yang sebelumnya disukai oleh pengguna. Pendekatan ini memanfaatkan profil preferensi pengguna berdasarkan data dari item yang telah diberi penilaian oleh pengguna lain sebelumnya dan merekomendasikan barang baru yang serupa kepada pengguna.[[3]](https://www.ibm.com/think/topics/content-based-filtering)
+
+		Dalam implementasinya, _content-based filtering_ menggunakan algoritma _TF-IDF Vectorizer_ untuk merepresentasikan fitur item dalam bentuk vektor, serta _Cosine Similarity_ untuk mengukur tingkat kesamaan antar item.[[4]](https://medium.com/@prateekgaurav/step-by-step-content-based-recommendation-system-823bbfd0541c)
+		- TF-IDF Vectorizer (Term Frequency-Inverse Document Frequency Vectorizer) merupakan metode yang digunakan untuk menghitung dan mengubah teks mentah menjadi bentuk numerik bermakna dalam format matriks, sehingga dapat diproses dan dipahami oleh model _machine learning_.[[5]](https://towardsdatascience.com/tf-idf-simplified-aba19d5f5530/) 
+
+			Keunggulan dari teknik ini adalah tidak memerlukan data dari pengguna lain karena rekomendasi yang dihasilkan bersifat personal dan disesuaikan secara khusus untuk masing-masing pengguna. Namun, kelemahannya terletak pada keterbatasan rekomendasi yang hanya berasal dari preferensi pengguna tersebut, sehingga tidak memanfaatkan informasi dari penilaian pengguna lain untuk memperluas hasil rekomendasi.
+			TF-IDF dapat dihitung menggunakan rumus sebagai berikut: 
+
+			$$idf_i=log \left( \frac{n}{df_i} \right)$$
+
+			Nilai $idf_i$ adalah skor Inverse Document Frequency untuk _term_ $i$, dengan $df_i$ menunjukkan jumlah dokumen yang mengandung _term_ tersebut, dan $n$ mewakili total seluruh dokumen. Semakin banyak dokumen yang mengandung _term_ tertentu (semakin tinggi $df$), maka nilai $idf$-nya akan semakin rendah. Jika suatu _term_ muncul di semua dokumen ($df = n$), maka nilai $idf$ menjadi 0 karena $log(1) = 0$.
+
+			Sedangkan Nilai TF-IDF diperoleh dari hasil perkalian antara matriks frekuensi term (TF) dengan nilai Inverse Document Frequency (IDF) masing-masing term.
+
+			$$w_{i,j}=tf_{i,j} \times idf_i$$
+
+			Skor TF-IDF $w_{i,j}$ menunjukkan bobot _term_ $i$ dalam dokumen $j$ yang diperoleh dari hasil perkalian antara frekuensi _term_ $tf_{i,j}$ dalam dokumen $j$ dan skor IDF $idf_i$ dari _term_ tersebut.
 		- Cosine Similarity
 		Teknik **cosine similarity** digunakan untuk menghitung tingkat kemiripan antara dua sampel berdasarkan sudut di antara vektor representasinya. [[6]](https://www.sciencedirect.com/topics/computer-science/cosine-similarity)
 
@@ -80,7 +89,8 @@ Keunggulan dari teknik ini adalah tidak memerlukan data dari pengguna lain karen
 
 	-   _Collaborative Filtering Recommendation_
 			Sistem rekomendasi yang bekerja dengan cara merekomendasikan item berdasarkan kesamaan preferensi atau interaksi antar pengguna. Berbeda dengan content-based filtering yang fokus merekomendasikan item berdasarkan fitur dari item itu sendiri, collaborative filtering memanfaatkan pola kesamaan antar pengguna untuk memberikan rekomendasi yang lebih personal dan relevan bagi kelompok pengguna tertentu.[[7]](https://www.ibm.com/think/topics/collaborative-filtering)
-			Collaborative filtering unggul dalam memberikan rekomendasi yang beragam dan personal berdasarkan kesamaan minat pengguna lain, sehingga bisa menyarankan item baru yang relevan. Namun, metode ini memiliki kekurangan seperti _cold start_ pada pengguna atau item baru tanpa data interaksi, serta masalah _data sparsity_ yang menyulitkan sistem menemukan pola yang tepat. [[7]](https://www.ibm.com/think/topics/collaborative-filtering)
+
+	    Collaborative filtering unggul dalam memberikan rekomendasi yang beragam dan personal berdasarkan kesamaan minat pengguna lain, sehingga bisa menyarankan item baru yang relevan. Namun, metode ini memiliki kekurangan seperti _cold start_ pada pengguna atau item baru tanpa data interaksi, serta masalah _data sparsity_ yang menyulitkan sistem menemukan pola yang tepat. [[7]](https://www.ibm.com/think/topics/collaborative-filtering)
 
 [←Table of Contents](#table-of-contents)
 
@@ -396,14 +406,15 @@ Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mamp
 
 	Dari pencarian tersebut diketahui bahwa **Ken Follett** menulis sebanyak **19** judul buku dalam dataset.
 
-	Akurasi kemudian dihitung menggunakan _metric precision_ dengan membagi jumlah buku yang berhasil direkomendasikan oleh sistem (yang juga ditulis oleh **Ken Follett**) dengan jumlah total buku yang masuk dalam _Top-N Recommendation_, lalu dikalikan 100. [[8]](https://towardsdatascience.com/evaluation-metrics-for-recommendation-systems-an-overview-71290690ecba/) Dari proses tersebut, diperoleh:
+	Akurasi kemudian dihitung menggunakan _metric precision_ dengan membagi jumlah buku yang berhasil direkomendasikan oleh sistem (yang juga ditulis oleh **Ken Follett**) dengan jumlah total buku yang masuk dalam _Top-N Recommendation_, lalu dikalikan 100. [[8]](https://towardsdatascience.com/evaluation-metrics-for-recommendation-systems-an-overview-71290690ecba/)
+	Dari proses tersebut, diperoleh:
 	-   Jumlah rekomendasi yang cocok: **9**
 	-   Jumlah rekomendasi total (_Top-N_): **9**
     -   Precision@10: **100,00%**
     
 	Selain itu, **9 dari 9** buku rekomendasi juga termasuk dalam total **19** buku yang ditulis oleh penulis yang sama. Hasil ini menunjukkan bahwa sistem memiliki kemampuan yang sangat baik dalam mengidentifikasi dan merekomendasikan karya lain dari penulis favorit pengguna, yang menjadi indikator kuat dalam pendekatan _content-based filtering_.
 	
-2. **Collaborative Filtering Recommendation**  
+3. **Collaborative Filtering Recommendation**  
 	Berdasarkan odel *machine learning* yang telah dikembangkan menggunakan *embedding layer* dengan *Adam optimizer* dan fungsi loss *binary crossentropy* dievaluasi menggunakan metrik *Root Mean Squared Error* (RMSE). [[9]](https://towardsdatascience.com/comparing-robustness-of-mae-mse-and-rmse-6d69da870828/)
 	Perhitungan RMSE dapat dilakukan dengan rumus berikut:
 
