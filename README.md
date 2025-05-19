@@ -9,7 +9,7 @@
 - [Data Preparation](#data-preparation)
 - [Modeling](#modeling)
 - [Evaluation](#evaluation)
-- [Conclusion](#conclusion)
+- [Kesimpulan](#kesimpulan)
 - [Reference](#reference)
   
 ## Project Overview
@@ -66,15 +66,11 @@ Berdasarkan tujuan dari proyek yang telah dipaparkan di atas, maka berikut adala
 	-   _Content-based Recommendation_ merupakan metode yang menyarankan item yang memiliki kemiripan karakteristik dengan item yang sebelumnya disukai oleh pengguna. Pendekatan ini memanfaatkan profil preferensi pengguna berdasarkan data dari item yang telah diberi penilaian oleh pengguna lain sebelumnya dan merekomendasikan barang baru yang serupa kepada pengguna.[[3]](https://www.ibm.com/think/topics/content-based-filtering) Dalam implementasinya, _content-based filtering_ menggunakan algoritma _TF-IDF Vectorizer_ untuk merepresentasikan fitur item dalam bentuk vektor, serta _Cosine Similarity_ untuk mengukur tingkat kesamaan antar item.[[4]](https://medium.com/@prateekgaurav/step-by-step-content-based-recommendation-system-823bbfd0541c)
 		- TF-IDF Vectorizer (Term Frequency-Inverse Document Frequency Vectorizer) merupakan metode yang digunakan untuk menghitung dan mengubah teks mentah menjadi bentuk numerik bermakna dalam format matriks, sehingga dapat diproses dan dipahami oleh model _machine learning_.[[5]]((https://towardsdatascience.com/tf-idf-simplified-aba19d5f5530/))
 Keunggulan dari teknik ini adalah tidak memerlukan data dari pengguna lain karena rekomendasi yang dihasilkan bersifat personal dan disesuaikan secara khusus untuk masing-masing pengguna. Namun, kelemahannya terletak pada keterbatasan rekomendasi yang hanya berasal dari preferensi pengguna tersebut, sehingga tidak memanfaatkan informasi dari penilaian pengguna lain untuk memperluas hasil rekomendasi. TF-IDF dapat dihitung menggunakan rumus sebagai berikut:
-
 		$$idf_i=log \left( \frac{n}{df_i} \right)$$
-
-		Nilai $idf_i$ adalah skor Inverse Document Frequency untuk _term_ $i$, dengan $df_i$ menunjukkan jumlah dokumen yang mengandung _term_ tersebut, dan $n$ mewakili total seluruh dokumen. Semakin banyak dokumen yang mengandung _term_ tertentu (semakin tinggi $df$), maka nilai $idf$-nya akan semakin rendah. Jika suatu _term_ muncul di semua dokumen ($df = n$), maka nilai $idf$ menjadi 0 karena $log(1) = 0$.
+	Nilai $idf_i$ adalah skor Inverse Document Frequency untuk _term_ $i$, dengan $df_i$ menunjukkan jumlah dokumen yang mengandung _term_ tersebut, dan $n$ mewakili total seluruh dokumen. Semakin banyak dokumen yang mengandung _term_ tertentu (semakin tinggi $df$), maka nilai $idf$-nya akan semakin rendah. Jika suatu _term_ muncul di semua dokumen ($df = n$), maka nilai $idf$ menjadi 0 karena $log(1) = 0$.
 		Sedangkan Nilai TF-IDF diperoleh dari hasil perkalian antara matriks frekuensi term (TF) dengan nilai Inverse Document Frequency (IDF) masing-masing term.
-
 		$$w_{i,j}=tf_{i,j} \times idf_i$$
-
-		Skor TF-IDF $w_{i,j}$ menunjukkan bobot _term_ $i$ dalam dokumen $j$, yang diperoleh dari hasil perkalian antara frekuensi _term_ $tf_{i,j}$ dalam dokumen $j$ dan skor IDF $idf_i$ dari _term_ tersebut.
+		Skor TF-IDF $w_{i,j}$ menunjukkan bobot _term_ $i$ dalam dokumen $j$ yang diperoleh dari hasil perkalian antara frekuensi _term_ $tf_{i,j}$ dalam dokumen $j$ dan skor IDF $idf_i$ dari _term_ tersebut.
 		- Cosine Similarity
 		Teknik **cosine similarity** digunakan untuk menghitung tingkat kemiripan antara dua sampel berdasarkan sudut di antara vektor representasinya. [[6]](https://www.sciencedirect.com/topics/computer-science/cosine-similarity)
 
@@ -88,6 +84,7 @@ Keunggulan dari teknik ini adalah tidak memerlukan data dari pengguna lain karen
 
 [←Table of Contents](#table-of-contents)
 
+
 ## Data Understanding
 <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Books%20Datasets%20Kaggle%20Dataset.png" alt="Books Datasets Kaggle Dataset" title="Books Datasets Kaggle Dataset">
 
@@ -99,59 +96,60 @@ Data yang digunakan dalam proyek ini berasal dari _dataset_ yang diunduh dari Ka
 | Usability              | 10.00                                                                                      |
 | Lisensi                | CC0: Public Domain                                                                         |
 | Penilaian/Rating       | Silver                                                                                     |
-| Jenis & Ukuran Berkas | ZIP (26 MB)                                                                              |
+| Jenis & Ukuran Berkas  | ZIP (26 MB)                                                                               |
 | Kategori               | Business, Literature, E-Commerce Services, Recommender Systems, Marketing                  |
 
 Dalam dataset tersebut berisi tiga (3) berkas CSV ([Comma-separated Values](https://docs.python.org/3/library/csv.html)), yaitu `books.csv`, `ratings.csv`, `users.csv` yang terdapat di dalam folder `books_data`.
 
-1. **books.csv**, memiliki atribut atau fitur sebagai berikut,
-<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20Books.png" alt="Deskripsi Variabel Books" title="Deskripsi Variabel Books">
+1. **books.csv**, memiliki atribut atau fitur sebagai berikut,  
+   <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20Books.png" alt="Deskripsi Variabel Books" title="Deskripsi Variabel Books">
 
-- `ISBN` : *International Standard Book Number*
-- `Book-Title` : Judul buku
-- `Book-Author` : Penulis buku
-- `Year-Of-Publication` : Tahun terbit buku
-- `Publisher` : Penerbit buku
-- `Image-URL-S` : Tautan sampul buku ukuran kecil
-- `Image-URL-M` : Tautan sampul buku ukuran sedang
-- `Image-URL-L` : Tautan sampul buku ukuran besar
-  
-2. **ratings.csv**, memiliki atribut atau fitur sebagai berikut,
-<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20Ratings.png" alt="Deskripsi Variabel Ratings" title="Deskripsi Variabel Ratings">
+   - `ISBN` : *International Standard Book Number*  
+   - `Book-Title` : Judul buku  
+   - `Book-Author` : Penulis buku  
+   - `Year-Of-Publication` : Tahun terbit buku  
+   - `Publisher` : Penerbit buku  
+   - `Image-URL-S` : Tautan sampul buku ukuran kecil  
+   - `Image-URL-M` : Tautan sampul buku ukuran sedang  
+   - `Image-URL-L` : Tautan sampul buku ukuran besar  
 
-- `User-ID` : Identitas unik pengguna berupa bilangan bulat atau integer
-- `ISBN` : *International Standard Book Number*
-- `Book-Rating` : *Rating* buku yang diberikan pengguna
-  
-3. **users.csv**, memiliki atribut atau fitur sebagai berikut,
-<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20User.png" alt="Deskripsi Variabel Users" title="Deskripsi Variabel Users">
+2. **ratings.csv**, memiliki atribut atau fitur sebagai berikut,  
+   <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20Ratings.png" alt="Deskripsi Variabel Ratings" title="Deskripsi Variabel Ratings">
 
-- `User-ID` : Identitas unik pengguna berupa bilangan bulat atau integer
-- `Location` : Lokasi tempat tinggal pengguna
-- `Age` : Umur pengguna
+   - `User-ID` : Identitas unik pengguna berupa bilangan bulat atau integer  
+   - `ISBN` : *International Standard Book Number*  
+   - `Book-Rating` : *Rating* buku yang diberikan pengguna  
 
-Deskripsi statistik untuk _dataset_  `ratings` pada fitur `Book-Rating` dapat dilihat pada tabel di bawah ini.
-|                  | **Book-Rating**|
-|------------------|----------------|
-| **count**        | 1,149,780      |
-| **mean**         | 3         		|
-| **std**          | 4        	 	|
-| **min**          | 0         		|
-| **25%**          | 0         		|
-| **50%**          | 0         		|
-| **75%**          | 7         		|
-| **max**          | 10        		|
-| **dtype**         object    		|
+3. **users.csv**, memiliki atribut atau fitur sebagai berikut,  
+   <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20User.png" alt="Deskripsi Variabel Users" title="Deskripsi Variabel Users">
 
-Dari tabel di atas dapat dilihat bahwa terdapat,
-- Total jumlah data (`count`) sebanyak 1.149.780;
-- Rata-rata *rating* (`mean`) 3;
-- Simpangan baku/standar deviasi *rating* (`std`) 4;
-- *Rating* Minimal (`min`) 0;
-- Kuartil bawah/Q1 *rating* (`25%`) 0;
-- Kuartil tengah/Q2/median *rating* (`50%`) 0;
-- Kuartil atas/Q3 *rating* (`75%`) 7;
-- *Rating* maksimum (`max`) 10.
+   - `User-ID` : Identitas unik pengguna berupa bilangan bulat atau integer  
+   - `Location` : Lokasi tempat tinggal pengguna  
+   - `Age` : Umur pengguna  
+
+Deskripsi statistik untuk _dataset_ `ratings` pada fitur `Book-Rating` dapat dilihat pada tabel di bawah ini.
+
+|                  | **Book-Rating** |
+|------------------|-----------------|
+| **count**        | 1,149,780       |
+| **mean**         | 3               |
+| **std**          | 4               |
+| **min**          | 0               |
+| **25%**          | 0               |
+| **50%**          | 0               |
+| **75%**          | 7               |
+| **max**          | 10              |
+| **dtype**        | object          |
+
+Dari tabel di atas dapat dilihat bahwa terdapat:  
+- Total jumlah data (`count`) sebanyak 1.149.780;  
+- Rata-rata *rating* (`mean`) 3;  
+- Simpangan baku/standar deviasi *rating* (`std`) 4;  
+- *Rating* Minimal (`min`) 0;  
+- Kuartil bawah/Q1 *rating* (`25%`) 0;  
+- Kuartil tengah/Q2/median *rating* (`50%`) 0;  
+- Kuartil atas/Q3 *rating* (`75%`) 7;  
+- *Rating* maksimum (`max`) 10.  
 
 Berikut merupakan visualisasi grafik histogram yang menampilkan frekuensi distribusi *rating* yang diberikan pengguna terhadap buku yang telah mereka baca, dengan rentang nilai dari 0 hingga 10.
 
@@ -161,134 +159,131 @@ Dari visualisasi grafik histogram "Jumlah Rating Buku" di atas, terlihat bahwa *
 
 [←Table of Contents](#table-of-contents)
 
+
+
 ## Data Preprocessing
+
 Tahap _data preprocessing_ atau pra-pemrosesan data bertujuan untuk mengolah data mentah *(raw data)* menjadi data yang bersih *(clean data)* dan siap digunakan dalam proses analisis berikutnya. Proses ini mencakup beberapa langkah penting, antara lain:
-- **Mengubah Nama Kolom/Atribut/Fitur** 
-Penggantian nama kolom, atribut, atau fitur pada masing-masing _dataframe_ dilakukan untuk mempermudah proses akses dan manipulasi data di tahap selanjutnya.
 
-1. Books
+- **Mengubah Nama Kolom/Atribut/Fitur**  
+  Penggantian nama kolom, atribut, atau fitur pada masing-masing _dataframe_ dilakukan untuk mempermudah proses akses dan manipulasi data di tahap selanjutnya.
 
-| isbn        | book_title                                      | book_author           | year_pub | publisher               | image_url_s                                         | image_url_m                                         | image_url_l                                         |
-|-------------|--------------------------------------------------|------------------------|-----------|--------------------------|------------------------------------------------------|------------------------------------------------------|------------------------------------------------------|
-| 0195153448  | Classical Mythology                              | Mark P. O. Morford     | 2002      | Oxford University Press  | http://images.amazon.com/images/P/0195153448.0.jpg | http://images.amazon.com/images/P/0195153448.0.jpg | http://images.amazon.com/images/P/0195153448.0.jpg |
-| 0002005018  | Clara Callan                                     | Richard Bruce Wright   | 2001      | HarperFlamingo Canada    | http://images.amazon.com/images/P/0002005018.0.jpg | http://images.amazon.com/images/P/0002005018.0.jpg | http://images.amazon.com/images/P/0002005018.0.jpg |
-| 0060973129  | Decision in Normandy                             | Carlo D'Este           | 1991      | HarperPerennial          | http://images.amazon.com/images/P/0060973129.0.jpg | http://images.amazon.com/images/P/0060973129.0.jpg | http://images.amazon.com/images/P/0060973129.0.jpg |
-| 0374157065  | Flu: The Story of the Great Influenza Pandemic...| Gina Bari Kolata       | 1999      | Farrar Straus Giroux     | http://images.amazon.com/images/P/0374157065.0.jpg | http://images.amazon.com/images/P/0374157065.0.jpg | http://images.amazon.com/images/P/0374157065.0.jpg |
-| 0393045218  | The Mummies of Urumchi                           | E. J. W. Barber         | 1999      | W. W. Norton & Company   | http://images.amazon.com/images/P/0393045218.0.jpg | http://images.amazon.com/images/P/0393045218.0.jpg | http://images.amazon.com/images/P/0393045218.0.jpg |
+  1. Books
 
+     | isbn       | book_title                                      | book_author           | year_pub | publisher              | image_url_s                                        | image_url_m                                        | image_url_l                                        |
+     |------------|------------------------------------------------|-----------------------|----------|------------------------|---------------------------------------------------|---------------------------------------------------|---------------------------------------------------|
+     | 0195153448 | Classical Mythology                             | Mark P. O. Morford    | 2002     | Oxford University Press| http://images.amazon.com/images/P/0195153448.0.jpg| http://images.amazon.com/images/P/0195153448.0.jpg| http://images.amazon.com/images/P/0195153448.0.jpg|
+     | 0002005018 | Clara Callan                                    | Richard Bruce Wright  | 2001     | HarperFlamingo Canada  | http://images.amazon.com/images/P/0002005018.0.jpg| http://images.amazon.com/images/P/0002005018.0.jpg| http://images.amazon.com/images/P/0002005018.0.jpg|
+     | 0060973129 | Decision in Normandy                            | Carlo D'Este          | 1991     | HarperPerennial        | http://images.amazon.com/images/P/0060973129.0.jpg| http://images.amazon.com/images/P/0060973129.0.jpg| http://images.amazon.com/images/P/0060973129.0.jpg|
+     | 0374157065 | Flu: The Story of the Great Influenza Pandemic | Gina Bari Kolata      | 1999     | Farrar Straus Giroux   | http://images.amazon.com/images/P/0374157065.0.jpg| http://images.amazon.com/images/P/0374157065.0.jpg| http://images.amazon.com/images/P/0374157065.0.jpg|
+     | 0393045218 | The Mummies of Urumchi                          | E. J. W. Barber       | 1999     | W. W. Norton & Company | http://images.amazon.com/images/P/0393045218.0.jpg| http://images.amazon.com/images/P/0393045218.0.jpg| http://images.amazon.com/images/P/0393045218.0.jpg|
 
-<br>
-	
-2. Ratings
-	
-| user_id | isbn        | book_rating |
-|---------|-------------|-------------|
-| 276725  | 034545104X  | 0           |
-| 276726  | 0155061224  | 5           |
-| 276727  | 0446520802  | 0           |
-| 276729  | 052165615X  | 3           |
-| 276729  | 0521795028  | 6           |
-	
+  2. Ratings
 
-<br>	
-	
-3. User
-    
-|     | user_id | location                              | age  |
-|-----|---------|----------------------------------------|------|
-| 0   | 1       | nyc, new york, usa                     | NaN  |
-| 1   | 2       | stockton, california, usa              | 18.0 |
-| 2   | 3       | moscow, yukon territory, russia        | NaN  |
-| 3   | 4       | porto, v.n.gaia, portugal              | 17.0 |
-| 4   | 5       | farnborough, hants, united kingdom     | NaN  |
+     | user_id | isbn       | book_rating |
+     |---------|------------|-------------|
+     | 276725  | 034545104X | 0           |
+     | 276726  | 0155061224 | 5           |
+     | 276727  | 0446520802 | 0           |
+     | 276729  | 052165615X | 3           |
+     | 276729  | 0521795028 | 6           |
 
-<br>
+  3. User
 
+     |     | user_id | location                         | age  |
+     |-----|---------|---------------------------------|------|
+     | 0   | 1       | nyc, new york, usa              | NaN  |
+     | 1   | 2       | stockton, california, usa       | 18.0 |
+     | 2   | 3       | moscow, yukon territory, russia| NaN  |
+     | 3   | 4       | porto, v.n.gaia, portugal       | 17.0 |
+     | 4   | 5       | farnborough, hants, united kingdom | NaN |
 
+- **Menggabungkan Data ISBN**  
+  Penggabungan data ISBN buku dilakukan dengan memanfaatkan fungsi `.concatenate` dari _library_ [`numpy`](https://numpy.org/). Karena informasi ISBN terdapat pada _dataframe_ buku dan _dataframe_ _rating_, maka dilakukan penyatuan data berdasarkan kolom `isbn`.
 
-- **Menggabungkan Data ISBN**
-Penggabungan data ISBN buku dilakukan dengan memanfaatkan fungsi `.concatenate` dari _library_ [`numpy`](https://numpy.org/). Karena informasi ISBN terdapat pada _dataframe_ buku dan _dataframe_ _rating_, maka dilakukan penyatuan data berdasarkan kolom `isbn`.
-
-- **Menggabungkan Data User**
-Sementara itu, penggabungan data `user_id` dilakukan juga menggunakan fungsi `.concatenate` dari _library_ [`numpy`](https://numpy.org/). Kolom `user_id` terdapat pada _dataframe_ _rating_ dan _user_, sehingga proses penggabungan dilakukan berdasarkan atribut `user_id`.
+- **Menggabungkan Data User**  
+  Sementara itu, penggabungan data `user_id` dilakukan juga menggunakan fungsi `.concatenate` dari _library_ [`numpy`](https://numpy.org/). Kolom `user_id` terdapat pada _dataframe_ _rating_ dan _user_, sehingga proses penggabungan dilakukan berdasarkan atribut `user_id`.
 
 [←Table of Contents](#table-of-contents)
 
+
 ## Data Preparation
+
 Tahap _data preparation_ dilakukan proses transformasi data agar memiliki format yang sesuai untuk keperluan pemodelan. Beberapa langkah dilakukan dalam proses ini, antara lain:
+
 - Pengecekan *Missing Value*
-  
-	Pemeriksaan terhadap data kosong, hilang, _null_, atau _missing value_ dilakukan dan ditemukan pada _dataframe_ `books`, sehingga data yang hilang tersebut dihapus.
- 
-	 Sementara itu, pada _dataframe_ `ratings` tidak ditemukan _missing value_, namun perlu dilakukan penghapusan terhadap _rating_ bernilai 0. Hal ini dikarenakan _rating_ 0 merupakan kategori terbanyak berdasarkan hasil [_data understanding_](#data-understanding) sebelumnya, yaitu sebanyak 716.109 data. Jumlah tersebut berpotensi menimbulkan bias dalam analisis data, sehingga _rating_ 0 tidak disertakan dalam proses visualisasi grafik histogram berikutnya.
 
-	<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Grafik%20Histogram%20Frekuensi%20Sebaran%20Data%20Rating%20110.png" alt="Grafik Histogram Frekuensi Sebaran Data Rating 1-10" title="Grafik Histogram Frekuensi Sebaran Data Rating 1-10">
+  Pemeriksaan terhadap data kosong, hilang, _null_, atau _missing value_ dilakukan dan ditemukan pada _dataframe_ `books`, sehingga data yang hilang tersebut dihapus.
 
-	Setelah _rating_ 0 dihapus, hasil visualisasi grafik histogram menunjukkan pola distribusi frekuensi data yang lebih terstruktur dan mudah dibaca, khususnya pada rentang _rating_ 1 hingga 4.
+  Sementara itu, pada _dataframe_ `ratings` tidak ditemukan _missing value_, namun perlu dilakukan penghapusan terhadap _rating_ bernilai 0. Hal ini dikarenakan _rating_ 0 merupakan kategori terbanyak berdasarkan hasil [_data understanding_](#data-understanding) sebelumnya, yaitu sebanyak 716.109 data. Jumlah tersebut berpotensi menimbulkan bias dalam analisis data, sehingga _rating_ 0 tidak disertakan dalam proses visualisasi grafik histogram berikutnya.
 
-	Kemudian pada *dataframe* `Users`, terdapat sebanyak 110.762 *missing value* pada fitur umur yang terdapat nilai kosong atau tidak valid seperti `'NaN'`, `'nan'`, `' '`, dan tanda kutip tunggal (`'`). 
-	
-| user_id | location                          | age  |
-|---------|-----------------------------------|------|
-| 1       | nyc, new york, usa                | NaN  |
-| 2       | stockton, california, usa         | 18.0 |
-| 3       | moscow, yukon territory, russia   | NaN  |
-| 4       | porto, v.n.gaia, portugal         | 17.0 |
-| 5       | farnborough, hants, united kingdom| NaN  |
-| ...     | ...                               | ...  |
-| 278854  | portland, oregon, usa             | NaN  |
-| 278855  | tacoma, washington, united kingdom| 50.0 |
-| 278856  | brampton, ontario, canada         | NaN  |
-| 278857  | knoxville, tennessee, usa         | NaN  |
-| 278858  | dublin, n/a, ireland              | NaN  |
-|278858 rows × 3 columns|
+  <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Grafik%20Histogram%20Frekuensi%20Sebaran%20Data%20Rating%20110.png" alt="Grafik Histogram Frekuensi Sebaran Data Rating 1-10" title="Grafik Histogram Frekuensi Sebaran Data Rating 1-10">
 
-Oleh karena itu, dilakukan proses pembersihan data dengan mengganti nilai-nilai tersebut menjadi `np.nan`. Selanjutnya, kolom `age` dikonversi ke tipe numerik agar bisa dianalisis, dan baris yang masih mengandung nilai NaN dihapus menggunakan fungsi `dropna()`.
-	
-| user_id | location                         | age  |
-|---------|---------------------------------|------|
-| 1       | nyc, new york, usa              | 24.0 |
-| 2       | stockton, california, usa       | 18.0 |
-| 4       | porto, v.n.gaia, portugal       | 17.0 |
-| 6       | santa monica, california, usa   | 61.0 |
-| 10      | albacete, wisconsin, spain      | 26.0 |
-| ...     | ...                             | ...  |
-| 278849  | georgetown, ontario, canada     | 23.0 |
-| 278851  | dallas, texas, usa              | 33.0 |
-| 278852  | brisbane, queensland, australia | 32.0 |
-| 278853  | stranraer, n/a, united kingdom  | 17.0 |
-| 278855  | tacoma, washington, united kingdom | 50.0 |
-| 168097 rows × 3 columns|
+  Setelah _rating_ 0 dihapus, hasil visualisasi grafik histogram menunjukkan pola distribusi frekuensi data yang lebih terstruktur dan mudah dibaca, khususnya pada rentang _rating_ 1 hingga 4.
 
-Pemeriksaan ulang terhadap *dataframe*  `users` menunjukkan bahwa tidak ada nilai kosong atau *null* yang ditemukan di seluruh kolomnya.
+  Kemudian pada *dataframe* `Users`, terdapat sebanyak 110.762 *missing value* pada fitur umur yang terdapat nilai kosong atau tidak valid seperti `'NaN'`, `'nan'`, `' '`, dan tanda kutip tunggal (`'`).
 
-<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Grafik%20Umur%20Users.png" alt="Grafik Umur Users" title="Grafik Umur Users">
+  | user_id | location                          | age  |
+  |---------|---------------------------------|------|
+  | 1       | nyc, new york, usa              | NaN  |
+  | 2       | stockton, california, usa       | 18.0 |
+  | 3       | moscow, yukon territory, russia | NaN  |
+  | 4       | porto, v.n.gaia, portugal       | 17.0 |
+  | 5       | farnborough, hants, united kingdom | NaN  |
+  | ...     | ...                             | ...  |
+  | 278854  | portland, oregon, usa           | NaN  |
+  | 278855  | tacoma, washington, united kingdom | 50.0 |
+  | 278856  | brampton, ontario, canada       | NaN  |
+  | 278857  | knoxville, tennessee, usa       | NaN  |
+  | 278858  | dublin, n/a, ireland            | NaN  |
+  | 278858 rows × 3 columns          |       |
 
-Berdasarkan hasil visualisasi grafik histogram umur *user* di atas, dapat dilihat bahwa mayoritas pengguna berada pada rentang usia 20—40 tahun, dengan puncak distribusi antara 30—35 tahun.
 
-Terdapat pula sebagian kecil pengguna dengan usia di bawah 10 tahun dan di atas 80 tahun, namun jumlahnya jauh lebih sedikit dibandingkan kelompok usia produktif. Hal ini menunjukkan bahwa sistem rekomendasi buku kemungkinan besar akan lebih relevan jika disesuaikan dengan preferensi kelompok usia 20—40 tahun.
+  Oleh karena itu, dilakukan proses pembersihan data dengan mengganti nilai-nilai tersebut menjadi `np.nan`. Selanjutnya, kolom `age` dikonversi ke tipe numerik agar bisa dianalisis, dan baris yang masih mengandung nilai NaN dihapus menggunakan fungsi `dropna()`.
+
+  | user_id | location                         | age  |
+  |---------|---------------------------------|------|
+  | 1       | nyc, new york, usa              | 24.0 |
+  | 2       | stockton, california, usa       | 18.0 |
+  | 4       | porto, v.n.gaia, portugal       | 17.0 |
+  | 6       | santa monica, california, usa   | 61.0 |
+  | 10      | albacete, wisconsin, spain      | 26.0 |
+  | ...     | ...                             | ...  |
+  | 278849  | georgetown, ontario, canada     | 23.0 |
+  | 278851  | dallas, texas, usa              | 33.0 |
+  | 278852  | brisbane, queensland, australia | 32.0 |
+  | 278853  | stranraer, n/a, united kingdom  | 17.0 |
+  | 278855  | tacoma, washington, united kingdom | 50.0 |
+  | 168096 rows × 3 columns          |       |
+
+  Pemeriksaan ulang terhadap *dataframe* `users` menunjukkan bahwa tidak ada nilai kosong atau *null* yang ditemukan di seluruh kolomnya.
+
+  <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Grafik%20Umur%20Users.png" alt="Grafik Umur Users" title="Grafik Umur Users">
+
+  Berdasarkan hasil visualisasi grafik histogram umur *user* di atas, dapat dilihat bahwa mayoritas pengguna berada pada rentang usia 20—40 tahun, dengan puncak distribusi antara 30—35 tahun.
+
+  Terdapat pula sebagian kecil pengguna dengan usia di bawah 10 tahun dan di atas 80 tahun, namun jumlahnya jauh lebih sedikit dibandingkan kelompok usia produktif. Hal ini menunjukkan bahwa sistem rekomendasi buku kemungkinan besar akan lebih relevan jika disesuaikan dengan preferensi kelompok usia 20—40 tahun.
 
 - Pengecekan Data Duplikat
-	Melakukan pengecekan terhadap duplikasi data pada masing-masing _dataframe_. Berdasarkan hasil verifikasi, tidak ditemukan adanya data yang terduplikasi pada ketiga _dataframe_ yang dianalisis.
- 
-- Data Buku dan *Rating*
-	Melakukan penggabungan (_merge_) antara data buku dan data _rating_ untuk membentuk satu _dataframe_.
-	
-- TF-IDF Vectorizer
-	digunakan untuk mengubah data teks menjadi representasi numerik yang bermakna dalam bentuk matriks. Ukuran matriks yang dihasilkan memiliki 10.000 data buku dan 5.575 data penulis (*author*).
 
-| book_title | saavedra | louvish | gitlin | flank | reinhard | medina | volkart | hausman | hood | kincaid | morrell | whittaker | peretti | malerba | tropper | md | nicola | riccardo | fan | whittemore |
-|------------|----------|---------|--------|-------|-----------|--------|----------|----------|------|----------|----------|-------------|----------|----------|----------|-----|--------|-----------|------|-------------|
-| The Night of Four Hundred Rabbits | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| Who Needs Decaf? (Harlequin Flipside, No. 6) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| BEAUTIFUL AND DAMNED | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| The Seville Communion | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| Richtig leben mit Geri Weibel. Neue Folge. | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| Bodyguard /Husband : Ultimate Agents (Harlequin Intrigue Series) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| Working Class Zero | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| Deadlock | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| An Irresistible Impulse | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| HIS LITTLE WOMEN : HIS LITTLE WOMEN | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+  Melakukan pengecekan terhadap duplikasi data pada masing-masing _dataframe_. Berdasarkan hasil verifikasi, tidak ditemukan adanya data yang terduplikasi pada ketiga _dataframe_ yang dianalisis.
+
+- Data Buku dan *Rating*
+
+  Melakukan penggabungan (_merge_) antara data buku dan data _rating_ untuk membentuk satu _dataframe_.
+
+- TF-IDF Vectorizer
+
+  Digunakan untuk mengubah data teks menjadi representasi numerik yang bermakna dalam bentuk matriks. Ukuran matriks yang dihasilkan memiliki 10.000 data buku dan 5.575 data penulis (*author*).
+
+  | book_title                           | saavedra | louvish | gitlin | flank | reinhard | medina | volkart | hausman | hood | kincaid | morrell | whittaker | peretti | malerba | tropper | md  | nicola | riccardo | fan  | whittemore |
+  |------------------------------------|----------|---------|--------|-------|----------|--------|---------|---------|------|---------|---------|-----------|---------|---------|---------|-----|--------|----------|------|------------|
+  | The Night of Four Hundred Rabbits  | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+  | Who Needs Decaf? (Harlequin Flipside, No. 6) | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+  | BEAUTIFUL AND DAMNED               | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+  | The Seville Communion              | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+  | Richtig leben mit Geri Weibel. Neue Folge. | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+  | Bodyguard / A Novel                | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
 
 - _Data preparation_
 		Proses _data preparation_ dilakukan dengan menyandikan (*encoding*) fitur `user_id` dan `isbn` pada *dataframe* `ratings` menjadi  bentuk indeks integer. Setelah itu, hasil *encoding* tersebut dipetakan kembali ke dalam *dataframe ratings* masing-masing.
@@ -312,15 +307,9 @@ Terdapat pula sebagian kecil pengguna dengan usia di bawah 10 tahun dan di atas 
 | 2120  | 277478  | 0451459393  | 8           | 215  | 385  |
 | 12752 | 1424    | 0156001314  | 8           | 1012 | 3676 |
 |5000 rows × 5 columns|
-
-
-
-[←Table of Contents](#table-of-contents)
-
-## Modeling
-Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learning_ yang berfungsi sebagai sistem rekomendasi untuk menyarankan buku terbaik kepada pengguna berdasarkan sejumlah algoritma sistem rekomendasi tertentu.
-
-Mengacu pada tahap [*data understanding*](#data-understanding) yang telah dilakukan sebelumnya, diketahui bahwa masing-masing _dataframe_ buku, _rating_, dan *user* memiliki volume data yang sangat besar, mencapai ratusan ribu hingga jutaan data. Kondisi ini berpotensi menimbulkan peningkatan kebutuhan waktu proses pemodelan _machine learning_, seperti memakan waktu yang lama dan _resource_ RAM maupun GPU yang cukup besar. Oleh karena itu, data yang digunakan dalam tahap pemodelan akan dibatasi pada 10.000 data buku dan 5.000 data _rating_.
+		
+	
+   Mengacu pada tahap [*data understanding*](#data-understanding) yang telah dilakukan sebelumnya, diketahui bahwa masing-masing _dataframe_ buku, _rating_, dan *user* memiliki volume data yang sangat besar, mencapai ratusan ribu hingga jutaan data. Kondisi ini berpotensi menimbulkan peningkatan kebutuhan waktu proses pemodelan _machine learning_, seperti memakan waktu yang lama dan _resource_ RAM maupun GPU yang cukup besar. Oleh karena itu, data yang digunakan dalam tahap pemodelan akan dibatasi pada 10.000 data buku dan 5.000 data _rating_.
 
 ```python
 books = books[:10000]
@@ -328,78 +317,74 @@ books = books[:10000]
 ratings = ratings[:5000]
 ```
 
-1. **Content-based Recommendation**
-   - **_Cosine Similarity_**
-	digunakan untuk menghitung tingkat kemiripan antar judul buku. Hasil perhitungan ini menghasilkan matriks berukuran 10.000 data buku dan 10.000 data buku.
-	
-| book_title | Whisper to Me of Love | En LA Boca Del Dragon | Standing Out (72) | Angel of Darkness (Key Books) | Rebekah (Women of Genesis) | There's No Toilet Paper on the Road Less Traveled: The Best of Travel Humor and Misadventure (Travelers' Tales Guides) | Wolf Moon | The Country Under My Skin: A Memoir of Love and War |
-|------------|------------------------|------------------------|-------------------|-------------------------------|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------|-----------|-----------------------------------------------------|
-| The Pursuit (Avon Historical Romance) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| Hawaii's Best Spooky Tales: True Local Spine-Tinglers (Hawaiis Best Spooky Tales) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| The STAR GROUP PAPERBACK | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| Too Close to the Falls: A Memoir | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| Die Entdeckung der Langsamkeit. | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| Crescent City | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| The 1998 What Color Is Your Parachute : A Practical Manual for Job-Hunters and Career Changers (Paper) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-| Rush Limbaugh Is a Big Fat Idiot: And Other Observations | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
-
-
-	
-- Top-N *Recommendation*  
-		Hasil pengujian sistem rekomendasi berbasis pendekatan _content-based recommendation_ ditampilkan pada tabel di bawah. 
-		
-|     | isbn        | book_title             | book_author | year_pub | publisher   | image_url_s                                              | image_url_m                                              | image_url_l                                              |
-|-------------|-------------|------------------------|-------------|-----------|-------------|-----------------------------------------------------------|-----------------------------------------------------------|-----------------------------------------------------------|
-| 102 | 0451166892  | The Pillars of the Earth | Ken Follett | 1996      | Signet Book | http://images.amazon.com/images/P/0451166892.0... | http://images.amazon.com/images/P/0451166892.0... | http://images.amazon.com/images/P/0451166892.0... |
-
-
-Tabel tersebut menunjukkan data berdasarkan judul buku yang dipilih oleh pengguna sebagai masukan.
-
-|    | book_title                              | book_author |
-|----|-----------------------------------------|--------------|
-| 0  | Jackdaws                                | Ken Follett  |
-| 1  | Doble Juego                             | Ken Follett  |
-| 2  | Code to Zero                            | Ken Follett  |
-| 3  | Nacht über den Wassern.                | Ken Follett  |
-| 4  | Los Pilares de la Tierra                | Ken Follett  |
-| 5  | The Hammer of Eden: A Novel             | Ken Follett  |
-| 6  | Paper Money                             | Ken Follett  |
-| 7  | Die Säulen der Erde. Roman.            | Ken Follett  |
-| 8  | Night over Water                        | Ken Follett  |
-
-
-
-Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mampu menghasilkan sejumlah rekomendasi judul buku yang relevan berdasarkan judul buku input **“The Pillars of the Earth”**. Judul-judul yang direkomendasikan merupakan hasil perhitungan kesamaan konten oleh sistem.
-
-2. **Collaborative Filtering Recommendation**
-	- Hasil Model Development
-		Berikut adalah hasil evaluasi dari sistem rekomendasi buku yang telah dilatih menggunakan pendekatan *collaborative filtering recommendation*.
-  
-		<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/hasil%20collaborative%20filtering%20recommendation.png" alt="hasil collaborative filtering recommendation" title="hasil collaborative filtering recommendation">
-		
-
-		Berdasarkan hasil prediksi sistem, pengguna dengan `user_id`  **1248** dipilih secara acak. Dari data yang diperoleh, sistem mengidentifikasi buku-buku dengan rating tertinggi yang diberikan oleh pengguna tersebut, yaitu:
-		- **House Harkonnen (Dune: House Trilogy, Book 2)** oleh **Brian Herbert**
-		- **House Atreides (Dune: House Trilogy, Book 1)** oleh **Brian Herbert**
-		- **Me and My Little Brain** oleh **John Fitzgerald**
-		- **And the Sea Will Tell** oleh **Vincent Bugliosi**
-		- **The Sparrow** oleh **Mary Doria Russell**
-
-		Langkah selanjutnya, sistem mencocokkan buku-buku favorit dari `user_id`  **1248** dengan koleksi buku yang belum pernah dibaca oleh pengguna tersebut. Proses ini menghasilkan daftar rekomendasi berdasarkan skor prediksi tertinggi terhadap preferensi pengguna.
-
-		Jika diperhatikan, terdapat kemiripan antara buku favorit pengguna dan hasil rekomendasi, terutama dari segi tema (eksploratif, misteri, dan kedalaman karakter). Misalnya, **The Sparrow** yang memadukan unsur fiksi ilmiah dan spiritualitas memiliki kesamaan dengan *Life of Pi* dalam menyajikan narasi reflektif yang penuh makna. Demikian pula, buku favorit pengguna terhadap dunia **Dune** selaras dengan rekomendasi seperti *The Phantom Tollbooth*, yang juga menggali dunia imajinatif dan simbolis.
-
-		Sistem juga memberikan beragam genre, di antaranya:
-		- **Klasik dan drama sosial**: *To Kill a Mockingbird*, *The Grapes of Wrath*
-		- **Fiksi sejarah dan biografi**: *Seabiscuit: An American Legend*, *The Red Tent*
-		- **Fiksi kontemporer dan keluarga**: *The Secret Life of Bees*, *The Bean Trees*
-		- **Spiritual dan petualangan pribadi**: *Life of Pi*, *A Walk in the Woods*
-		- **Fantasi dan petualangan remaja**: *The Phantom Tollbooth*, *The Message*
-
-		Sistem rekomendasi ini menunjukkan kemampuannya dalam memahami pola preferensi pengguna dan menyarankan buku-buku yang tidak hanya serupa dalam tema, tetapi juga memperluas preferensi pengguna terhadap genre dan penulis baru. Hal ini menjadikan pengalaman membaca lebih beragam.
 
 [←Table of Contents](#table-of-contents)
 
+
+## Modeling
+
+Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learning_ yang berfungsi sebagai sistem rekomendasi untuk menyarankan buku terbaik kepada pengguna berdasarkan sejumlah algoritma sistem rekomendasi tertentu.
+
+### 1. Content-based Recommendation
+
+- **_Cosine Similarity_**  
+  Digunakan untuk menghitung tingkat kemiripan antar judul buku. Hasil perhitungan ini menghasilkan matriks berukuran 10.000 data buku dan 10.000 data buku.
+
+| book_title                                             | Whisper to Me of Love | En LA Boca Del Dragon | Standing Out (72) | Angel of Darkness (Key Books) | Rebekah (Women of Genesis) | There's No Toilet Paper on the Road Less Traveled: The Best of Travel Humor and Misadventure (Travelers' Tales Guides) | Wolf Moon | The Country Under My Skin: A Memoir of Love and War |
+|--------------------------------------------------------|----------------------|----------------------|-------------------|-------------------------------|----------------------------|----------------------------------------------------------------------------------------------------------------------|-----------|-----------------------------------------------------|
+| The Pursuit (Avon Historical Romance)                  | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
+| Hawaii's Best Spooky Tales: True Local Spine-Tinglers  | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
+| The STAR GROUP PAPERBACK                                | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
+| Too Close to the Falls: A Memoir                        | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
+| Die Entdeckung der Langsamkeit.                         | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
+| Crescent City                                          | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
+| The 1998 What Color Is Your Parachute                   | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
+| Rush Limbaugh Is a Big Fat Idiot: And Other Observations | 0.0                | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
+
+- **Top-N Recommendation**  
+  Hasil pengujian sistem rekomendasi berbasis pendekatan _content-based recommendation_ ditampilkan pada tabel di bawah.
+
+|     | isbn       | book_title             | book_author | year_pub | publisher   | image_url_s                                              | image_url_m                                              | image_url_l                                              |
+|-----|------------|------------------------|-------------|----------|-------------|----------------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
+| 102 | 0451166892 | The Pillars of the Earth | Ken Follett | 1996     | Signet Book | http://images.amazon.com/images/P/0451166892.0...        | http://images.amazon.com/images/P/0451166892.0...        | http://images.amazon.com/images/P/0451166892.0...        |
+
+Tabel tersebut menunjukkan data berdasarkan judul buku yang dipilih oleh pengguna sebagai masukan.
+
+|    | book_title                               | book_author |
+|----|------------------------------------------|-------------|
+| 0  | Jackdaws                                | Ken Follett |
+| 1  | Doble Juego                            | Ken Follett |
+| 2  | Code to Zero                           | Ken Follett |
+| 3  | Nacht über den Wassern.                 | Ken Follett |
+| 4  | Los Pilares de la Tierra                 | Ken Follett |
+| 5  | The Hammer of Eden: A Novel              | Ken Follett |
+| 6  | Paper Money                            | Ken Follett |
+| 7  | Die Säulen der Erde. Roman.             | Ken Follett |
+| 8  | Night over Water                       | Ken Follett |
+
+Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mampu menghasilkan sejumlah rekomendasi judul buku yang relevan berdasarkan judul buku input **“The Pillars of the Earth”**. Judul-judul yang direkomendasikan merupakan hasil perhitungan kesamaan konten oleh sistem.
+
+### 2. Collaborative Filtering Recommendation
+
+- **Hasil Model Development**  
+  Berikut adalah hasil evaluasi dari sistem rekomendasi buku yang telah dilatih menggunakan pendekatan _collaborative filtering recommendation_.
+
+  <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/hasil%20collaborative%20filtering%20recommendation.png" alt="hasil collaborative filtering recommendation" title="hasil collaborative filtering recommendation">
+
+  Berdasarkan hasil prediksi sistem, pengguna dengan `user_id` **1248** dipilih secara acak. Dari data yang diperoleh, sistem mengidentifikasi buku-buku dengan rating tertinggi yang diberikan oleh pengguna tersebut, yaitu:
+  - **House Harkonnen (Dune: House Trilogy, Book 2)** oleh **Brian Herbert**
+  - **House Atreides (Dune: House Trilogy, Book 1)** oleh **Brian Herbert**
+  - **Me and My Little Brain** oleh **John Fitzgerald**
+  - **And the Sea Will Tell** oleh **Vincent Bugliosi**
+  - **The Sparrow** oleh **Mary Doria Russell**
+
+  Langkah selanjutnya, sistem mencocokkan buku-buku favorit dari `user_id` **1248** dengan koleksi buku yang belum pernah dibaca oleh pengguna tersebut. Proses ini menghasilkan daftar rekomendasi berdasarkan skor prediksi tertinggi terhadap preferensi pengguna.
+
+  Jika diperhatikan, terdapat kemiripan antara buku favorit pengguna dan hasil rekomendasi, terutama dari segi tema. Misalnya, **The Sparrow** memiliki kesamaan dengan *Life of Pi*.
+
+  Sistem rekomendasi ini menunjukkan kemampuannya dalam memahami pola preferensi pengguna dan menyarankan buku-buku yang tidak hanya serupa dalam tema, tetapi juga memperluas preferensi pengguna terhadap genre dan penulis baru. Hal ini menjadikan pengalaman membaca lebih beragam.
+
+[←Table of Contents](#table-of-contents)
 
 ## Evaluation
 1. **Content-based Recommendation**
@@ -446,7 +431,7 @@ Kesimpulan dari pengembangan model yang digunakan untuk membuat rekomendasi buku
 [←Table of Contents](#table-of-contents)
 
 
-## Referensi
+## Reference
 [1] Indrasari, Y., & Handayani, R. R. L. (2024, April 23). UNESCO Sebut Minat Baca Orang Indonesia Masih Rendah. RRI. Retrieved May 17, 2025, from https://www.rri.co.id/daerah/649261/unesco-sebut-minat-baca-orang-indonesia-masih-rendah
 
 [2] Mardiani, R. (2025, April 25). 23 April Diperingati sebagai Hari Buku Sedunia, Apa Kabar dengan Minat Baca Orang Indonesia? Infogarut.id. Retrieved May 17, 2025, from https://infogarut.id/23-april-diperingati-sebagai-hari-buku-sedunia-apa-kabar-dengan-minat-baca-orang-indonesia
