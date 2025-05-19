@@ -273,22 +273,8 @@ Terdapat pula sebagian kecil pengguna dengan usia di bawah 10 tahun dan di atas 
  
 - Data Buku dan *Rating*
 	Melakukan penggabungan (_merge_) antara data buku dan data _rating_ untuk membentuk satu _dataframe_.
-
-[←Table of Contents](#table-of-contents)
-
-## Modeling
-Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learning_ yang berfungsi sebagai sistem rekomendasi untuk menyarankan buku terbaik kepada pengguna berdasarkan sejumlah algoritma sistem rekomendasi tertentu.
-
-Mengacu pada tahap [*data understanding*](#data-understanding) yang telah dilakukan sebelumnya, diketahui bahwa masing-masing _dataframe_ buku, _rating_, dan *user* memiliki volume data yang sangat besar, mencapai ratusan ribu hingga jutaan data. Kondisi ini berpotensi menimbulkan peningkatan kebutuhan waktu proses pemodelan _machine learning_, seperti memakan waktu yang lama dan _resource_ RAM maupun GPU yang cukup besar. Oleh karena itu, data yang digunakan dalam tahap pemodelan akan dibatasi pada 10.000 data buku dan 5.000 data _rating_.
-
-```python
-books = books[:10000]
-
-ratings = ratings[:5000]
-```
-
-1. **Content-based Recommendation**
-	- **TF-IDF Vectorizer**
+	
+- TF-IDF Vectorizer
 	digunakan untuk mengubah data teks menjadi representasi numerik yang bermakna dalam bentuk matriks. Ukuran matriks yang dihasilkan memiliki 10.000 data buku dan 5.575 data penulis (*author*).
 
 | book_title | saavedra | louvish | gitlin | flank | reinhard | medina | volkart | hausman | hood | kincaid | morrell | whittaker | peretti | malerba | tropper | md | nicola | riccardo | fan | whittemore |
@@ -304,8 +290,45 @@ ratings = ratings[:5000]
 | An Irresistible Impulse | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 | HIS LITTLE WOMEN : HIS LITTLE WOMEN | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
 
+- _Data preparation_
+		Proses _data preparation_ dilakukan dengan menyandikan (*encoding*) fitur `user_id` dan `isbn` pada *dataframe* `ratings` menjadi  bentuk indeks integer. Setelah itu, hasil *encoding* tersebut dipetakan kembali ke dalam *dataframe ratings* masing-masing.
+
+	Dari hasil tersebut, diperoleh 1.204 pengguna, 4.565 buku, dengan nilai *rating* terendah sebesar 1 dan nilai tertinggi sebesar 10.
+
+- Split *Training Data* dan *Validation Data*
+		Pada tahap ini, *dataframe ratings* diacak terlebih dahulu sebelum dibagi menjadi dua bagian dengan perbandingan 80:20, di mana 80% digunakan sebagai data pelatihan (*training data*) dan 20% sisanya sebagai data pengujian (*validation data*).
+
+|       | user_id | isbn        | book_rating | user | book |
+|-------|---------|-------------|-------------|------|------|
+| 1554  | 277427  | 0375408886  | 9           | 200  | 681  |
+| 1465  | 277427  | 0060542128  | 7           | 200  | 666  |
+| 9656  | 81      | 0375410538  | 5           | 649  | 2307 |
+| 4153  | 278257  | 0060194596  | 9           | 462  | 1728 |
+| 4324  | 278411  | 0446608831  | 8           | 500  | 1825 |
+| ...   | ...     | ...         | ...         | ...  | ...  |
+| 820   | 277051  | 0385720920  | 10          | 98   | 380  |
+| 629   | 276939  | 2253063339  | 9           | 70   | 269  |
+| 12371 | 1167    | 038533656X  | 5           | 941  | 3478 |
+| 2120  | 277478  | 0451459393  | 8           | 215  | 385  |
+| 12752 | 1424    | 0156001314  | 8           | 1012 | 3676 |
+|5000 rows × 5 columns|
 
 
+
+[←Table of Contents](#table-of-contents)
+
+## Modeling
+Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learning_ yang berfungsi sebagai sistem rekomendasi untuk menyarankan buku terbaik kepada pengguna berdasarkan sejumlah algoritma sistem rekomendasi tertentu.
+
+Mengacu pada tahap [*data understanding*](#data-understanding) yang telah dilakukan sebelumnya, diketahui bahwa masing-masing _dataframe_ buku, _rating_, dan *user* memiliki volume data yang sangat besar, mencapai ratusan ribu hingga jutaan data. Kondisi ini berpotensi menimbulkan peningkatan kebutuhan waktu proses pemodelan _machine learning_, seperti memakan waktu yang lama dan _resource_ RAM maupun GPU yang cukup besar. Oleh karena itu, data yang digunakan dalam tahap pemodelan akan dibatasi pada 10.000 data buku dan 5.000 data _rating_.
+
+```python
+books = books[:10000]
+
+ratings = ratings[:5000]
+```
+
+1. **Content-based Recommendation**
    - **_Cosine Similarity_**
 	digunakan untuk menghitung tingkat kemiripan antar judul buku. Hasil perhitungan ini menghasilkan matriks berukuran 10.000 data buku dan 10.000 data buku.
 	
@@ -349,55 +372,31 @@ Tabel tersebut menunjukkan data berdasarkan judul buku yang dipilih oleh penggun
 Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mampu menghasilkan sejumlah rekomendasi judul buku yang relevan berdasarkan judul buku input **“The Pillars of the Earth”**. Judul-judul yang direkomendasikan merupakan hasil perhitungan kesamaan konten oleh sistem.
 
 2. **Collaborative Filtering Recommendation**
-	- _Data preparation_
-		Proses _data preparation_ dilakukan dengan menyandikan (*encoding*) fitur `user_id` dan `isbn` pada *dataframe* `ratings` menjadi  bentuk indeks integer. Setelah itu, hasil *encoding* tersebut dipetakan kembali ke dalam *dataframe ratings* masing-masing.
-
-		Dari hasil tersebut, diperoleh 1.204 pengguna, 4.565 buku, dengan nilai *rating* terendah sebesar 1 dan nilai tertinggi sebesar 10.
-
-	- Split *Training Data* dan *Validation Data*
-		Pada tahap ini, *dataframe ratings* diacak terlebih dahulu sebelum dibagi menjadi dua bagian dengan perbandingan 80:20, di mana 80% digunakan sebagai data pelatihan (*training data*) dan 20% sisanya sebagai data pengujian (*validation data*).
-
-|       | user_id | isbn        | book_rating | user | book |
-|-------|---------|-------------|-------------|------|------|
-| 1554  | 277427  | 0375408886  | 9           | 200  | 681  |
-| 1465  | 277427  | 0060542128  | 7           | 200  | 666  |
-| 9656  | 81      | 0375410538  | 5           | 649  | 2307 |
-| 4153  | 278257  | 0060194596  | 9           | 462  | 1728 |
-| 4324  | 278411  | 0446608831  | 8           | 500  | 1825 |
-| ...   | ...     | ...         | ...         | ...  | ...  |
-| 820   | 277051  | 0385720920  | 10          | 98   | 380  |
-| 629   | 276939  | 2253063339  | 9           | 70   | 269  |
-| 12371 | 1167    | 038533656X  | 5           | 941  | 3478 |
-| 2120  | 277478  | 0451459393  | 8           | 215  | 385  |
-| 12752 | 1424    | 0156001314  | 8           | 1012 | 3676 |
-|5000 rows × 5 columns|
-
-
-- Hasil Model Development
+	- Hasil Model Development
 		Berikut adalah hasil evaluasi dari sistem rekomendasi buku yang telah dilatih menggunakan pendekatan *collaborative filtering recommendation*.
   
-	<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/hasil%20collaborative%20filtering%20recommendation.png" alt="hasil collaborative filtering recommendation" title="hasil collaborative filtering recommendation">
+		<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/hasil%20collaborative%20filtering%20recommendation.png" alt="hasil collaborative filtering recommendation" title="hasil collaborative filtering recommendation">
 		
 
-	Berdasarkan hasil prediksi sistem, pengguna dengan `user_id`  **1248** dipilih secara acak. Dari data yang diperoleh, sistem mengidentifikasi buku-buku dengan rating tertinggi yang diberikan oleh pengguna tersebut, yaitu:
-	- **House Harkonnen (Dune: House Trilogy, Book 2)** oleh **Brian Herbert**
-	- **House Atreides (Dune: House Trilogy, Book 1)** oleh **Brian Herbert**
-	- **Me and My Little Brain** oleh **John Fitzgerald**
-	- **And the Sea Will Tell** oleh **Vincent Bugliosi**
-	- **The Sparrow** oleh **Mary Doria Russell**
+		Berdasarkan hasil prediksi sistem, pengguna dengan `user_id`  **1248** dipilih secara acak. Dari data yang diperoleh, sistem mengidentifikasi buku-buku dengan rating tertinggi yang diberikan oleh pengguna tersebut, yaitu:
+		- **House Harkonnen (Dune: House Trilogy, Book 2)** oleh **Brian Herbert**
+		- **House Atreides (Dune: House Trilogy, Book 1)** oleh **Brian Herbert**
+		- **Me and My Little Brain** oleh **John Fitzgerald**
+		- **And the Sea Will Tell** oleh **Vincent Bugliosi**
+		- **The Sparrow** oleh **Mary Doria Russell**
 
-	Langkah selanjutnya, sistem mencocokkan buku-buku favorit dari `user_id`  **1248** dengan koleksi buku yang belum pernah dibaca oleh pengguna tersebut. Proses ini menghasilkan daftar rekomendasi berdasarkan skor prediksi tertinggi terhadap preferensi pengguna.
+		Langkah selanjutnya, sistem mencocokkan buku-buku favorit dari `user_id`  **1248** dengan koleksi buku yang belum pernah dibaca oleh pengguna tersebut. Proses ini menghasilkan daftar rekomendasi berdasarkan skor prediksi tertinggi terhadap preferensi pengguna.
 
-	Jika diperhatikan, terdapat kemiripan antara buku favorit pengguna dan hasil rekomendasi, terutama dari segi tema (eksploratif, misteri, dan kedalaman karakter). Misalnya, **The Sparrow** yang memadukan unsur fiksi ilmiah dan spiritualitas memiliki kesamaan dengan *Life of Pi* dalam menyajikan narasi reflektif yang penuh makna. Demikian pula, buku favorit pengguna terhadap dunia **Dune** selaras dengan rekomendasi seperti *The Phantom Tollbooth*, yang juga menggali dunia imajinatif dan simbolis.
+		Jika diperhatikan, terdapat kemiripan antara buku favorit pengguna dan hasil rekomendasi, terutama dari segi tema (eksploratif, misteri, dan kedalaman karakter). Misalnya, **The Sparrow** yang memadukan unsur fiksi ilmiah dan spiritualitas memiliki kesamaan dengan *Life of Pi* dalam menyajikan narasi reflektif yang penuh makna. Demikian pula, buku favorit pengguna terhadap dunia **Dune** selaras dengan rekomendasi seperti *The Phantom Tollbooth*, yang juga menggali dunia imajinatif dan simbolis.
 
-	Sistem juga memberikan beragam genre, di antaranya:
-	- **Klasik dan drama sosial**: *To Kill a Mockingbird*, *The Grapes of Wrath*
-	- **Fiksi sejarah dan biografi**: *Seabiscuit: An American Legend*, *The Red Tent*
-	- **Fiksi kontemporer dan keluarga**: *The Secret Life of Bees*, *The Bean Trees*
-	- **Spiritual dan petualangan pribadi**: *Life of Pi*, *A Walk in the Woods*
-	- **Fantasi dan petualangan remaja**: *The Phantom Tollbooth*, *The Message*
+		Sistem juga memberikan beragam genre, di antaranya:
+		- **Klasik dan drama sosial**: *To Kill a Mockingbird*, *The Grapes of Wrath*
+		- **Fiksi sejarah dan biografi**: *Seabiscuit: An American Legend*, *The Red Tent*
+		- **Fiksi kontemporer dan keluarga**: *The Secret Life of Bees*, *The Bean Trees*
+		- **Spiritual dan petualangan pribadi**: *Life of Pi*, *A Walk in the Woods*
+		- **Fantasi dan petualangan remaja**: *The Phantom Tollbooth*, *The Message*
 
-	Sistem rekomendasi ini menunjukkan kemampuannya dalam memahami pola preferensi pengguna dan menyarankan buku-buku yang tidak hanya serupa dalam tema, tetapi juga memperluas preferensi pengguna terhadap genre dan penulis baru. Hal ini menjadikan pengalaman membaca lebih beragam.
+		Sistem rekomendasi ini menunjukkan kemampuannya dalam memahami pola preferensi pengguna dan menyarankan buku-buku yang tidak hanya serupa dalam tema, tetapi juga memperluas preferensi pengguna terhadap genre dan penulis baru. Hal ini menjadikan pengalaman membaca lebih beragam.
 
 [←Table of Contents](#table-of-contents)
 
@@ -442,6 +441,7 @@ Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mamp
 
 ## Kesimpulan
 Kesimpulan dari pengembangan model yang digunakan untuk membuat rekomendasi buku ini menunjukkan bahwa kedua pendekatan, yaitu *Content-based Recommendation* dan *Collaborative Filtering Recommendation*, berhasil diterapkan sesuai dengan preferensi pengguna. Pada metode *collaborative filtering*, data *rating* pengguna sangat diperlukan untuk menghasilkan rekomendasi, sedangkan pada *content-based filtering*, sistem hanya mengandalkan atribut dari buku tanpa membutuhkan data *rating*. Masing-masing pendekatan tersebut memiliki keunggulan dan keterbatasan tersendiri dalam penggunaannya.
+
 
 [←Table of Contents](#table-of-contents)
 
