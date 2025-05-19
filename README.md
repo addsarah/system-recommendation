@@ -319,27 +319,29 @@ ratings = ratings[:5000]
 	
 - Top-N *Recommendation*  
 		Hasil pengujian sistem rekomendasi berbasis pendekatan _content-based recommendation_ ditampilkan pada tabel di bawah. 
+		
+|     | isbn        | book_title             | book_author | year_pub | publisher   | image_url_s                                              | image_url_m                                              | image_url_l                                              |
+|-------------|-------------|------------------------|-------------|-----------|-------------|-----------------------------------------------------------|-----------------------------------------------------------|-----------------------------------------------------------|
+| 102 | 0451166892  | The Pillars of the Earth | Ken Follett | 1996      | Signet Book | http://images.amazon.com/images/P/0451166892.0... | http://images.amazon.com/images/P/0451166892.0... | http://images.amazon.com/images/P/0451166892.0... |
 
-| isbn       | book_title   | book_author  | year_pub | publisher   | image_url_s                                                | image_url_m                                                | image_url_l                                                |
-|------------|--------------|--------------|----------|-------------|-------------------------------------------------------------|-------------------------------------------------------------|-------------------------------------------------------------|
-| 0451186648 | Silent Snow  | Steve Thayer | 2000     | Signet Book | http://images.amazon.com/images/P/0451186648.0...          | http://images.amazon.com/images/P/0451186648.0...          | http://images.amazon.com/images/P/0451186648.0...          |
 
 Tabel tersebut menunjukkan data berdasarkan judul buku yang dipilih oleh pengguna sebagai masukan.
 
-|  | book_title                                                | book_author     |
-|----|------------------------------------------------------------|-----------------|
-| 0  | Terminal Event : A Novel                                   | James S Thayer  |
-| 1  | Between Husbands & Friends                                 | Nancy Thayer    |
-| 2  | Shopgirl                                                   | Steve Martin    |
-| 3  | The Pleasure of My Company: A Novel                        | Steve Martin    |
-| 4  | Shopgirl: A Novella                                        | Steve Martin    |
-| 5  | Climbing Mt. Shasta: Route 1, Avalanche Gulch              | Steve Lewis     |
-| 6  | Fangs of Fury (Puffin Adventure Gamebooks)                 | Steve Jackson   |
-| 7  | Family Kind Of Wedding (That Special Woman/Fo...           | Steve Jackson   |
-| 8  | Star Wars: Shadows of the Empire                           | Steve Perry     |
-| 9  | Civil War Secret Agent (Time Machine, No 5)                | Steve Perry     |
+|    | book_title                              | book_author |
+|----|-----------------------------------------|--------------|
+| 0  | Jackdaws                                | Ken Follett  |
+| 1  | Doble Juego                             | Ken Follett  |
+| 2  | Code to Zero                            | Ken Follett  |
+| 3  | Nacht über den Wassern.                | Ken Follett  |
+| 4  | Los Pilares de la Tierra                | Ken Follett  |
+| 5  | The Hammer of Eden: A Novel             | Ken Follett  |
+| 6  | Paper Money                             | Ken Follett  |
+| 7  | Die Säulen der Erde. Roman.            | Ken Follett  |
+| 8  | Night over Water                        | Ken Follett  |
 
-Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mampu menghasilkan sejumlah rekomendasi judul buku yang relevan berdasarkan judul buku input **“Silent Snow”**. Judul-judul yang direkomendasikan merupakan hasil perhitungan kesamaan konten oleh sistem.
+
+
+Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mampu menghasilkan sejumlah rekomendasi judul buku yang relevan berdasarkan judul buku input **“The Pillars of the Earth”**. Judul-judul yang direkomendasikan merupakan hasil perhitungan kesamaan konten oleh sistem.
 
 2. **Collaborative Filtering Recommendation**
 	- _Data preparation_
@@ -371,26 +373,23 @@ Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mamp
   
 <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/hasil%20collaborative%20filtering%20recommendation.png" alt="hasil collaborative filtering recommendation" title="hasil collaborative filtering recommendation">
 		
-Berdasarkan hasil prediksi di atas, sistem memilih pengguna dengan `user_id` **1211** secara acak. Dari data yang diperoleh, sistem mengidentifikasi buku-buku dengan rating tertinggi dari pengguna tersebut, yaitu:
-- **Radio libre Albemuth** oleh **Philip Kindred Dick**
--  **Balade au bout du monde, tome 4 : La pierre de folie** oleh **Laurent Vicomte**
-- **Nouvelles : tome 2, 1953–1981** oleh **Philip Kindred Dick**
+Berdasarkan hasil prediksi sistem, pengguna dengan `user_id`  **277945** dipilih secara acak. Dari data yang diperoleh, sistem mengidentifikasi buku-buku dengan rating tertinggi yang diberikan oleh pengguna tersebut, yaitu:
+- **Rising Tides** oleh **Nora Roberts**
+- **Birthright** oleh **Nora Roberts**
 
-Setelah itu, sistem mencocokkan buku-buku favorit dari `user_id` **1211** dengan seluruh koleksi buku yang belum pernah dibaca oleh pengguna. Proses ini menghasilkan daftar rekomendasi berdasarkan skor prediksi tertinggi terhadap preferensi pengguna.
+Langkah selanjutnya, sistem mencocokkan buku-buku favorit dari `user_id`  **277945** dengan koleksi buku yang belum pernah dibaca oleh pengguna tersebut. Proses ini menghasilkan daftar rekomendasi berdasarkan skor prediksi tertinggi terhadap preferensi pengguna.
 
-Dari hasil tersebut, sistem memberikan 10 rekomendasi buku dengan skor prediksi tertinggi. Jika dilihat lebih dekat antara *Book with high ratings from user* dan *Top 10 Books Recommendation*, dapat ditemukan kemiripan dari sisi genre dan gaya penulisan. Misalnya, buku karya **Philip K. Dick** yang bergenre fiksi ilmiah dan spekulatif sejalan dengan rekomendasi seperti **Life of Pi** oleh **Yann Martel** dan **Harry Potter and the Sorcerer's Stone** oleh **J. K. Rowling**, yang juga membawa pembaca ke dunia alternatif dan penuh imajinasi.
+Jika diperhatikan, terdapat kemiripan antara buku favorit pengguna dan hasil rekomendasi, terutama dari segi tema dan gaya penulisan. Karya **Nora Roberts** yang mengangkat cerita relasi antar karakter sejalan dengan rekomendasi seperti *The Secret Life of Bees* dan *The Bean Trees*, yang juga mengandung tema hubungan emosional yang kuat.
 
-Selain itu, rekomendasi yang diberikan oleh sistem juga mencakup genre lain yang beragam, seperti:
-- **Drama sosial dan sejarah**: *To Kill a Mockingbird* oleh **Harper Lee**, *The Watsons Go to Birmingham – 1963* oleh **Christopher Paul Curtis**
-- **Fiksi sejarah dan spiritual**: *Seabiscuit: An American Legend* oleh **Laura Hillenbrand**, *The Kitchen God's Wife* oleh **Amy Tan**
-- **Fiksi kontemporer**: *The Secret Life of Bees* oleh **Sue Monk Kidd**
-- **Fantasi remaja dan petualangan**: *The Visitor (Animorphs, No 2)* oleh **K. A. Applegate**
-- **Drama hukum**: *The King of Torts* oleh **John Grisham**
-- **Eksperimen linguistik dan emosional**: *The Music of Dolphins* oleh **Karen Hesse**
+Sistem juga memberikan beragam genre, di antaranya:
+- **Drama sosial dan sejarah**: *To Kill a Mockingbird*, *The Watsons Go to Birmingham – 1963*
+- **Fiksi kontemporer dan keluarga**: *The Secret Life of Bees*, *The Bean Trees*
+- **Fiksi ilmiah dan fantasi**: *Mostly Harmless*, *Harry Potter and the Sorcerer's Stone*
+- **Fantasi remaja dan petualangan**: *The Message*, *The Visitor*
+- **Drama hukum**: *The King of Torts*
+- **Novel spiritual dan inspiratif**: *Life of Pi*
 
-Hal ini menunjukkan bahwa sistem rekomendasi tidak hanya memprioritaskan kesamaan genre, tetapi juga mencoba memperluas cakrawala literasi pengguna dengan berbagai tema dan gaya penulisan.
-
-Dengan demikian, sistem berhasil memberikan rekomendasi buku yang tidak hanya sesuai dengan minat sebelumnya, tetapi juga menambah variasi genre dan pengalaman membaca yang lebih luas dan mendalam.
+Sistem rekomendasi berhasil memberikan saran buku yang tidak hanya sesuai dengan preferensi awal pengguna, tetapi juga memperluas cakupan pengalaman membaca dengan genre dan penulis yang beragam. Hal ini menunjukkan bahwa model memiliki kemampuan untuk mengenali pola preferensi pengguna dan menyarankan bacaan.
 
 [←Table of Contents](#table-of-contents)
 
@@ -399,16 +398,11 @@ Dengan demikian, sistem berhasil memberikan rekomendasi buku yang tidak hanya se
 1. **Content-based Recommendation**
 		Pada tahap evaluasi model sistem rekomendasi berbasis _content-based recommendation_, dilakukan pengukuran akurasi menggunakan metrik tertentu yang dihitung dengan rumus sebagai berikut:
 
-
-
 	Masih menggunakan dataset yang sama seperti pada tahap [Modeling](#modeling) untuk pendekatan _content-based recommendation_, evaluasi dilakukan berdasarkan hasil _Top-N Recommendation_. Dalam hal ini, sistem memberikan rekomendasi buku dengan penulis (`book_author`) **Lisa Scottoline**. Selanjutnya, dilakukan pencarian terhadap jumlah seluruh buku (`book_title`) yang ditulis oleh penulis tersebut dalam data, dengan memanfaatkan variabel baru yang merepresentasikan daftar buku yang telah dibaca oleh pengguna. Dari pencarian ini diketahui bahwa **Lisa Scottoline** menulis sebanyak **4** judul buku.
 
-	Akurasi kemudian dihitung menggunakan *metric precision* dengan membagi jumlah buku yang berhasil direkomendasikan oleh sistem dengan jumlah total buku yang ditulis oleh penulis yang sama, lalu dikalikan 100. Dari proses tersebut, diperoleh nilai **akurasi** sebesar **57,14%**.[[8]](https://towardsdatascience.com/evaluation-metrics-for-recommendation-systems-an-overview-71290690ecba/)
+	Akurasi kemudian dihitung menggunakan *metric precision* dengan membagi jumlah buku yang berhasil direkomendasikan oleh sistem dengan jumlah total buku yang ditulis oleh penulis yang sama, lalu dikalikan 100. Dari proses tersebut, diperoleh nilai **akurasi** sebesar **57,14%**. [[8]](https://towardsdatascience.com/evaluation-metrics-for-recommendation-systems-an-overview-71290690ecba/)
 
-3. **Collaborative Filtering Recommendation**  
-
-
-4. **Collaborative Filtering Recommendation**  
+2. **Collaborative Filtering Recommendation**  
 
 
 
