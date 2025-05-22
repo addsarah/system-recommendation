@@ -316,11 +316,11 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
   
 	Pada proyek ini juga digunakan pendekatan **collaborative filtering recommendation**, yang memerlukan tahap *data preparation* berupa data *users* secara acak dan variabel buku yang belum pernah dibaca oleh pengguna (`notReadedBooks`) *users* terhadap buku yang sudah dibaca oleh *user* yang akan digunakan pada tahap [data modeling](#modeling). 
 	
-- **_Encoding_**
+	- **_Encoding_**
   
-	Menyandikan (*encoding*) fitur `user_id` dan `isbn` pada *dataframe* `ratings` menjadi  bentuk indeks integer. Setelah itu, hasil *encoding* tersebut dipetakan kembali ke dalam *dataframe ratings* masing-masing.
+		Menyandikan (*encoding*) fitur `user_id` dan `isbn` pada *dataframe* `ratings` menjadi  bentuk indeks integer. Setelah itu, hasil *encoding* tersebut dipetakan kembali ke dalam *dataframe ratings* masing-masing.
 
-	Dari hasil tersebut, diperoleh 1.204 pengguna, 4.565 buku, dengan nilai *rating* terendah sebesar 1 dan nilai tertinggi sebesar 10.
+		Dari hasil tersebut, diperoleh 1.204 pengguna, 4.565 buku, dengan nilai *rating* terendah sebesar 1 dan nilai tertinggi sebesar 10.
 
 - **Split *Training Data* dan *Validation Data***
 
