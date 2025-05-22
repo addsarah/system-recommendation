@@ -321,7 +321,7 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
 
 		Dari hasil tersebut, diperoleh 1.204 pengguna, 4.565 buku, dengan nilai *rating* terendah sebesar 1 dan nilai tertinggi sebesar 10.
 
-- **Split *Training Data* dan *Validation Data***
+	- **Split *Training Data* dan *Validation Data***
 
   Pada tahap ini, *dataframe ratings* diacak terlebih dahulu sebelum dibagi menjadi dua bagian dengan perbandingan 80:20, 
   di mana 80% digunakan sebagai data pelatihan (*training data*) dan 20% sisanya sebagai data pengujian (*validation data*).
