@@ -292,6 +292,7 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
 
 - **Data preparation untuk _Content-based Recommendation_**
   - ***TF-IDF Vectorizer***
+    
     TF-IDF Vectorizer adalah teknik yang digunakan untuk mengubah data teks menjadi representasi numerik agar dapat dianalisis oleh mesin. Cara kerja TF-IDF dimulai dengan proses tokenisasi, yaitu memecah teks menjadi kata-kata atau frasa pendek. Kemudian, setiap kata dihitung frekuensinya di setiap dokumen (TF). Setelah itu, dihitung pula seberapa banyak dokumen dalam kumpulan data yang mengandung kata tersebut (IDF). Bobot akhir dari sebuah kata dihitung dengan mengalikan nilai TF dan IDF-nya. Hasil akhirnya berupa matriks sparse, yaitu matriks yang sebagian besar elemennya adalah nol.
     Dalam proyek ini, TF-IDF digunakan untuk memetakan hubungan antara judul buku dan nama-nama penulis. Digunakan untuk mengubah data teks menjadi representasi numerik yang bermakna dalam bentuk matriks.  
     Ukuran matriks yang dihasilkan memiliki 10.000 data buku dan 5.575 data penulis (*author*).
