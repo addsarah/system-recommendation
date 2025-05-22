@@ -312,37 +312,36 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
 
 
 - **Data Preparation untuk _Collaborative Filtering Recommendation_**
-  
+
 	Pada proyek ini juga digunakan pendekatan **collaborative filtering recommendation**, yang memerlukan tahap *data preparation* berupa data *users* secara acak dan variabel buku yang belum pernah dibaca oleh pengguna (`notReadedBooks`) *users* terhadap buku yang sudah dibaca oleh *user* yang akan digunakan pada tahap [data modeling](#modeling). 
-	
+
 	- **_Encoding_**
-  
-		Menyandikan (*encoding*) fitur `user_id` dan `isbn` pada *dataframe* `ratings` menjadi  bentuk indeks integer. Setelah itu, hasil *encoding* tersebut dipetakan kembali ke dalam *dataframe ratings* masing-masing.
+
+		Menyandikan (*encoding*) fitur `user_id` dan `isbn` pada *dataframe* `ratings` menjadi bentuk indeks integer. Setelah itu, hasil *encoding* tersebut dipetakan kembali ke dalam *dataframe ratings* masing-masing.
 
 		Dari hasil tersebut, diperoleh 1.204 pengguna, 4.565 buku, dengan nilai *rating* terendah sebesar 1 dan nilai tertinggi sebesar 10.
 
 	- **Split *Training Data* dan *Validation Data***
 
-  Pada tahap ini, *dataframe ratings* diacak terlebih dahulu sebelum dibagi menjadi dua bagian dengan perbandingan 80:20, 
-  di mana 80% digunakan sebagai data pelatihan (*training data*) dan 20% sisanya sebagai data pengujian (*validation data*).
+		Pada tahap ini, *dataframe ratings* diacak terlebih dahulu sebelum dibagi menjadi dua bagian dengan perbandingan 80:20, 
+		di mana 80% digunakan sebagai data pelatihan (*training data*) dan 20% sisanya sebagai data pengujian (*validation data*).
 
+		|       | user_id | isbn        | book_rating | user | book |
+		|-------|---------|-------------|-------------|------|------|
+		| 1554  | 277427  | 0375408886  | 9           | 200  | 681  |
+		| 1465  | 277427  | 0060542128  | 7           | 200  | 666  |
+		| 9656  | 81      | 0375410538  | 5           | 649  | 2307 |
+		| 4153  | 278257  | 0060194596  | 9           | 462  | 1728 |
+		| 4324  | 278411  | 0446608831  | 8           | 500  | 1825 |
+		| ...   | ...     | ...         | ...         | ...  | ...  |
+		| 820   | 277051  | 0385720920  | 10          | 98   | 380  |
+		| 629   | 276939  | 2253063339  | 9           | 70   | 269  |
+		| 12371 | 1167    | 038533656X  | 5           | 941  | 3478 |
+		| 2120  | 277478  | 0451459393  | 8           | 215  | 385  |
+		| 12752 | 1424    | 0156001314  | 8           | 1012 | 3676 |
+		| *5000 rows × 5 columns* |
 
-  |       | user_id | isbn        | book_rating | user | book |
-  |-------|---------|-------------|-------------|------|------|
-  | 1554  | 277427  | 0375408886  | 9           | 200  | 681  |
-  | 1465  | 277427  | 0060542128  | 7           | 200  | 666  |
-  | 9656  | 81      | 0375410538  | 5           | 649  | 2307 |
-  | 4153  | 278257  | 0060194596  | 9           | 462  | 1728 |
-  | 4324  | 278411  | 0446608831  | 8           | 500  | 1825 |
-  | ...   | ...     | ...         | ...         | ...  | ...  |
-  | 820   | 277051  | 0385720920  | 10          | 98   | 380  |
-  | 629   | 276939  | 2253063339  | 9           | 70   | 269  |
-  | 12371 | 1167    | 038533656X  | 5           | 941  | 3478 |
-  | 2120  | 277478  | 0451459393  | 8           | 215  | 385  |
-  | 12752 | 1424    | 0156001314  | 8           | 1012 | 3676 |
-  |*5000 rows × 5 columns*|
-
-	
+ 
 Mengacu pada tahap [*data understanding*](#data-understanding) yang telah dilakukan sebelumnya, diketahui bahwa masing-masing _dataframe_ buku, _rating_, dan *user* memiliki volume data yang sangat besar, mencapai ratusan ribu hingga jutaan data. Kondisi ini berpotensi menimbulkan peningkatan kebutuhan waktu proses pemodelan _machine learning_, seperti memakan waktu yang lama dan _resource_ RAM maupun GPU yang cukup besar. Oleh karena itu, data yang digunakan dalam tahap pemodelan akan dibatasi pada 10.000 data buku dan 5.000 data _rating_.
 
 ```python
