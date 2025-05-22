@@ -6,7 +6,6 @@
 - [Project Overview](#project-overview)
 - [Business Understanding](#business-understanding)
 - [Data Understanding](#data-understanding)
-- [Data Preprocessing](#data-preprocessing)
 - [Data Preparation](#data-preparation)
 - [Modeling](#modeling)
 - [Evaluation](#evaluation)
@@ -55,11 +54,9 @@ flowchart LR
 ```
 
 Berdasarkan tujuan dari proyek yang telah dipaparkan di atas, maka berikut adalah beberapa solusi yang dapat dilakukan agar dapat mencapai tujuan dari proyek ini, yaitu:
-1.  **Tahap pra-pemrosesan data (data preprocessing)** merupakan proses awal yang bertujuan untuk mengubah data mentah menjadi data yang lebih rapi dan siap digunakan pada tahap berikutnya. Proses ini mencakup:
+1.  **Tahap pra-pemrosesan data (data preprocessing)** merupakan proses awal yang bertujuan untuk mengubah data mentah menjadi data yang lebih rapi dan siap digunakan pada tahap berikutnya, dan transformasi lanjutan agar data berada dalam format yang optimal untuk membangun model. Proses ini mencakup:
 	-   Penyesuaian serta perubahan nama kolom atau atribut sehingga proses pemanggilan data menjadi lebih efisien.
 	-   Penggabungan beberapa data yang terpisah agar dapat digunakan secara utuh pada proses analisis dan pemodelan selanjutnya.
-    
-2. **Tahap persiapan data (data preparation)** merupakan proses transformasi lanjutan agar data berada dalam format yang optimal untuk membangun model. Beberapa teknik yang dilakukan meliputi:
 	-   Identifikasi nilai yang kosong atau tidak tersedia (_missing values_), lalu mengambil tindakan seperti menghapus data tersebut atau mengisinya dengan nilai tertentu agar tidak memengaruhi performa model.
 	-   Deteksi data duplikat guna menghindari bias dalam hasil pemodelan.
 
@@ -89,7 +86,8 @@ Berdasarkan tujuan dari proyek yang telah dipaparkan di atas, maka berikut adala
 			$A_i$ dan $B_i$ adalah elemen-elemen penyusun vektor A dan B masing-masing.
 
 	-   _Collaborative Filtering Recommendation_
-			Sistem rekomendasi yang bekerja dengan cara merekomendasikan item berdasarkan kesamaan preferensi atau interaksi antar pengguna. Berbeda dengan content-based filtering yang fokus merekomendasikan item berdasarkan fitur dari item itu sendiri, collaborative filtering memanfaatkan pola kesamaan antar pengguna untuk memberikan rekomendasi yang lebih personal dan relevan bagi kelompok pengguna tertentu.[[7]](https://www.ibm.com/think/topics/collaborative-filtering)
+
+		Sistem rekomendasi yang bekerja dengan cara merekomendasikan item berdasarkan kesamaan preferensi atau interaksi antar pengguna. Berbeda dengan content-based filtering yang fokus merekomendasikan item berdasarkan fitur dari item itu sendiri, collaborative filtering memanfaatkan pola kesamaan antar pengguna untuk memberikan rekomendasi yang lebih personal dan relevan bagi kelompok pengguna tertentu.[[7]](https://www.ibm.com/think/topics/collaborative-filtering)
 
 	    Collaborative filtering unggul dalam memberikan rekomendasi yang beragam dan personal berdasarkan kesamaan minat pengguna lain, sehingga bisa menyarankan item baru yang relevan. Namun, metode ini memiliki kekurangan seperti _cold start_ pada pengguna atau item baru tanpa data interaksi, serta masalah _data sparsity_ yang menyulitkan sistem menemukan pola yang tepat. [[7]](https://www.ibm.com/think/topics/collaborative-filtering)
 
@@ -172,7 +170,7 @@ Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets
 - **Missing Value**
     -   Pada dataset **books.csv**, terdapat beberapa kolom yang memiliki missing value, seperti `Book-Author`, `Publisher`, dan `Image-URL-L`.
     -   Pada dataset **users.csv**, kolom `Age` memiliki banyak nilai kosong (missing value).
-    -   Dataset **ratings.csv** umumnya lengkap tanpa missing value pada kolom utama (`User-ID`, `ISBN`, `Book-Rating`).
+    -   Dataset **ratings.csv** umumnya lengkap tanpa missing value pada kolom (`User-ID`, `ISBN`, `Book-Rating`).
         
 - **Duplikat**
     -   Pada dataset buku dan pengguna, ada kemungkinan data duplikat, misalnya buku dengan ISBN. Akan diperiksa dan dibersihkan pada bagian [_data preparation_](#data-preparation) jika ditemukan duplikat.
@@ -186,7 +184,7 @@ Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets
 [←Table of Contents](#table-of-contents)
 
 
-## Data Preprocessing
+## Data Preparation
 Tahap persiapan data atau *data preparation* adalah proses penting sebelum melakukan pengembangan model *machine learning* yang bertujuan untuk mengolah data mentah *(raw data)* menjadi data yang bersih *(clean data)*, penanganan data yang hilang (*missing value)*, pengecekan data duplikat, serta penggabungan data dari dataset buku dan *rating*, dan siap digunakan dalam proses analisis berikutnya. Proses ini mencakup beberapa langkah penting, antara lain:
 
 - **Mengubah Nama Kolom/Atribut/Fitur**  
@@ -229,6 +227,7 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
   Sementara itu, penggabungan data `user_id` dilakukan juga menggunakan fungsi `.concatenate` dari _library_ [`numpy`](https://numpy.org/). Kolom `user_id` terdapat pada _dataframe_ _rating_ dan _user_, sehingga proses penggabungan dilakukan berdasarkan atribut `user_id`.
 
 - **Pengecekan *Missing Value***
+
   Pemeriksaan terhadap data kosong, hilang, _null_, atau _missing value_ dilakukan dan ditemukan pada _dataframe_ `books`, sehingga data yang hilang tersebut dihapus.
 
   Sementara itu, pada _dataframe_ `ratings` tidak ditemukan _missing value_, namun perlu dilakukan penghapusan terhadap _rating_ bernilai 0. Hal ini dikarenakan _rating_ 0 merupakan kategori terbanyak berdasarkan hasil [_data understanding_](#data-understanding) sebelumnya, yaitu sebanyak 716.109 data. Jumlah tersebut berpotensi menimbulkan bias dalam analisis data, sehingga _rating_ 0 tidak disertakan dalam proses visualisasi grafik histogram berikutnya.
@@ -285,45 +284,61 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
   Melakukan pengecekan terhadap duplikasi data pada masing-masing _dataframe_. Berdasarkan hasil verifikasi, tidak ditemukan adanya data yang terduplikasi pada ketiga _dataframe_ yang dianalisis.
 
 - **Menggabungkan Data Buku dan *Rating***
+  
   Melakukan penggabungan (_merge_) antara data buku dan data _rating_ untuk membentuk satu _dataframe_.
 
-- ***TF-IDF Vectorizer***
-  Digunakan untuk mengubah data teks menjadi representasi numerik yang bermakna dalam bentuk matriks. Ukuran matriks yang dihasilkan memiliki 10.000 data buku dan 5.575 data penulis (*author*).
+- **Data preparation untuk *_Content-based Recommendation_***
+	- ***TF-IDF Vectorizer***
 
-  | book_title                           | saavedra | louvish | gitlin | flank | reinhard | medina | volkart | hausman | hood | kincaid | morrell | whittaker | peretti | malerba | tropper | md  | nicola | riccardo | fan  | whittemore |
-  |------------------------------------|----------|---------|--------|-------|----------|--------|---------|---------|------|---------|---------|-----------|---------|---------|---------|-----|--------|----------|------|------------|
-  | The Night of Four Hundred Rabbits  | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
-  | Who Needs Decaf? (Harlequin Flipside, No. 6) | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
-  | BEAUTIFUL AND DAMNED               | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
-  | The Seville Communion              | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
-  | Richtig leben mit Geri Weibel. Neue Folge. | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
-  | Bodyguard / A Novel                | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+		Digunakan untuk mengubah data teks menjadi representasi numerik yang bermakna dalam bentuk matriks. Ukuran matriks yang dihasilkan memiliki 10.000 data buku dan 5.575 data penulis (*author*).
 
+		| book_title                           | saavedra | louvish | gitlin | flank | reinhard | medina | volkart | hausman | hood | kincaid | morrell | whittaker | peretti | malerba | tropper | md  | nicola | riccardo | fan  | whittemore |
+		|--------------------------------------|----------|---------|--------|-------|----------|--------|---------|---------|------|---------|---------|-----------|---------|---------|---------|-----|--------|----------|------|------------|
+		| The Night of Four Hundred Rabbits    | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+		| Who Needs Decaf? (Harlequin Flipside, No. 6) | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+		| BEAUTIFUL AND DAMNED                 | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+		| The Seville Communion                | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+		| Richtig leben mit Geri Weibel. Neue Folge. | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+		| Bodyguard / A Novel                  | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+
+
+	- ***Cosine Similarity***
+ 
+		Setelah data teks pada judul buku direpresentasikan dalam bentuk vektor menggunakan TF-IDF, tahap selanjutnya adalah *data preparation* *Cosine Similarity* yang digunakan untuk mengukur tingkat kemiripan. Hasil dari perhitungan ini berupa matriks kesamaan antar judul buku yang menjadi dasar dalam memberikan rekomendasi buku yang serupa yang akan digunakan pada tahap [data modeling](#modeling).
+		  
+- **Data Preparation untuk _Collaborative Filtering Recommendation_**
+  
+	Pada proyek ini juga digunakan pendekatan **collaborative filtering recommendation**, yang memerlukan tahap *data preparation* berupa data *users* secara acak dan variabel buku yang belum pernah dibaca oleh pengguna (`notReadedBooks`) *users* terhadap buku yang sudah dibaca oleh *user*. 
+	
 - **_Encoding_**
-		Menyandikan (*encoding*) fitur `user_id` dan `isbn` pada *dataframe* `ratings` menjadi  bentuk indeks integer. Setelah itu, hasil *encoding* tersebut dipetakan kembali ke dalam *dataframe ratings* masing-masing.
+  
+	Menyandikan (*encoding*) fitur `user_id` dan `isbn` pada *dataframe* `ratings` menjadi  bentuk indeks integer. Setelah itu, hasil *encoding* tersebut dipetakan kembali ke dalam *dataframe ratings* masing-masing.
 
 	Dari hasil tersebut, diperoleh 1.204 pengguna, 4.565 buku, dengan nilai *rating* terendah sebesar 1 dan nilai tertinggi sebesar 10.
 
 - **Split *Training Data* dan *Validation Data***
-		Pada tahap ini, *dataframe ratings* diacak terlebih dahulu sebelum dibagi menjadi dua bagian dengan perbandingan 80:20, di mana 80% digunakan sebagai data pelatihan (*training data*) dan 20% sisanya sebagai data pengujian (*validation data*).
 
-|       | user_id | isbn        | book_rating | user | book |
-|-------|---------|-------------|-------------|------|------|
-| 1554  | 277427  | 0375408886  | 9           | 200  | 681  |
-| 1465  | 277427  | 0060542128  | 7           | 200  | 666  |
-| 9656  | 81      | 0375410538  | 5           | 649  | 2307 |
-| 4153  | 278257  | 0060194596  | 9           | 462  | 1728 |
-| 4324  | 278411  | 0446608831  | 8           | 500  | 1825 |
-| ...   | ...     | ...         | ...         | ...  | ...  |
-| 820   | 277051  | 0385720920  | 10          | 98   | 380  |
-| 629   | 276939  | 2253063339  | 9           | 70   | 269  |
-| 12371 | 1167    | 038533656X  | 5           | 941  | 3478 |
-| 2120  | 277478  | 0451459393  | 8           | 215  | 385  |
-| 12752 | 1424    | 0156001314  | 8           | 1012 | 3676 |
-|5000 rows × 5 columns|
-		
+  Pada tahap ini, *dataframe ratings* diacak terlebih dahulu sebelum dibagi menjadi dua bagian dengan perbandingan 80:20, 
+  di mana 80% digunakan sebagai data pelatihan (*training data*) dan 20% sisanya sebagai data pengujian (*validation data*).
+
+
+  |       | user_id | isbn        | book_rating | user | book |
+  |-------|---------|-------------|-------------|------|------|
+  | 1554  | 277427  | 0375408886  | 9           | 200  | 681  |
+  | 1465  | 277427  | 0060542128  | 7           | 200  | 666  |
+  | 9656  | 81      | 0375410538  | 5           | 649  | 2307 |
+  | 4153  | 278257  | 0060194596  | 9           | 462  | 1728 |
+  | 4324  | 278411  | 0446608831  | 8           | 500  | 1825 |
+  | ...   | ...     | ...         | ...         | ...  | ...  |
+  | 820   | 277051  | 0385720920  | 10          | 98   | 380  |
+  | 629   | 276939  | 2253063339  | 9           | 70   | 269  |
+  | 12371 | 1167    | 038533656X  | 5           | 941  | 3478 |
+  | 2120  | 277478  | 0451459393  | 8           | 215  | 385  |
+  | 12752 | 1424    | 0156001314  | 8           | 1012 | 3676 |
+  |*5000 rows × 5 columns*|
+
 	
-   Mengacu pada tahap [*data understanding*](#data-understanding) yang telah dilakukan sebelumnya, diketahui bahwa masing-masing _dataframe_ buku, _rating_, dan *user* memiliki volume data yang sangat besar, mencapai ratusan ribu hingga jutaan data. Kondisi ini berpotensi menimbulkan peningkatan kebutuhan waktu proses pemodelan _machine learning_, seperti memakan waktu yang lama dan _resource_ RAM maupun GPU yang cukup besar. Oleh karena itu, data yang digunakan dalam tahap pemodelan akan dibatasi pada 10.000 data buku dan 5.000 data _rating_.
+Mengacu pada tahap [*data understanding*](#data-understanding) yang telah dilakukan sebelumnya, diketahui bahwa masing-masing _dataframe_ buku, _rating_, dan *user* memiliki volume data yang sangat besar, mencapai ratusan ribu hingga jutaan data. Kondisi ini berpotensi menimbulkan peningkatan kebutuhan waktu proses pemodelan _machine learning_, seperti memakan waktu yang lama dan _resource_ RAM maupun GPU yang cukup besar. Oleh karena itu, data yang digunakan dalam tahap pemodelan akan dibatasi pada 10.000 data buku dan 5.000 data _rating_.
 
 ```python
 books = books[:10000]
@@ -344,39 +359,44 @@ Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learn
 - **_Cosine Similarity_**  
   Digunakan untuk menghitung tingkat kemiripan antar judul buku. Hasil perhitungan ini menghasilkan matriks berukuran 10.000 data buku dan 10.000 data buku.
 
-| book_title                                             | Whisper to Me of Love | En LA Boca Del Dragon | Standing Out (72) | Angel of Darkness (Key Books) | Rebekah (Women of Genesis) | There's No Toilet Paper on the Road Less Traveled: The Best of Travel Humor and Misadventure (Travelers' Tales Guides) | Wolf Moon | The Country Under My Skin: A Memoir of Love and War |
-|--------------------------------------------------------|----------------------|----------------------|-------------------|-------------------------------|----------------------------|----------------------------------------------------------------------------------------------------------------------|-----------|-----------------------------------------------------|
-| The Pursuit (Avon Historical Romance)                  | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
-| Hawaii's Best Spooky Tales: True Local Spine-Tinglers  | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
-| The STAR GROUP PAPERBACK                                | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
-| Too Close to the Falls: A Memoir                        | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
-| Die Entdeckung der Langsamkeit.                         | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
-| Crescent City                                          | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
-| The 1998 What Color Is Your Parachute                   | 0.0                  | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
-| Rush Limbaugh Is a Big Fat Idiot: And Other Observations | 0.0                | 0.0                  | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                  | 0.0       | 0.0                                                 |
+
+  | book_title                                              | Whisper to Me of Love | En LA Boca Del Dragon | Standing Out (72) | Angel of Darkness (Key Books) | Rebekah (Women of Genesis) | There's No Toilet Paper on the Road Less Traveled: The Best of Travel Humor and Misadventure (Travelers' Tales Guides) | Wolf Moon | The Country Under My Skin: A Memoir of Love and War |
+  |---------------------------------------------------------|------------------------|------------------------|-------------------|-------------------------------|----------------------------|--------------------------------------------------------------------------------------------------------------------------|-----------|-----------------------------------------------------|
+  | The Pursuit (Avon Historical Romance)                   | 0.0                    | 0.0                    | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                      | 0.0       | 0.0                                                 |
+  | Hawaii's Best Spooky Tales: True Local Spine-Tinglers   | 0.0                    | 0.0                    | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                      | 0.0       | 0.0                                                 |
+  | The STAR GROUP PAPERBACK                                | 0.0                    | 0.0                    | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                      | 0.0       | 0.0                                                 |
+  | Too Close to the Falls: A Memoir                        | 0.0                    | 0.0                    | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                      | 0.0       | 0.0                                                 |
+  | Die Entdeckung der Langsamkeit.                         | 0.0                    | 0.0                    | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                      | 0.0       | 0.0                                                 |
+  | Crescent City                                           | 0.0                    | 0.0                    | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                      | 0.0       | 0.0                                                 |
+  | The 1998 What Color Is Your Parachute                   | 0.0                    | 0.0                    | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                      | 0.0       | 0.0                                                 |
+  | Rush Limbaugh Is a Big Fat Idiot: And Other Observations| 0.0                    | 0.0                    | 0.0               | 0.0                           | 0.0                        | 0.0                                                                                                                      | 0.0       | 0.0                                                 |
+
 
 - **Top-N Recommendation**  
   Hasil pengujian sistem rekomendasi berbasis pendekatan _content-based recommendation_ ditampilkan pada tabel di bawah.
 
-|     | isbn       | book_title             | book_author | year_pub | publisher   | image_url_s                                              | image_url_m                                              | image_url_l                                              |
-|-----|------------|------------------------|-------------|----------|-------------|----------------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
-| 102 | 0451166892 | The Pillars of the Earth | Ken Follett | 1996     | Signet Book | http://images.amazon.com/images/P/0451166892.0...        | http://images.amazon.com/images/P/0451166892.0...        | http://images.amazon.com/images/P/0451166892.0...        |
+  |     | isbn       | book_title               | book_author | year_pub | publisher   | image_url_s                                      | image_url_m                                      | image_url_l                                      |
+  |-----|------------|--------------------------|-------------|----------|-------------|--------------------------------------------------|--------------------------------------------------|--------------------------------------------------|
+  | 102 | 0451166892 | The Pillars of the Earth | Ken Follett | 1996     | Signet Book | http://images.amazon.com/images/P/0451166892.0... | http://images.amazon.com/images/P/0451166892.0... | http://images.amazon.com/images/P/0451166892.0... |
 
-Tabel tersebut menunjukkan data berdasarkan judul buku yang dipilih oleh pengguna sebagai masukan.
 
-|    | book_title                               | book_author |
-|----|------------------------------------------|-------------|
-| 0  | Jackdaws                                | Ken Follett |
-| 1  | Doble Juego                            | Ken Follett |
-| 2  | Code to Zero                           | Ken Follett |
-| 3  | Nacht über den Wassern.                 | Ken Follett |
-| 4  | Los Pilares de la Tierra                 | Ken Follett |
-| 5  | The Hammer of Eden: A Novel              | Ken Follett |
-| 6  | Paper Money                            | Ken Follett |
-| 7  | Die Säulen der Erde. Roman.             | Ken Follett |
-| 8  | Night over Water                       | Ken Follett |
+  Tabel tersebut menunjukkan data berdasarkan judul buku yang dipilih oleh pengguna sebagai masukan.
 
-Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mampu menghasilkan sejumlah rekomendasi judul buku yang relevan berdasarkan judul buku input **“The Pillars of the Earth”**. Judul-judul yang direkomendasikan merupakan hasil perhitungan kesamaan konten oleh sistem.
+
+  |    | book_title                              | book_author |
+  |----|------------------------------------------|-------------|
+  | 0  | Jackdaws                                 | Ken Follett |
+  | 1  | Doble Juego                              | Ken Follett |
+  | 2  | Code to Zero                             | Ken Follett |
+  | 3  | Nacht über den Wassern.                  | Ken Follett |
+  | 4  | Los Pilares de la Tierra                 | Ken Follett |
+  | 5  | The Hammer of Eden: A Novel              | Ken Follett |
+  | 6  | Paper Money                              | Ken Follett |
+  | 7  | Die Säulen der Erde. Roman.              | Ken Follett |
+  | 8  | Night over Water                         | Ken Follett |
+
+
+  Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mampu menghasilkan sejumlah rekomendasi judul buku yang relevan berdasarkan judul buku input **“The Pillars of the Earth”**. Judul-judul yang direkomendasikan merupakan hasil perhitungan kesamaan konten oleh sistem.
 
 ### 2. Collaborative Filtering Recommendation
 
