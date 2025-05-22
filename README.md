@@ -476,13 +476,15 @@ Hasil prediksi ini digunakan untuk menampilkan rekomendasi yang paling relevan.
 
 	*Collaborative Filtering Recommendation* efektif dalam memberikan rekomendasi yang lebih luas dan beragam, karena tidak terbatas hanya pada kesamaan konten, tetapi juga mempertimbangkan preferensi *users* lain sehingga meningkatkan peluang eksplorasi dan mengatasi keterbatasan yang dimiliki oleh pendekatan *Content-based Recommendation*.
 
-
+	Seluruh proses *data preparation* mulai dari pembersihan missing value dan duplikasi, mengubah nama kolom/atribut, penggabungan data dari tiga berkas CSV (`books.csv`, `ratings.csv`, dan `users.csv` ), hingga penghapusan rating 0 telah dijalankan dan berdampak terhadap kualitas data yang digunakan dalam model *machine learning*. Tahap ini memastikan  data yang digunakan sudah bersih dan relevan, sehingga dapat mendukung pembuatan sistem rekomendasi buku yang akurat dan sesuai preferensi *user*. Langkah-langkah ini juga sejalan dengan tujuan yang dijelaskan di *[project overview](#project-overview)*, yaitu meningkatkan minat baca masyarakat Indonesia melalui rekomendasi buku yang lebih personal dan menarik. Solusi yang diterapkan pada tahap *data preparation* memiliki dampak langsung terhadap upaya peningkatan budaya literasi yang menjadi tujuan utama dari *Business Understanding*.
 
 
 [←Table of Contents](#table-of-contents)
 
 ## Kesimpulan
 Kesimpulan dari pengembangan model yang digunakan untuk membuat rekomendasi buku ini menunjukkan bahwa kedua pendekatan, yaitu *Content-based Recommendation* dan *Collaborative Filtering Recommendation*, berhasil diterapkan sesuai dengan preferensi pengguna. Pada metode *collaborative filtering*, data *rating* pengguna sangat diperlukan untuk menghasilkan rekomendasi, sedangkan pada *content-based filtering*, sistem hanya mengandalkan atribut dari buku tanpa membutuhkan data *rating*. Masing-masing pendekatan tersebut memiliki keunggulan dan keterbatasan tersendiri dalam penggunaannya.
+
+Berdasarkan hasil evaluasi yang telah dilakukan, dapat disimpulkan bahwa proses *data preparation* memiliki peran penting dalam mendukung keberhasilan pengembangan sistem rekomendasi buku. Tahapan ini tidak hanya berhasil menjawab *Problem Statements* terkait bagaimana menyiapkan data secara efektif, tetapi juga menjadi fondasi utama dalam mencapai tujuan proyek untuk menghasilkan model *machine learning* yang sesuai dengan minat, kebiasaan, dan preferensi *user*. Dengan tercapainya tujuan ini, model *machine learning* telah memberikan solusi dalam mendukung upaya peningkatan minat baca masyarakat melalui teknologi.
 
 
 [←Table of Contents](#table-of-contents)
