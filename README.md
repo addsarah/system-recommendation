@@ -48,10 +48,13 @@ flowchart LR
     A[Dataset Download] --> B[Data Understanding]
     B --> C[Data Preprocessing]
     C --> D[Data Preparation]
-    D --> E[Modeling]
-    E --> F[Evaluation]
+    D --> E1[Content-Based Modeling]
+    D --> E2[Collaborative Filtering Modeling]
+    E1 --> F1[Content-Based Evaluation]
+    E2 --> F2[Collaborative Filtering Evaluation]
     B --> G[Data Visualization]
 ```
+
 
 Berdasarkan tujuan dari proyek yang telah dipaparkan di atas, maka berikut adalah beberapa solusi yang dapat dilakukan agar dapat mencapai tujuan dari proyek ini, yaitu:
 1.  **Tahap pra-pemrosesan data (data preprocessing)** merupakan proses awal yang bertujuan untuk mengubah data mentah menjadi data yang lebih rapi dan siap digunakan pada tahap berikutnya, dan transformasi lanjutan agar data berada dalam format yang optimal untuk membangun model. Proses ini mencakup:
