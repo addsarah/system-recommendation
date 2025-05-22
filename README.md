@@ -287,28 +287,35 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
   
   Melakukan penggabungan (_merge_) antara data buku dan data _rating_ untuk membentuk satu _dataframe_.
 
-- **Data preparation untuk *_Content-based Recommendation_***
-	- ***TF-IDF Vectorizer***
+- **Data preparation untuk _Content-based Recommendation_**
+  - ***TF-IDF Vectorizer***
+    TF-IDF Vectorizer adalah teknik yang digunakan untuk mengubah data teks menjadi representasi numerik agar dapat dianalisis oleh mesin. Cara kerja TF-IDF dimulai dengan proses tokenisasi, yaitu memecah teks menjadi kata-kata atau frasa pendek. Kemudian, setiap kata dihitung frekuensinya di setiap dokumen (TF). Setelah itu, dihitung pula seberapa banyak dokumen dalam kumpulan data yang mengandung kata tersebut (IDF). Bobot akhir dari sebuah kata dihitung dengan mengalikan nilai TF dan IDF-nya. Hasil akhirnya berupa matriks sparse, yaitu matriks yang sebagian besar elemennya adalah nol.
+    Dalam proyek ini, TF-IDF digunakan untuk memetakan hubungan antara judul buku dan nama-nama penulis. Digunakan untuk mengubah data teks menjadi representasi numerik yang bermakna dalam bentuk matriks.  
+    Ukuran matriks yang dihasilkan memiliki 10.000 data buku dan 5.575 data penulis (*author*).
 
-		Digunakan untuk mengubah data teks menjadi representasi numerik yang bermakna dalam bentuk matriks. Ukuran matriks yang dihasilkan memiliki 10.000 data buku dan 5.575 data penulis (*author*).
+    | book_title                                    | saavedra | louvish | gitlin | flank | reinhard | medina | volkart | hausman | hood | kincaid | morrell | whittaker | peretti | malerba | tropper | md  | nicola | riccardo | fan  | whittemore |
+    |-----------------------------------------------|----------|---------|--------|-------|----------|--------|---------|---------|------|---------|---------|-----------|---------|---------|---------|-----|--------|----------|------|------------|
+    | The Night of Four Hundred Rabbits             | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+    | Who Needs Decaf? (Harlequin Flipside, No. 6)  | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+    | BEAUTIFUL AND DAMNED                          | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+    | The Seville Communion                         | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+    | Richtig leben mit Geri Weibel. Neue Folge.    | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+    | Bodyguard /Husband : Ultimate Agents (Harlequin Intrigue Series) | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 | 0.0 |
+    | Working Class Zero                            | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+    | Deadlock                                       | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+    | An Irresistible Impulse                       | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
+    | HIS LITTLE WOMEN : HIS LITTLE WOMEN          | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
 
-		| book_title                           | saavedra | louvish | gitlin | flank | reinhard | medina | volkart | hausman | hood | kincaid | morrell | whittaker | peretti | malerba | tropper | md  | nicola | riccardo | fan  | whittemore |
-		|--------------------------------------|----------|---------|--------|-------|----------|--------|---------|---------|------|---------|---------|-----------|---------|---------|---------|-----|--------|----------|------|------------|
-		| The Night of Four Hundred Rabbits    | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
-		| Who Needs Decaf? (Harlequin Flipside, No. 6) | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
-		| BEAUTIFUL AND DAMNED                 | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
-		| The Seville Communion                | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
-		| Richtig leben mit Geri Weibel. Neue Folge. | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
-		| Bodyguard / A Novel                  | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
 
 
-	- ***Cosine Similarity***
+
+  - ***Cosine Similarity***
  
-		Setelah data teks pada judul buku direpresentasikan dalam bentuk vektor menggunakan TF-IDF, tahap selanjutnya adalah *data preparation* *Cosine Similarity* yang digunakan untuk mengukur tingkat kemiripan. Hasil dari perhitungan ini berupa matriks kesamaan antar judul buku yang menjadi dasar dalam memberikan rekomendasi buku yang serupa yang akan digunakan pada tahap [data modeling](#modeling).
+	Setelah data teks pada judul buku direpresentasikan dalam bentuk vektor menggunakan TF-IDF, tahap selanjutnya adalah *data preparation* *Cosine Similarity* yang digunakan untuk mengukur tingkat kemiripan. Hasil dari perhitungan ini berupa matriks kesamaan antar judul buku yang menjadi dasar dalam memberikan rekomendasi buku yang serupa yang akan digunakan pada tahap [data modeling](#modeling).
 		  
 - **Data Preparation untuk _Collaborative Filtering Recommendation_**
   
-	Pada proyek ini juga digunakan pendekatan **collaborative filtering recommendation**, yang memerlukan tahap *data preparation* berupa data *users* secara acak dan variabel buku yang belum pernah dibaca oleh pengguna (`notReadedBooks`) *users* terhadap buku yang sudah dibaca oleh *user*. 
+	Pada proyek ini juga digunakan pendekatan **collaborative filtering recommendation**, yang memerlukan tahap *data preparation* berupa data *users* secara acak dan variabel buku yang belum pernah dibaca oleh pengguna (`notReadedBooks`) *users* terhadap buku yang sudah dibaca oleh *user* yang akan digunakan pada tahap [data modeling](#modeling). 
 	
 - **_Encoding_**
   
@@ -356,8 +363,9 @@ Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learn
 
 ### 1. Content-based Recommendation
 
-- **_Cosine Similarity_**  
-  Digunakan untuk menghitung tingkat kemiripan antar judul buku. Hasil perhitungan ini menghasilkan matriks berukuran 10.000 data buku dan 10.000 data buku.
+- **_Cosine Similarity_**
+  Cosine Similarity adalah metode pengukuran kesamaan antara vektor representasi TF-IDF dari judul-judul buku untuk menemukan tingkat kemiripan antar buku. Nilai kemiripan ini berkisar antara 0 (tidak mirip sama sekali) hingga 1 (identik). 
+  Hasil perhitungan ini menghasilkan matriks berukuran 10.000 data buku dan 10.000 data buku.
 
 
   | book_title                                              | Whisper to Me of Love | En LA Boca Del Dragon | Standing Out (72) | Angel of Darkness (Key Books) | Rebekah (Women of Genesis) | There's No Toilet Paper on the Road Less Traveled: The Best of Travel Humor and Misadventure (Travelers' Tales Guides) | Wolf Moon | The Country Under My Skin: A Memoir of Love and War |
@@ -399,7 +407,9 @@ Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learn
   Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mampu menghasilkan sejumlah rekomendasi judul buku yang relevan berdasarkan judul buku input **“The Pillars of the Earth”**. Judul-judul yang direkomendasikan merupakan hasil perhitungan kesamaan konten oleh sistem.
 
 ### 2. Collaborative Filtering Recommendation
+Merekomendasikan buku berdasarkan preferensi pengguna lain yang memiliki pola rating serupa. Setelah tahap data preparation selesai, dilakukan analisis kesamaan antar *user* dan mengidentifikasi buku yang disukai oleh *user* serupa namun belum dibaca oleh *user*. Setiap buku akan diberikan skor prediksi berdasarkan kemungkinan disukai *user*. 
 
+Hasil prediksi ini digunakan untuk menampilkan rekomendasi yang paling relevan.
 - **Hasil Model Development**  
   Berikut adalah hasil evaluasi dari sistem rekomendasi buku yang telah dilatih menggunakan pendekatan _collaborative filtering recommendation_.
 
@@ -414,7 +424,7 @@ Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learn
 
   Langkah selanjutnya, sistem mencocokkan buku-buku favorit dari `user_id` **1248** dengan koleksi buku yang belum pernah dibaca oleh pengguna tersebut. Proses ini menghasilkan daftar rekomendasi berdasarkan skor prediksi tertinggi terhadap preferensi pengguna.
 
-  Jika diperhatikan, terdapat kemiripan antara buku favorit pengguna dan hasil rekomendasi, terutama dari segi tema. Misalnya, **The Sparrow** memiliki kesamaan dengan *Life of Pi*.
+  Jika diperhatikan, terdapat kemiripan antara buku favorit pengguna dan hasil rekomendasi, misalnya, **The Sparrow** memiliki kesamaan dengan **Life of Pi**.
 
   Sistem rekomendasi ini menunjukkan kemampuannya dalam memahami pola preferensi pengguna dan menyarankan buku-buku yang tidak hanya serupa dalam tema, tetapi juga memperluas preferensi pengguna terhadap genre dan penulis baru. Hal ini menjadikan pengalaman membaca lebih beragam.
 
@@ -436,8 +446,12 @@ Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learn
 	-   Jumlah rekomendasi total (_Top-N_): **9**
     -   Precision@10: **100,00%**
     
-	Selain itu, **9 dari 9** buku rekomendasi juga termasuk dalam total **19** buku yang ditulis oleh penulis yang sama. Hasil ini menunjukkan bahwa sistem memiliki kemampuan yang sangat baik dalam mengidentifikasi dan merekomendasikan karya lain dari penulis favorit pengguna, yang menjadi indikator kuat dalam pendekatan _content-based filtering_.
-	
+	Selain itu, **9 dari 9** buku rekomendasi juga termasuk dalam total **19** buku yang ditulis oleh penulis yang sama. Hasil ini menunjukkan bahwa sistem memiliki kemampuan yang sangat baik dalam mengidentifikasi dan merekomendasikan karya lain dari penulis favorit *user*, yang menjadi indikator kuat dalam pendekatan _content-based filtering_.
+
+	Ini berarti semua rekomendasi yang diberikan sistem adalah relevan dengan preferensi *user*, berhasil memberikan rekomendasi buku berdasarkan data yang telah disiapkan dan dari penulis favorit *user*.
+
+	*Content-based Recommendation* mampu memberikan rekomendasi yang akurat dan personal, terutama untuk *user* yang memiliki preferensi kuat terhadap penulis atau genre tertentu karena relevansi ini penting bagi bisnis, karena dapat meningkatkan kepuasan pengguna dan kemungkinan transaksi pembelian buku serupa.
+
 3. **Collaborative Filtering Recommendation**  
 	Berdasarkan odel *machine learning* yang telah dikembangkan menggunakan *embedding layer* dengan *Adam optimizer* dan fungsi loss *binary crossentropy* dievaluasi menggunakan metrik *Root Mean Squared Error* (RMSE). [[9]](https://towardsdatascience.com/comparing-robustness-of-mae-mse-and-rmse-6d69da870828/)
 	Perhitungan RMSE dapat dilakukan dengan rumus berikut:
@@ -455,6 +469,14 @@ Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learn
 	Berikut ini adalah visualisasi grafik yang menampilkan hasil *training* dan *validation error* berdasarkan metrik RMSE, serta *training* dan *validation loss*.
 
 	<img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Model%20Training%20Plot.png" alt="Model Training Plot" title="Model Training Plot">
+
+	Nilai RMSE yang rendah menunjukkan bahwa model mampu memprediksi preferensi *user* dengan akurasi tinggi. Visualisasi training dan validation loss serta error mendukung bahwa model telah dilatih dengan baik dan tidak mengalami overfitting.
+
+	Sistem dapat membuat pendekatan berbeda yang mengandalkan pola interaksi pengguna dan memberikan rekomendasi yang bersifat kolaboratif.
+
+	*Collaborative Filtering Recommendation* efektif dalam memberikan rekomendasi yang lebih luas dan beragam, karena tidak terbatas hanya pada kesamaan konten, tetapi juga mempertimbangkan preferensi *users* lain sehingga meningkatkan peluang eksplorasi dan mengatasi keterbatasan yang dimiliki oleh pendekatan *Content-based Recommendation*.
+
+
 
 
 [←Table of Contents](#table-of-contents)
