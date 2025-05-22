@@ -46,13 +46,12 @@ Dibawah ini merupakan diagram alir *(workflow)* yang digunakan dalam pengerjaan 
 ```mermaid
 flowchart LR
     A[Dataset Download] --> B[Data Understanding]
-    B --> C[Data Preprocessing]
-    C --> D[Data Preparation]
-    D --> E1[Content-Based Modeling]
-    D --> E2[Collaborative Filtering Modeling]
-    E1 --> F1[Content-Based Evaluation]
-    E2 --> F2[Collaborative Filtering Evaluation]
-    B --> G[Data Visualization]
+    B --> C[Data Preparation]
+    C --> D1[Content-Based Modeling]
+    C --> D2[Collaborative Filtering Modeling]
+    D1 --> E1[Content-Based Evaluation]
+    D2 --> E2[Collaborative Filtering Evaluation]
+    B --> F[Data Visualization]
 ```
 
 
@@ -407,9 +406,11 @@ Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learn
   Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mampu menghasilkan sejumlah rekomendasi judul buku yang relevan berdasarkan judul buku input **“The Pillars of the Earth”**. Judul-judul yang direkomendasikan merupakan hasil perhitungan kesamaan konten oleh sistem.
 
 ### 2. Collaborative Filtering Recommendation
-Merekomendasikan buku berdasarkan preferensi pengguna lain yang memiliki pola rating serupa. Setelah tahap data preparation selesai, dilakukan analisis kesamaan antar *user* dan mengidentifikasi buku yang disukai oleh *user* serupa namun belum dibaca oleh *user*. Setiap buku akan diberikan skor prediksi berdasarkan kemungkinan disukai *user*. 
+Merekomendasikan buku berdasarkan preferensi pengguna lain yang memiliki pola rating serupa. Setelah tahap data preparation selesai, dilakukan analisis kesamaan antar *user* dan mengidentifikasi buku yang disukai oleh *user* serupa namun belum dibaca oleh *user*. Setiap buku akan diberikan skor prediksi berdasarkan kemungkinan disukai *user*. Hasil prediksi ini digunakan untuk menampilkan rekomendasi yang paling relevan.
 
-Hasil prediksi ini digunakan untuk menampilkan rekomendasi yang paling relevan.
+Model rekomendasi ini dikembangkan menggunakan kelas `RecommenderNet` dari `tf.keras.Model`, yang memanfaatkan *embedding layer* untuk merepresentasikan pengguna dan buku dalam bentuk vektor. Skor prediksi dihitung melalui *dot product* antara vektor pengguna dan buku, ditambah bias masing-masing, lalu diaktifkan dengan fungsi sigmoid untuk menghasilkan nilai probabilitas ketertarikan. Model dikompilasi menggunakan optimizer Adam, fungsi *loss* Binary Crossentropy, dan metrik RMSE. Proses pelatihan dilakukan selama 30 *epoch* dengan *batch size* 20 menggunakan data pelatihan dan validasi. Hasil pelatihan ini kemudian digunakan untuk mengevaluasi performa model dan menghasilkan visualisasi error dan loss melalui `matplotlib` pada bagian [evaluation](#evaluation).
+
+
 - **Hasil Model Development**  
   Berikut adalah hasil evaluasi dari sistem rekomendasi buku yang telah dilatih menggunakan pendekatan _collaborative filtering recommendation_.
 
