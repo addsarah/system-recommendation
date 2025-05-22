@@ -1,3 +1,4 @@
+
 # Laporan Proyek Akhir Machine Learning Expert Dicoding: System Recommendation - Books - Sarah Adibah
 
 ## Table of Contents
@@ -111,7 +112,7 @@ Data yang digunakan dalam proyek ini berasal dari _dataset_ yang diunduh dari Ka
 
 Dalam dataset tersebut berisi tiga (3) berkas CSV ([Comma-separated Values](https://docs.python.org/3/library/csv.html)), yaitu `books.csv`, `ratings.csv`, `users.csv` yang terdapat di dalam folder `books_data`.
 
-1. **books.csv**, memiliki atribut atau fitur sebagai berikut,  
+1. **books.csv**, memiliki 271.360 baris, 8 kolom, dan atribut atau fitur sebagai berikut,  
    <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20Books.png" alt="Deskripsi Variabel Books" title="Deskripsi Variabel Books">
 
    - `ISBN` : *International Standard Book Number*  
@@ -123,14 +124,14 @@ Dalam dataset tersebut berisi tiga (3) berkas CSV ([Comma-separated Values](http
    - `Image-URL-M` : Tautan sampul buku ukuran sedang  
    - `Image-URL-L` : Tautan sampul buku ukuran besar  
 
-2. **ratings.csv**, memiliki atribut atau fitur sebagai berikut,  
+2. **ratings.csv**, memiliki 1.149.780 baris, 3 kolom, dan atribut atau fitur sebagai berikut,  
    <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20Ratings.png" alt="Deskripsi Variabel Ratings" title="Deskripsi Variabel Ratings">
 
    - `User-ID` : Identitas unik pengguna berupa bilangan bulat atau integer  
    - `ISBN` : *International Standard Book Number*  
    - `Book-Rating` : *Rating* buku yang diberikan pengguna  
 
-3. **users.csv**, memiliki atribut atau fitur sebagai berikut,  
+3. **users.csv**, memiliki 278.858 baris, 3 kolom, dan atribut atau fitur sebagai berikut,  
    <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Deskripsi%20Variabel%20User.png" alt="Deskripsi Variabel Users" title="Deskripsi Variabel Users">
 
    - `User-ID` : Identitas unik pengguna berupa bilangan bulat atau integer  
@@ -167,8 +168,22 @@ Berikut merupakan visualisasi grafik histogram yang menampilkan frekuensi distri
 
 Dari visualisasi grafik histogram "Jumlah Rating Buku" di atas, terlihat bahwa *rating* yang paling sering muncul adalah *rating* 0, dengan jumlah lebih dari 700.000. Kehadiran rating 0 ini berpotensi menimbulkan bias dan memengaruhi hasil analisis, sehingga rating tersebut sebaiknya dihapus pada tahap [data preparation](#data-preparation).
 
+Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets/saurabhbagchi/books-dataset) yang digunakan:
+- **Missing Value**
+    -   Pada dataset **books.csv**, terdapat beberapa kolom yang memiliki missing value, seperti `Book-Author`, `Publisher`, dan `Image-URL-L`.
+    -   Pada dataset **users.csv**, kolom `Age` memiliki banyak nilai kosong (missing value).
+    -   Dataset **ratings.csv** umumnya lengkap tanpa missing value pada kolom utama (`User-ID`, `ISBN`, `Book-Rating`).
+        
+- **Duplikat**
+    -   Pada dataset buku dan pengguna, ada kemungkinan data duplikat, misalnya buku dengan ISBN. Akan diperiksa dan dibersihkan pada bagian [_data preparation_](#data-preparation) jika ditemukan duplikat.
+         
+-  **Konsistensi Data**
+    -   Ada kemungkinan ketidaksesuaian penulisan nama penulis atau judul buku (typo atau variasi penulisan) yang bisa memengaruhi hasil rekomendasi.
+   
+ - **Ukuran Dataset**
+    -   Dataset cukup besar (jutaan baris pada ratings dan ratusan ribu pada books dan users), sehingga perlu dibatasi menjadi 10.000 data `books` dan 5.000 data `ratings` pada bagian [_data preparation_](#data-preparation).
+        
 [←Table of Contents](#table-of-contents)
-
 
 
 ## Data Preprocessing
