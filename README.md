@@ -187,8 +187,7 @@ Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets
 
 
 ## Data Preprocessing
-
-Tahap _data preprocessing_ atau pra-pemrosesan data bertujuan untuk mengolah data mentah *(raw data)* menjadi data yang bersih *(clean data)* dan siap digunakan dalam proses analisis berikutnya. Proses ini mencakup beberapa langkah penting, antara lain:
+Tahap persiapan data atau *data preparation* adalah proses penting sebelum melakukan pengembangan model *machine learning* yang bertujuan untuk mengolah data mentah *(raw data)* menjadi data yang bersih *(clean data)*, penanganan data yang hilang (*missing value)*, pengecekan data duplikat, serta penggabungan data dari dataset buku dan *rating*, dan siap digunakan dalam proses analisis berikutnya. Proses ini mencakup beberapa langkah penting, antara lain:
 
 - **Mengubah Nama Kolom/Atribut/Fitur**  
   Penggantian nama kolom, atribut, atau fitur pada masing-masing _dataframe_ dilakukan untuk mempermudah proses akses dan manipulasi data di tahap selanjutnya.
@@ -229,15 +228,7 @@ Tahap _data preprocessing_ atau pra-pemrosesan data bertujuan untuk mengolah dat
 - **Menggabungkan Data User**  
   Sementara itu, penggabungan data `user_id` dilakukan juga menggunakan fungsi `.concatenate` dari _library_ [`numpy`](https://numpy.org/). Kolom `user_id` terdapat pada _dataframe_ _rating_ dan _user_, sehingga proses penggabungan dilakukan berdasarkan atribut `user_id`.
 
-[←Table of Contents](#table-of-contents)
-
-
-## Data Preparation
-
-Tahap _data preparation_ dilakukan proses transformasi data agar memiliki format yang sesuai untuk keperluan pemodelan. Beberapa langkah dilakukan dalam proses ini, antara lain:
-
-- Pengecekan *Missing Value*
-
+- **Pengecekan *Missing Value***
   Pemeriksaan terhadap data kosong, hilang, _null_, atau _missing value_ dilakukan dan ditemukan pada _dataframe_ `books`, sehingga data yang hilang tersebut dihapus.
 
   Sementara itu, pada _dataframe_ `ratings` tidak ditemukan _missing value_, namun perlu dilakukan penghapusan terhadap _rating_ bernilai 0. Hal ini dikarenakan _rating_ 0 merupakan kategori terbanyak berdasarkan hasil [_data understanding_](#data-understanding) sebelumnya, yaitu sebanyak 716.109 data. Jumlah tersebut berpotensi menimbulkan bias dalam analisis data, sehingga _rating_ 0 tidak disertakan dalam proses visualisasi grafik histogram berikutnya.
@@ -289,16 +280,14 @@ Tahap _data preparation_ dilakukan proses transformasi data agar memiliki format
 
   Terdapat pula sebagian kecil pengguna dengan usia di bawah 10 tahun dan di atas 80 tahun, namun jumlahnya jauh lebih sedikit dibandingkan kelompok usia produktif. Hal ini menunjukkan bahwa sistem rekomendasi buku kemungkinan besar akan lebih relevan jika disesuaikan dengan preferensi kelompok usia 20—40 tahun.
 
-- Pengecekan Data Duplikat
+- **Pengecekan Data Duplikat**
 
   Melakukan pengecekan terhadap duplikasi data pada masing-masing _dataframe_. Berdasarkan hasil verifikasi, tidak ditemukan adanya data yang terduplikasi pada ketiga _dataframe_ yang dianalisis.
 
-- Data Buku dan *Rating*
-
+- **Menggabungkan Data Buku dan *Rating***
   Melakukan penggabungan (_merge_) antara data buku dan data _rating_ untuk membentuk satu _dataframe_.
 
-- TF-IDF Vectorizer
-
+- ***TF-IDF Vectorizer***
   Digunakan untuk mengubah data teks menjadi representasi numerik yang bermakna dalam bentuk matriks. Ukuran matriks yang dihasilkan memiliki 10.000 data buku dan 5.575 data penulis (*author*).
 
   | book_title                           | saavedra | louvish | gitlin | flank | reinhard | medina | volkart | hausman | hood | kincaid | morrell | whittaker | peretti | malerba | tropper | md  | nicola | riccardo | fan  | whittemore |
@@ -310,12 +299,12 @@ Tahap _data preparation_ dilakukan proses transformasi data agar memiliki format
   | Richtig leben mit Geri Weibel. Neue Folge. | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
   | Bodyguard / A Novel                | 0.0      | 0.0     | 0.0    | 0.0   | 0.0      | 0.0    | 0.0     | 0.0     | 0.0  | 0.0     | 0.0     | 0.0       | 0.0     | 0.0     | 0.0     | 0.0 | 0.0    | 0.0      | 0.0  | 0.0        |
 
-- _Data preparation_
-		Proses _data preparation_ dilakukan dengan menyandikan (*encoding*) fitur `user_id` dan `isbn` pada *dataframe* `ratings` menjadi  bentuk indeks integer. Setelah itu, hasil *encoding* tersebut dipetakan kembali ke dalam *dataframe ratings* masing-masing.
+- **_Encoding_**
+		Menyandikan (*encoding*) fitur `user_id` dan `isbn` pada *dataframe* `ratings` menjadi  bentuk indeks integer. Setelah itu, hasil *encoding* tersebut dipetakan kembali ke dalam *dataframe ratings* masing-masing.
 
 	Dari hasil tersebut, diperoleh 1.204 pengguna, 4.565 buku, dengan nilai *rating* terendah sebesar 1 dan nilai tertinggi sebesar 10.
 
-- Split *Training Data* dan *Validation Data*
+- **Split *Training Data* dan *Validation Data***
 		Pada tahap ini, *dataframe ratings* diacak terlebih dahulu sebelum dibagi menjadi dua bagian dengan perbandingan 80:20, di mana 80% digunakan sebagai data pelatihan (*training data*) dan 20% sisanya sebagai data pengujian (*validation data*).
 
 |       | user_id | isbn        | book_rating | user | book |
