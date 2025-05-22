@@ -311,11 +311,6 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
 
 
 
-
-  - ***Cosine Similarity***
- 
-	Setelah data teks pada judul buku direpresentasikan dalam bentuk vektor menggunakan TF-IDF, tahap selanjutnya adalah *data preparation* *Cosine Similarity* yang digunakan untuk mengukur tingkat kemiripan. Hasil dari perhitungan ini berupa matriks kesamaan antar judul buku yang menjadi dasar dalam memberikan rekomendasi buku yang serupa yang akan digunakan pada tahap [data modeling](#modeling).
-		  
 - **Data Preparation untuk _Collaborative Filtering Recommendation_**
   
 	Pada proyek ini juga digunakan pendekatan **collaborative filtering recommendation**, yang memerlukan tahap *data preparation* berupa data *users* secara acak dan variabel buku yang belum pernah dibaca oleh pengguna (`notReadedBooks`) *users* terhadap buku yang sudah dibaca oleh *user* yang akan digunakan pada tahap [data modeling](#modeling). 
@@ -367,6 +362,7 @@ Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learn
 ### 1. Content-based Recommendation
 
 - **_Cosine Similarity_**
+  
   Cosine Similarity adalah metode pengukuran kesamaan antara vektor representasi TF-IDF dari judul-judul buku untuk menemukan tingkat kemiripan antar buku. Nilai kemiripan ini berkisar antara 0 (tidak mirip sama sekali) hingga 1 (identik). 
   Hasil perhitungan ini menghasilkan matriks berukuran 10.000 data buku dan 10.000 data buku.
 
