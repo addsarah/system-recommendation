@@ -181,7 +181,6 @@ Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets
 -  **Konsistensi Data**
    - Variasi format penulisan `book_author`, "J. K. Rowling" dan "J.K. Rowling" dianggap sebagai data yang berbeda.
    - Beberapa karakter pada `book_title` dalam bentuk karakter rusak akibat encoding yang tidak sesuai, "Ã¼" yang seharusnya "ü", "Ã©" yang seharusnya "é".
-   - Kolom `location` pada `users.csv` menggabungkan kota, provinsi, dan negara secara bebas tanpa pemisah tetap, sehingga menyulitkan analisis berdasarkan wilayah geografis.
    
  - **Ukuran Dataset**
      - Jumlah data asli:
