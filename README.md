@@ -182,7 +182,6 @@ Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets
    - Ditemukan ketidaksesuaian pada penulisan nama penulis dan judul buku:
    - Variasi penulisan pada `book_author` (misalnya huruf kapital atau penggunaan karakter khusus).
    - Nama `book_title` yang ditulis dengan ejaan berbeda untuk buku yang sama.
-  - Hal ini diperhatikan karena dapat memengaruhi performa model *content-based recommendation*.
    
  - **Ukuran Dataset**
     -   Dataset cukup besar (jutaan baris pada ratings dan ratusan ribu pada books dan users), sehingga perlu dibatasi menjadi 10.000 data `books` dan 5.000 data `ratings` pada bagian [_data preparation_](#data-preparation).
