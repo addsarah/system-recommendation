@@ -167,25 +167,29 @@ Berikut merupakan visualisasi grafik histogram yang menampilkan frekuensi distri
 
 <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Grafik%20Histogram%20Frekuensi%20Sebaran%20Data%20Rating%20010.png" alt="Grafik Histogram Frekuensi Sebaran Data Rating 0-10" title="Grafik Histogram Frekuensi Sebaran Data Rating 0-10">
 
-Dari visualisasi grafik histogram "Jumlah Rating Buku" di atas, terlihat bahwa *rating* yang paling sering muncul adalah *rating* 0, dengan jumlah lebih dari 700.000. Kehadiran rating 0 ini berpotensi menimbulkan bias dan memengaruhi hasil analisis, sehingga rating tersebut sebaiknya dihapus pada tahap [data preparation](#data-preparation).
+Dari visualisasi grafik histogram "Jumlah Rating Buku" di atas, terlihat bahwa *rating* yang paling sering muncul adalah *rating* 0, dengan jumlah lebih dari 700.000. Kehadiran rating 0 ini berpotensi menimbulkan bias dan memengaruhi hasil analisis, sehingga rating tersebut dihapus pada tahap [data preparation](#data-preparation).
 
 Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets/saurabhbagchi/books-dataset) yang digunakan:
 - **Missing Value**
-    -   Pada dataset **books.csv**, terdapat beberapa kolom yang memiliki missing value, seperti `Book-Author`, `Publisher`, dan `Image-URL-L`.
-    -   Pada dataset **users.csv**, kolom `Age` memiliki banyak nilai kosong (missing value).
-    -   Dataset **ratings.csv** umumnya lengkap tanpa missing value pada kolom (`User-ID`, `ISBN`, `Book-Rating`).
+    -   Pada dataset **books.csv**, terdapat 3 kolom yang memiliki *missing value*.
+    -   Pada dataset **users.csv**, kolom `Age` memiliki 110.762 *missing value*.
+    -   Dataset **ratings.csv** lengkap tanpa *missing value*.
         
 - **Duplikat**
     -   Tidak ditemukan data duplikat pada seluruh kolom dari dataset `books`, `users`, dan `ratings` setelah dilakukan pengecekan menggunakan `.duplicated().sum()`.
          
 -  **Konsistensi Data**
-   - Ditemukan ketidaksesuaian pada penulisan nama penulis dan judul buku:
-   - Variasi penulisan pada `book_author` (misalnya huruf kapital atau penggunaan karakter khusus).
+   - Variasi penulisan pada `book_author`.
    - Nama `book_title` yang ditulis dengan ejaan berbeda untuk buku yang sama.
    
  - **Ukuran Dataset**
-
-   Dataset cukup besar (jutaan baris pada ratings dan ratusan ribu pada books dan users), sehingga perlu dibatasi menjadi 10.000 data `books` dan 5.000 data `ratings` pada bagian [_data preparation_](#data-preparation).
+     - Jumlah data asli:
+	   - `books.csv`: sekitar 271.000 baris
+	   - `ratings.csv`: sekitar 1 juta baris
+	   - `users.csv`: sekitar 278.000 baris
+	- Untuk efisiensi proses dan keterbatasan sumber daya (_RAM/GPU_), maka data dibatasi:
+	   - **10.000 data buku**
+	   - **5.000 data rating**
         
 [←Table of Contents](#table-of-contents)
 
@@ -283,7 +287,7 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
 
   Berdasarkan hasil visualisasi grafik histogram umur *user* di atas, dapat dilihat bahwa mayoritas pengguna berada pada rentang usia 20—40 tahun, dengan puncak distribusi antara 30—35 tahun.
 
-  Terdapat pula sebagian kecil pengguna dengan usia di bawah 10 tahun dan di atas 80 tahun, namun jumlahnya jauh lebih sedikit dibandingkan kelompok usia produktif. Hal ini menunjukkan bahwa sistem rekomendasi buku kemungkinan besar akan lebih relevan jika disesuaikan dengan preferensi kelompok usia 20—40 tahun.
+  Terdapat pula sebagian kecil pengguna dengan usia di bawah 10 tahun dan di atas 80 tahun, namun jumlahnya jauh lebih sedikit dibandingkan kelompok usia produktif. Hal ini menunjukkan bahwa sistem rekomendasi buku kemungkinan besar lebih relevan jika disesuaikan dengan preferensi kelompok usia 20—40 tahun.
 
 - **Pengecekan Data Duplikat**
 
@@ -317,7 +321,7 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
 
 - **Data Preparation untuk _Collaborative Filtering Recommendation_**
   
-	Pada proyek ini juga digunakan pendekatan **collaborative filtering recommendation**, yang memerlukan tahap *data preparation* berupa data *users* secara acak dan variabel buku yang belum pernah dibaca oleh pengguna (`notReadedBooks`) *users* terhadap buku yang sudah dibaca oleh *user* yang akan digunakan pada tahap [data modeling](#modeling). 
+	Pada proyek ini juga digunakan pendekatan **collaborative filtering recommendation**, yang memerlukan tahap *data preparation* berupa data *users* secara acak dan variabel buku yang belum pernah dibaca oleh pengguna (`notReadedBooks`) *users* terhadap buku yang sudah dibaca oleh *user* yang digunakan pada tahap [data modeling](#modeling). 
 	
 	- **_Encoding_**
   
@@ -410,7 +414,7 @@ Tahap selanjutnya adalah proses _modeling_, yaitu membangun model _machine learn
   Berdasarkan hasil di atas, dapat disimpulkan bahwa sistem yang dikembangkan mampu menghasilkan sejumlah rekomendasi judul buku yang relevan berdasarkan judul buku input **“The Pillars of the Earth”**. Judul-judul yang direkomendasikan merupakan hasil perhitungan kesamaan konten oleh sistem.
 
 ### 2. Collaborative Filtering Recommendation
-Merekomendasikan buku berdasarkan preferensi pengguna lain yang memiliki pola rating serupa. Setelah tahap data preparation selesai, dilakukan analisis kesamaan antar *user* dan mengidentifikasi buku yang disukai oleh *user* serupa namun belum dibaca oleh *user*. Setiap buku akan diberikan skor prediksi berdasarkan kemungkinan disukai *user*. Hasil prediksi ini digunakan untuk menampilkan rekomendasi yang paling relevan.
+Merekomendasikan buku berdasarkan preferensi pengguna lain yang memiliki pola rating serupa. Setelah tahap data preparation selesai, dilakukan analisis kesamaan antar *user* dan mengidentifikasi buku yang disukai oleh *user* serupa namun belum dibaca oleh *user*. Setiap buku diberikan skor prediksi berdasarkan kemungkinan disukai *user*. Hasil prediksi ini digunakan untuk menampilkan rekomendasi yang paling relevan.
 
 Model rekomendasi ini dikembangkan menggunakan kelas `RecommenderNet` dari `tf.keras.Model`, yang memanfaatkan *embedding layer* untuk merepresentasikan pengguna dan buku dalam bentuk vektor. Skor prediksi dihitung melalui *dot product* antara vektor pengguna dan buku, ditambah bias masing-masing, lalu diaktifkan dengan fungsi sigmoid untuk menghasilkan nilai probabilitas ketertarikan. Model dikompilasi menggunakan optimizer Adam, fungsi *loss* Binary Crossentropy, dan metrik RMSE. Proses pelatihan dilakukan selama 30 *epoch* dengan *batch size* 20 menggunakan data pelatihan dan validasi. Hasil pelatihan ini kemudian digunakan untuk mengevaluasi performa model dan menghasilkan visualisasi error dan loss melalui `matplotlib` pada bagian [evaluation](#evaluation).
 
