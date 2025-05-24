@@ -184,7 +184,8 @@ Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets
    - Nama `book_title` yang ditulis dengan ejaan berbeda untuk buku yang sama.
    
  - **Ukuran Dataset**
-    -   Dataset cukup besar (jutaan baris pada ratings dan ratusan ribu pada books dan users), sehingga perlu dibatasi menjadi 10.000 data `books` dan 5.000 data `ratings` pada bagian [_data preparation_](#data-preparation).
+
+   Dataset cukup besar (jutaan baris pada ratings dan ratusan ribu pada books dan users), sehingga perlu dibatasi menjadi 10.000 data `books` dan 5.000 data `ratings` pada bagian [_data preparation_](#data-preparation).
         
 [←Table of Contents](#table-of-contents)
 
