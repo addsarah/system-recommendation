@@ -171,7 +171,7 @@ Dari visualisasi grafik histogram "Jumlah Rating Buku" di atas, terlihat bahwa *
 
 Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets/saurabhbagchi/books-dataset) yang digunakan:
 - **Missing Value**
-    -   Pada dataset **books.csv**, terdapat 3 kolom yang memiliki *missing value*.
+    -   Pada dataset **books.csv**, terdapat 3 kolom (`book_author` sebanyak 2 data, `publisher` sebanyak 2 data, dan `image_url_l` sebanyak 3 data) yang memiliki *missing value*.
     -   Pada dataset **users.csv**, kolom `Age` memiliki 110.762 *missing value*.
     -   Dataset **ratings.csv** lengkap tanpa *missing value*.
         
@@ -179,17 +179,18 @@ Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets
     -   Tidak ditemukan data duplikat pada seluruh kolom dari dataset `books`, `users`, dan `ratings` setelah dilakukan pengecekan menggunakan `.duplicated().sum()`.
          
 -  **Konsistensi Data**
-   - Variasi penulisan pada `book_author`.
-   - Nama `book_title` yang ditulis dengan ejaan berbeda untuk buku yang sama.
+   - Variasi format penulisan `book_author`, "J. K. Rowling" dan "J.K. Rowling" dianggap sebagai data yang berbeda.
+   - Beberapa karakter pada `book_title` dalam bentuk karakter rusak akibat encoding yang tidak sesuai, "Ã¼" yang seharusnya "ü", "Ã©" yang seharusnya "é".
+   - Kolom `location` pada `users.csv` menggabungkan kota, provinsi, dan negara secara bebas tanpa pemisah tetap, sehingga menyulitkan analisis berdasarkan wilayah geografis.
    
  - **Ukuran Dataset**
      - Jumlah data asli:
-	   - `books.csv`: sekitar 271.000 baris
-	   - `ratings.csv`: sekitar 1 juta baris
-	   - `users.csv`: sekitar 278.000 baris
+	   - `books.csv`: 271.360 baris dan 8 kolom yang berisi `ISBN`, `Book-Title`, `Book-Author`, `Year-Of-Publication`, `Publisher`, `Image-URL-S`, `Image-URL-M`, `Image-URL-L`;
+	   - `ratings.csv`: 1.149.780 baris dan 3 kolom yang berisi `User-ID`, `ISBN`, `Book-Rating`;
+	   - `users.csv`: 278.858 baris dan 3 kolom yang berisi `User-ID`, `Location`, `Age` 
 	- Untuk efisiensi proses dan keterbatasan sumber daya (_RAM/GPU_), maka data dibatasi:
-	   - **10.000 data buku**
-	   - **5.000 data rating**
+	   - **10.000 data `books`**
+	   - **5.000 data `ratings`**
         
 [←Table of Contents](#table-of-contents)
 
