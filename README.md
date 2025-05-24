@@ -188,8 +188,8 @@ Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets
 	   - `ratings.csv`: 1.149.780 baris dan 3 kolom yang berisi `User-ID`, `ISBN`, `Book-Rating`;
 	   - `users.csv`: 278.858 baris dan 3 kolom yang berisi `User-ID`, `Location`, `Age` 
 	- Untuk efisiensi proses dan keterbatasan sumber daya (_RAM/GPU_), maka data dibatasi:
-	   - **10.000 data `books`**
-	   - **5.000 data `ratings`**
+	   - **10.000 baris data `books`**
+	   - **5.000 baris data `ratings`**
         
 [←Table of Contents](#table-of-contents)
 
