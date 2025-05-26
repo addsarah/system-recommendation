@@ -176,7 +176,7 @@ Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets
     -   Dataset **ratings.csv** lengkap tanpa *missing value*.
         
 - **Duplikat**
-    -   Tidak ditemukan data duplikat pada seluruh kolom dari dataset `books`, `users`, dan `ratings` setelah dilakukan pengecekan menggunakan `.duplicated().sum()`.
+    -   Tidak ditemukan data duplikat pada seluruh kolom dari dataset `books`, `users`, dan `ratings` setelah dilakukan pembersihan menggunakan `.duplicated().sum()`.
          
 -  **Konsistensi Data**
    - Variasi format penulisan `book_author`, "J. K. Rowling" dan "J.K. Rowling" dianggap sebagai data yang berbeda.
@@ -195,7 +195,7 @@ Kondisi data berdasarkan dataset [Books Dataset](https://www.kaggle.com/datasets
 
 
 ## Data Preparation
-Tahap persiapan data atau *data preparation* adalah proses penting sebelum melakukan pengembangan model *machine learning* yang bertujuan untuk mengolah data mentah *(raw data)* menjadi data yang bersih *(clean data)*, penanganan data yang hilang (*missing value)*, pengecekan data duplikat, serta penggabungan data dari dataset buku dan *rating*, dan siap digunakan dalam proses analisis berikutnya. Proses ini mencakup beberapa langkah penting, antara lain:
+Tahap persiapan data atau *data preparation* adalah proses penting sebelum melakukan pengembangan model *machine learning* yang bertujuan untuk mengolah data mentah *(raw data)* menjadi data yang bersih *(clean data)*, penanganan data yang hilang (*missing value)*, pembersihan data duplikat, serta penggabungan data dari dataset buku dan *rating*, dan siap digunakan dalam proses analisis berikutnya. Proses ini mencakup beberapa langkah penting, antara lain:
 
 - **Mengubah Nama Kolom/Atribut/Fitur**  
   Penggantian nama kolom, atribut, atau fitur pada masing-masing _dataframe_ dilakukan untuk mempermudah proses akses dan manipulasi data di tahap selanjutnya.
@@ -236,9 +236,9 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
 - **Menggabungkan Data User**  
   Sementara itu, penggabungan data `user_id` dilakukan juga menggunakan fungsi `.concatenate` dari _library_ [`numpy`](https://numpy.org/). Kolom `user_id` terdapat pada _dataframe_ _rating_ dan _user_, sehingga proses penggabungan dilakukan berdasarkan atribut `user_id`.
 
-- **Pengecekan *Missing Value***
+- **Penanganan *Missing Value***
 
-  Pemeriksaan terhadap data kosong, hilang, _null_, atau _missing value_ dilakukan dan ditemukan pada _dataframe_ `books`, sehingga data yang hilang tersebut dihapus.
+  Penanganan terhadap data kosong, hilang, _null_, atau _missing value_ dilakukan dan ditemukan pada _dataframe_ `books`, sehingga data yang hilang tersebut dihapus.
 
   Sementara itu, pada _dataframe_ `ratings` tidak ditemukan _missing value_, namun perlu dilakukan penghapusan terhadap _rating_ bernilai 0. Hal ini dikarenakan _rating_ 0 merupakan kategori terbanyak berdasarkan hasil [_data understanding_](#data-understanding) sebelumnya, yaitu sebanyak 716.109 data. Jumlah tersebut berpotensi menimbulkan bias dalam analisis data, sehingga _rating_ 0 tidak disertakan dalam proses visualisasi grafik histogram berikutnya.
 
@@ -289,9 +289,9 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
 
   Terdapat pula sebagian kecil pengguna dengan usia di bawah 10 tahun dan di atas 80 tahun, namun jumlahnya jauh lebih sedikit dibandingkan kelompok usia produktif. Hal ini menunjukkan bahwa sistem rekomendasi buku kemungkinan besar lebih relevan jika disesuaikan dengan preferensi kelompok usia 20—40 tahun.
 
-- **Pengecekan Data Duplikat**
+- **Penanganan Data Duplikat**
 
-  Melakukan pengecekan terhadap duplikasi data pada masing-masing _dataframe_. Berdasarkan hasil verifikasi, tidak ditemukan adanya data yang terduplikasi pada ketiga _dataframe_ yang dianalisis.
+  Melakukan Penanganan terhadap duplikasi data pada masing-masing _dataframe_. Berdasarkan hasil verifikasi, tidak ditemukan adanya data yang terduplikasi pada ketiga _dataframe_ yang dianalisis.
 
 - **Menggabungkan Data Buku dan *Rating***
   
