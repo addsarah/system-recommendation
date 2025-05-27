@@ -281,7 +281,7 @@ Tahap persiapan data atau *data preparation* adalah proses penting sebelum melak
   | 278855  | tacoma, washington, united kingdom | 50.0 |
   | 168096 rows × 3 columns          |       |
 
-  Pemeriksaan ulang terhadap *dataframe* `users` menunjukkan bahwa tidak ada nilai kosong atau *null* yang ditemukan di seluruh kolomnya.
+  Setelah dilakukan pembersihan *missing value* dari dataset `user`, dapat dilihat pada tabel di atas bahwa tidak ada nilai kosong atau *null* yang ditemukan di seluruh kolomnya.
 
   <img src="https://raw.githubusercontent.com/addsarah/system-recommendation/refs/heads/main/img/Grafik%20Umur%20Users.png" alt="Grafik Umur Users" title="Grafik Umur Users">
 
