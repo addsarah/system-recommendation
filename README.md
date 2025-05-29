@@ -463,8 +463,8 @@ Model rekomendasi ini dikembangkan menggunakan kelas `RecommenderNet` dari `tf.k
 
 	*Content-based Recommendation* mampu memberikan rekomendasi yang akurat dan personal, terutama untuk *user* yang memiliki preferensi kuat terhadap penulis atau genre tertentu karena relevansi ini penting bagi bisnis, karena dapat meningkatkan kepuasan pengguna dan kemungkinan transaksi pembelian buku serupa.
 
-3. **Collaborative Filtering Recommendation**  
-	Berdasarkan odel *machine learning* yang telah dikembangkan menggunakan *embedding layer* dengan *Adam optimizer* dan fungsi loss *binary crossentropy* dievaluasi menggunakan metrik *Root Mean Squared Error* (RMSE). [[9]](https://towardsdatascience.com/comparing-robustness-of-mae-mse-and-rmse-6d69da870828/)
+2. **Collaborative Filtering Recommendation**  
+	Berdasarkan model *machine learning* yang telah dikembangkan menggunakan *embedding layer* dengan *Adam optimizer* dan fungsi loss *binary crossentropy* dievaluasi menggunakan metrik *Root Mean Squared Error* (RMSE). [[9]](https://towardsdatascience.com/comparing-robustness-of-mae-mse-and-rmse-6d69da870828/)
 	Perhitungan RMSE dapat dilakukan dengan rumus berikut:
 
 	  $$RMSE=\sqrt{\sum^{n}_{i=1} \frac{y_i - y\\_pred_i}{n}}$$
