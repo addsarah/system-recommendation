@@ -88,6 +88,8 @@ Berdasarkan tujuan dari proyek yang telah dipaparkan di atas, maka berikut adala
 
 			$A_i$ dan $B_i$ adalah elemen-elemen penyusun vektor A dan B masing-masing.
 
+		_Content-based Recommendation_ unggul dalam merekomendasikan item baru karena tidak memerlukan data interaksi dari pengguna lain. Namun, kelemahannya terletak pada keterbatasan informasi yang tersedia yang bisa menghambat akurasi rekomendasi. Selain itu, sistem ini cenderung hanya merekomendasikan item yang sangat mirip dengan preferensi sebelumnya, sehingga membatasi keragaman rekomendasi atau menyebabkan _overspecialization_.[[3]](https://www.ibm.com/think/topics/content-based-filtering)
+
 	-   _Collaborative Filtering Recommendation_
 
 		Sistem rekomendasi yang bekerja dengan cara merekomendasikan item berdasarkan kesamaan preferensi atau interaksi antar pengguna. Berbeda dengan content-based filtering yang fokus merekomendasikan item berdasarkan fitur dari item itu sendiri, collaborative filtering memanfaatkan pola kesamaan antar pengguna untuk memberikan rekomendasi yang lebih personal dan relevan bagi kelompok pengguna tertentu.[[7]](https://www.ibm.com/think/topics/collaborative-filtering)
